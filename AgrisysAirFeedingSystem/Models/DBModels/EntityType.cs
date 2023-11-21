@@ -2,5 +2,8 @@
 
 public enum EntityType
 {
-    // Define your enum types here
+    Unknown,
+    Blower,
+    Mixer,
+    Distribute
 }

@@ -2,5 +2,6 @@
 
 public enum GroupType
 {
-    // Define your enum types here
+    Kitchen,
+    Silo,
 }
