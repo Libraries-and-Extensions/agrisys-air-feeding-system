@@ -1,6 +1,8 @@
 ﻿namespace AgrisysAirFeedingSystem.Models.DBModels;
 
-public enum Level
+public enum EditLevel
 {
-    // Define your enum types here
+    Info,
+    Warning,
+    Error
 }
