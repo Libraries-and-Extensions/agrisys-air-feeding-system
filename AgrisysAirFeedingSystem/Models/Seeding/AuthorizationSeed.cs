@@ -7,26 +7,30 @@ namespace AgrisysAirFeedingSystem.Models.Seeding;
 
 public class AgrisysDBSeeder
 {
-    static string[] USerClaims = {"Privacy","User"};
+    private static readonly string[] _userClaims = {"mixture:read","mixture:update","log:read","sensor:temperature","sensor:humidity","sensor:weight","sensor:pressure","sensor:gas"};
+    static string[] _managerClaims = {"mixture:create","mixture:delete","feeding_time:read","feeding_time:create","feeding_time:update","feeding_time:delete","manual_control"};
+    static string[] _adminClaims = {"user:create","user:read","user:update","user:delete","role:create","role:read","role:update","role:delete","role:assign","farm_database:read","farm_database:update","farm_database:delete","farm_database:create","farm_database:read"};
     
     public async static void Seed(IApplicationBuilder app)
     {
+        // Get a scope to get the services
         var scope = app.ApplicationServices.CreateScope().ServiceProvider;
         
-        
+        //get the db context
         ApplicationDbContext context = scope.GetRequiredService<ApplicationDbContext>();
         
-        if (context.Database.GetPendingMigrations().Any())
+        //check if there are any pending migrations
+        if ((await context.Database.GetPendingMigrationsAsync()).Any())
         {
-            context.Database.Migrate();
+            await context.Database.MigrateAsync();
         }
-        
+
         UserManager<IdentityUser> userManager = scope.GetRequiredService<UserManager<IdentityUser>>();
         RoleManager<IdentityRole> roleManager = scope.GetRequiredService<RoleManager<IdentityRole>>();
         
-        
+        //check if there are any roles
         if (roleManager.Roles.Any()) return;
-        
+        //create roles
         var roles = new List<IdentityRole>
         {
             new("Admin"),
@@ -38,16 +42,26 @@ public class AgrisysDBSeeder
         {
             await roleManager.CreateAsync(role);
         }
+        
+        string[][] allClaims = { _userClaims,_managerClaims,_adminClaims };
 
-        foreach (var claim in USerClaims)
+        //Add all claims to subsequent roles
+        foreach (var claims in allClaims)
         {
-            foreach (var role in roles)
+            //add all claims to all current roles
+            foreach (var claim in claims)
             {
-                await roleManager.AddClaimAsync(role, new Claim(claim, ""));
+                foreach (var role in roles)
+                {
+                    await roleManager.AddClaimAsync(role, new Claim(claim, ""));
+                }
             }
+            //remove the last role since it is lower in the hierarchy
+            roles.RemoveAt(roles.Count-1);
         }
         
-        var admin = new IdentityUser(){ UserName = "marcjensenvirklund@gmail.com", EmailConfirmed = true};
+        //create admin user
+        var admin = new IdentityUser(){ UserName = "Admin", EmailConfirmed = true};
         var result = await userManager.CreateAsync(admin, "Password123!");
         
         if (result.Succeeded)
