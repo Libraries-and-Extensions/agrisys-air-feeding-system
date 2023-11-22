@@ -9,7 +9,8 @@ public class SimpleClaimAuthHandler : AuthorizationHandler<SimpleClaimRequiremen
         //check 
         var claims = context.User.Claims
             .Where((claim => claim.Type == requirement.Claim && 
-                             (requirement.Values == null || requirement.Values.Contains(claim.Value))));
+                             (requirement.Values == null || requirement.Values.Length == 0
+                              || requirement.Values.Contains(claim.Value))));
 
         if (claims.Any())
         {
