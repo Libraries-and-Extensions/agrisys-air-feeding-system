@@ -1,7 +1,8 @@
-using AgrisysAirFeedingSystem.Authtication;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using AgrisysAirFeedingSystem.Data;
+using AgrisysAirFeedingSystem.Models.DB;
+using AgrisysAirFeedingSystem.Models.Seeding;
 using AgrisysAirFeedingSystem.Models.Seeding;
 using Microsoft.AspNetCore.Authorization;
 
@@ -10,8 +11,11 @@ var builder = WebApplication.CreateBuilder(args);
 // Add services to the container.
 var connectionString = builder.Configuration.GetConnectionString("DefaultConnection") ??
                        throw new InvalidOperationException("Connection string 'DefaultConnection' not found.");
+
+builder.Services.AddDbContext<AgrisysDbContext>();
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
     options.UseSqlite(connectionString));
+
 builder.Services.AddDatabaseDeveloperPageExceptionFilter();
 
 builder.Services.AddDefaultIdentity<IdentityUser>(options =>
@@ -26,6 +30,8 @@ builder.Services.AddSingleton<IAuthorizationHandler, SimpleClaimAuthHandler>();
 builder.Services.AddControllersWithViews();
 
 var app = builder.Build();
+
+AgrisysDBSeeder.Seed(app);
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
@@ -45,8 +51,6 @@ app.UseStaticFiles();
 app.UseRouting();
 
 app.UseAuthorization();
-
-AgrisysDBSeeder.Seed(app);
 
 app.MapControllerRoute(
     name: "default",
