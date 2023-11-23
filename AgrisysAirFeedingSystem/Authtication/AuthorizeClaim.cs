@@ -20,7 +20,16 @@ public class SimpleClaimAuthFilter: IAsyncAuthorizationFilter
 
     public async Task OnAuthorizationAsync(AuthorizationFilterContext context)
     {
-         var result = await _authorization.AuthorizeAsync(context.HttpContext.User, null, _requirement);
+        var user = context.HttpContext.User;
+
+        if (!user.Identity!.IsAuthenticated)
+        {
+            context.Result = new ChallengeResult();
+            return;
+        }
+
+
+        var result = await _authorization.AuthorizeAsync(user, null, _requirement);
 
          if (!result.Succeeded)
          {
