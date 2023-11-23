@@ -2,6 +2,7 @@
 using AgrisysAirFeedingSystem.Data;
 using AgrisysAirFeedingSystem.Models.DB;
 using AgrisysAirFeedingSystem.Models.DBModels;
+using AgrisysAirFeedingSystem.Models.LiveUpdate;
 using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.SignalR;
@@ -22,17 +23,34 @@ public class SensorController : Controller
     }
 
     [HttpGet]
-    public async Task<IActionResult> collect(int key, int value)
-    {   
-        await _hubContext.Clients.Group(key.ToString()).SendAsync("valueUpdate",value);
-
-        _dbContext.Measurements.Add(new SensorMeasurement()
+    public async Task<IActionResult> Collect(int key, int value)
+    {
+        try
         {
-            SensorId = key,
-            Value = value,
-        });
+            var sensorUpdate = new SensorUpdate()
+            {
+                key = key.ToString("X"),
+                Value = value,
+            };
+            
+            //send to group
+            await _hubContext.Clients.Group(sensorUpdate.key).SendAsync("valueUpdate",sensorUpdate);
+        
+            //save to db
+            _dbContext.Measurements.Add( new SensorMeasurement()
+            {
+                SensorId = key,
+                Value = value,
+                TimeStamp = sensorUpdate.TimeStamp
+            });
 
-        await _dbContext.SaveChangesAsync();
+            await _dbContext.SaveChangesAsync();
+        }
+        catch (Exception)
+        {
+            return StatusCode((int) HttpStatusCode.InternalServerError);
+        }
+        
         
         return Ok();
     }
