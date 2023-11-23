@@ -1,8 +1,8 @@
+using AgrisysAirFeedingSystem.Authtication;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using AgrisysAirFeedingSystem.Data;
 using AgrisysAirFeedingSystem.Models.DB;
-using AgrisysAirFeedingSystem.Models.Seeding;
 using AgrisysAirFeedingSystem.Models.Seeding;
 using Microsoft.AspNetCore.Authorization;
 

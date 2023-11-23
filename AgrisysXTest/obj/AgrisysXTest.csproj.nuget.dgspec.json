@@ -4,14 +4,14 @@
     "C:\\Users\\marcj\\RiderProjects\\AgrisysAirFeedingSystem\\AgrisysXTest\\AgrisysXTest.csproj": {}
   },
   "projects": {
-    "C:\\Users\\marcj\\RiderProjects\\AgrisysAirFeedingSystem\\AgrisysXTest\\AgrisysXTest.csproj": {
+    "C:\\Users\\marcj\\RiderProjects\\AgrisysAirFeedingSystem\\AgrisysAirFeedingSystem\\AgrisysAirFeedingSystem.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\marcj\\RiderProjects\\AgrisysAirFeedingSystem\\AgrisysXTest\\AgrisysXTest.csproj",
-        "projectName": "AgrisysXTest",
-        "projectPath": "C:\\Users\\marcj\\RiderProjects\\AgrisysAirFeedingSystem\\AgrisysXTest\\AgrisysXTest.csproj",
+        "projectUniqueName": "C:\\Users\\marcj\\RiderProjects\\AgrisysAirFeedingSystem\\AgrisysAirFeedingSystem\\AgrisysAirFeedingSystem.csproj",
+        "projectName": "AgrisysAirFeedingSystem",
+        "projectPath": "C:\\Users\\marcj\\RiderProjects\\AgrisysAirFeedingSystem\\AgrisysAirFeedingSystem\\AgrisysAirFeedingSystem.csproj",
         "packagesPath": "C:\\Users\\marcj\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\marcj\\RiderProjects\\AgrisysAirFeedingSystem\\AgrisysXTest\\obj\\",
+        "outputPath": "C:\\Users\\marcj\\RiderProjects\\AgrisysAirFeedingSystem\\AgrisysAirFeedingSystem\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\marcj\\AppData\\Roaming\\NuGet\\NuGet.Config"
@@ -38,9 +38,127 @@
         "net7.0": {
           "targetAlias": "net7.0",
           "dependencies": {
+            "Microsoft.AspNetCore.Diagnostics.EntityFrameworkCore": {
+              "target": "Package",
+              "version": "[7.0.11, )"
+            },
+            "Microsoft.AspNetCore.Identity.EntityFrameworkCore": {
+              "target": "Package",
+              "version": "[7.0.11, )"
+            },
+            "Microsoft.AspNetCore.Identity.UI": {
+              "target": "Package",
+              "version": "[7.0.11, )"
+            },
+            "Microsoft.EntityFrameworkCore.Design": {
+              "include": "Runtime, Build, Native, ContentFiles, Analyzers, BuildTransitive",
+              "suppressParent": "All",
+              "target": "Package",
+              "version": "[7.0.14, )"
+            },
+            "Microsoft.EntityFrameworkCore.SqlServer": {
+              "target": "Package",
+              "version": "[7.0.14, )"
+            },
+            "Microsoft.EntityFrameworkCore.Sqlite": {
+              "target": "Package",
+              "version": "[7.0.11, )"
+            },
+            "Microsoft.EntityFrameworkCore.Tools": {
+              "target": "Package",
+              "version": "[7.0.11, )"
+            },
+            "Microsoft.VisualStudio.Web.CodeGeneration.Design": {
+              "target": "Package",
+              "version": "[7.0.11, )"
+            }
+          },
+          "imports": [
+            "net461",
+            "net462",
+            "net47",
+            "net471",
+            "net472",
+            "net48",
+            "net481"
+          ],
+          "assetTargetFallback": true,
+          "warn": true,
+          "downloadDependencies": [
+            {
+              "name": "Microsoft.AspNetCore.App.Ref",
+              "version": "[7.0.14, 7.0.14]"
+            },
+            {
+              "name": "Microsoft.NETCore.App.Host.win-x64",
+              "version": "[7.0.14, 7.0.14]"
+            },
+            {
+              "name": "Microsoft.NETCore.App.Ref",
+              "version": "[7.0.14, 7.0.14]"
+            },
+            {
+              "name": "Microsoft.WindowsDesktop.App.Ref",
+              "version": "[7.0.14, 7.0.14]"
+            }
+          ],
+          "frameworkReferences": {
+            "Microsoft.AspNetCore.App": {
+              "privateAssets": "none"
+            },
+            "Microsoft.NETCore.App": {
+              "privateAssets": "all"
+            }
+          },
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.100\\RuntimeIdentifierGraph.json"
+        }
+      }
+    },
+    "C:\\Users\\marcj\\RiderProjects\\AgrisysAirFeedingSystem\\AgrisysXTest\\AgrisysXTest.csproj": {
+      "version": "1.0.0",
+      "restore": {
+        "projectUniqueName": "C:\\Users\\marcj\\RiderProjects\\AgrisysAirFeedingSystem\\AgrisysXTest\\AgrisysXTest.csproj",
+        "projectName": "AgrisysXTest",
+        "projectPath": "C:\\Users\\marcj\\RiderProjects\\AgrisysAirFeedingSystem\\AgrisysXTest\\AgrisysXTest.csproj",
+        "packagesPath": "C:\\Users\\marcj\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\marcj\\RiderProjects\\AgrisysAirFeedingSystem\\AgrisysXTest\\obj\\",
+        "projectStyle": "PackageReference",
+        "configFilePaths": [
+          "C:\\Users\\marcj\\AppData\\Roaming\\NuGet\\NuGet.Config"
+        ],
+        "originalTargetFrameworks": [
+          "net7.0"
+        ],
+        "sources": {
+          "https://api.nuget.org/v3/index.json": {}
+        },
+        "frameworks": {
+          "net7.0": {
+            "targetAlias": "net7.0",
+            "projectReferences": {
+              "C:\\Users\\marcj\\RiderProjects\\AgrisysAirFeedingSystem\\AgrisysAirFeedingSystem\\AgrisysAirFeedingSystem.csproj": {
+                "projectPath": "C:\\Users\\marcj\\RiderProjects\\AgrisysAirFeedingSystem\\AgrisysAirFeedingSystem\\AgrisysAirFeedingSystem.csproj"
+              }
+            }
+          }
+        },
+        "warningProperties": {
+          "warnAsError": [
+            "NU1605"
+          ]
+        }
+      },
+      "frameworks": {
+        "net7.0": {
+          "targetAlias": "net7.0",
+          "dependencies": {
             "Microsoft.NET.Test.Sdk": {
               "target": "Package",
               "version": "[17.7.1, )"
+            },
+            "Moq": {
+              "target": "Package",
+              "version": "[4.20.69, )"
             },
             "coverlet.collector": {
               "include": "Runtime, Build, Native, ContentFiles, Analyzers, BuildTransitive",

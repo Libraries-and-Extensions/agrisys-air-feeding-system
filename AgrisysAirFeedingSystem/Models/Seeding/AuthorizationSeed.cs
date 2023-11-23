@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace AgrisysAirFeedingSystem.Models.Seeding;
 
-public class AgrisysDBSeeder
+public class AuthorizationSeed
 {
     private static readonly string[] _userClaims = {"mixture:read","mixture:update","log:read","sensor:temperature","sensor:humidity","sensor:weight","sensor:pressure","sensor:gas"};
     static string[] _managerClaims = {"mixture:create","mixture:delete","feeding_time:read","feeding_time:create","feeding_time:update","feeding_time:delete","manual_control"};
