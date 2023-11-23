@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("AgrisysXTest")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+1a3a20824a4503c4131a50585c518667a91eb010")]
 [assembly: System.Reflection.AssemblyProductAttribute("AgrisysXTest")]
 [assembly: System.Reflection.AssemblyTitleAttribute("AgrisysXTest")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

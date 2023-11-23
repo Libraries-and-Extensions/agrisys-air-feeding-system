@@ -28,7 +28,6 @@ public class SimpleClaimAuthFilter: IAsyncAuthorizationFilter
             return;
         }
 
-
         var result = await _authorization.AuthorizeAsync(user, null, _requirement);
 
          if (!result.Succeeded)

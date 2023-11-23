@@ -5,31 +5,26 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
+using Microsoft.Extensions.DependencyInjection;
 using Moq;
 
 namespace AgrisysXTest.Authentication;
 
 public class SimpleClaimAuthFilterTest
 {
-    [Fact]
-    public async void TestFail()
+    private AuthorizationFilterContext ContextHelper(string claim,bool auth)
     {
-        
-        
-        
         Mock<IAuthorizationService> mockAuthorizationService = new();
-        Mock<AuthorizationFilterContext> mockAuthorizationFilterContext = new();
         Mock<HttpContext> mockHttpContext = new();
         Mock<ClaimsPrincipal> mockClaimsPrincipal = new();
         Mock<IIdentity> mockIdentity = new();
 
         Claim[] claims = new Claim[]
         {
-            new Claim("privacy", "")
+            new Claim(claim, "")    
         };
         
-        
-        mockIdentity.SetupGet((principal => principal.IsAuthenticated)).Returns(true);
+        mockIdentity.SetupGet((principal => principal.IsAuthenticated)).Returns(auth);
         
         mockClaimsPrincipal.SetupGet((principal => principal.Identity)).Returns(mockIdentity.Object);
         
@@ -37,30 +32,75 @@ public class SimpleClaimAuthFilterTest
         
         mockHttpContext.SetupGet((http => http.User)).Returns(mockClaimsPrincipal.Object);
         
-        mockAuthorizationFilterContext.SetupGet((filterContext => filterContext.HttpContext))
-            .Returns(mockHttpContext.Object);
-
-        mockAuthorizationFilterContext.SetupSet((filterContext => filterContext.Result = It.IsAny<ChallengeResult>())).Verifiable();
-        
         SimpleClaimAuthFilter subject = new(mockAuthorizationService.Object, "privacy");
         
+        ActionContext fakeActionContext =
+            new ActionContext(mockHttpContext.Object, 
+                new Microsoft.AspNetCore.Routing.RouteData(), 
+                new Microsoft.AspNetCore.Mvc.Abstractions.ActionDescriptor());
         
-        AuthorizationFilterContext context;
-        /*var user = context.HttpContext.User;
-
-        if (!user.Identity!.IsAuthenticated)
+        return new AuthorizationFilterContext(fakeActionContext,new List<IFilterMetadata>()) ;
+    }
+    
+    [Fact]
+    public async void TestSuccess()
+    {
+        var fakeAuthFilterContext = ContextHelper("privacy",true);
+        
+        IAuthorizationService service = BuildAuthorizationService(services =>
         {
-            context.Result = new ChallengeResult();
-            return;
-        }
-
-
-        var result = await _authorization.AuthorizeAsync(user, null, _requirement);
-
-        if (!result.Succeeded)
+            services.AddSingleton<IAuthorizationHandler, SimpleClaimAuthHandler>();
+        });
+        
+        SimpleClaimAuthFilter subject = new(service, "privacy");
+        
+        await subject.OnAuthorizationAsync(fakeAuthFilterContext);
+        
+        Assert.Null(fakeAuthFilterContext.Result);
+    }
+    
+    [Fact]
+    public async void TestChallenge()
+    {
+        var fakeAuthFilterContext = ContextHelper("privacy",false);
+        
+        IAuthorizationService service = BuildAuthorizationService(services =>
         {
-            context.Result = new ForbidResult();
-        }*/
+            services.AddSingleton<IAuthorizationHandler, SimpleClaimAuthHandler>();
+        });
+        
+        SimpleClaimAuthFilter subject = new(service, "privacy");
+        
+        await subject.OnAuthorizationAsync(fakeAuthFilterContext);
+        
+        Assert.IsType<ChallengeResult>(fakeAuthFilterContext.Result);
+    }
+    
+    [Fact]
+    public async void TestForbid()
+    {
+        var fakeAuthFilterContext = ContextHelper("forbid",true);
+        
+        IAuthorizationService service = BuildAuthorizationService(services =>
+        {
+            services.AddSingleton<IAuthorizationHandler, SimpleClaimAuthHandler>();
+        });
+        
+        SimpleClaimAuthFilter subject = new(service, "privacy");
+        
+        await subject.OnAuthorizationAsync(fakeAuthFilterContext);
+        
+        Assert.IsType<ForbidResult>(fakeAuthFilterContext.Result);
+    }
+    
+    private IAuthorizationService BuildAuthorizationService(Action<IServiceCollection> setupServices = null)
+    {
+        var services = new ServiceCollection();
+        services.AddAuthorization();
+        services.AddLogging();
+        services.AddOptions();
+        setupServices?.Invoke(services);
+        return services.BuildServiceProvider().GetRequiredService<IAuthorizationService>();
     }
     
 }
