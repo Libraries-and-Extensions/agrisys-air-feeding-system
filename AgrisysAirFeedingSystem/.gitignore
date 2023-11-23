@@ -35,3 +35,5 @@ Desktop.ini
 
 app.db
 /Database/Agrisys.db
+/Database/app.db-shm
+/Database/app.db-wal
