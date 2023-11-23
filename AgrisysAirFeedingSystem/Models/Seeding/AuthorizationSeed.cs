@@ -67,7 +67,7 @@ public class AgrisysDBSeeder
         if (result.Succeeded)
             result = await userManager.SetEmailAsync(admin, "marcjensenvirklund@gmail.com");
         if (result.Succeeded)
-            result = await userManager.AddToRoleAsync(admin, roles[0].Name);
+            result = await userManager.AddToRoleAsync(admin, "Admin");
             
 
         if (!result.Succeeded) throw new Exception("Failed to create admin user");
