@@ -1,5 +1,7 @@
-﻿using Microsoft.AspNetCore.SignalR;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.SignalR;
 
+[Authorize]
 public class SensorHub : Hub
 {
     public override async Task OnConnectedAsync()
