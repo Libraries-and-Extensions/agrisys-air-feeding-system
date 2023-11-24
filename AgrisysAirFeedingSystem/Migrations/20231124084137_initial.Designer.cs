@@ -11,7 +11,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace AgrisysAirFeedingSystem.Migrations
 {
     [DbContext(typeof(AgrisysDbContext))]
-    [Migration("20231124083353_initial")]
+    [Migration("20231124084137_initial")]
     partial class initial
     {
         /// <inheritdoc />
@@ -208,6 +208,9 @@ namespace AgrisysAirFeedingSystem.Migrations
 
                     b.Property<int>("SensorId")
                         .HasColumnType("INTEGER");
+
+                    b.Property<DateTime>("TimeStamp")
+                        .HasColumnType("TEXT");
 
                     b.Property<int>("Value")
                         .HasColumnType("INTEGER");
