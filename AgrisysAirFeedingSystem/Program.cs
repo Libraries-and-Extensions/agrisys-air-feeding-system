@@ -34,6 +34,7 @@ builder.Services.AddSignalR();
 var app = builder.Build();
 
 AgrisysDBSeeder.Seed(app);
+AuthorizationSeed.Seed(app);
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
