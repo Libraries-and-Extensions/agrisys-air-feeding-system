@@ -243,7 +243,8 @@ namespace AgrisysAirFeedingSystem.Migrations
                     MeasurementId = table.Column<int>(type: "INTEGER", nullable: false)
                         .Annotation("Sqlite:Autoincrement", true),
                     SensorId = table.Column<int>(type: "INTEGER", nullable: false),
-                    Value = table.Column<int>(type: "INTEGER", nullable: false)
+                    Value = table.Column<int>(type: "INTEGER", nullable: false),
+                    TimeStamp = table.Column<DateTime>(type: "TEXT", nullable: false)
                 },
                 constraints: table =>
                 {

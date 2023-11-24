@@ -206,6 +206,9 @@ namespace AgrisysAirFeedingSystem.Migrations
                     b.Property<int>("SensorId")
                         .HasColumnType("INTEGER");
 
+                    b.Property<DateTime>("TimeStamp")
+                        .HasColumnType("TEXT");
+
                     b.Property<int>("Value")
                         .HasColumnType("INTEGER");
 
