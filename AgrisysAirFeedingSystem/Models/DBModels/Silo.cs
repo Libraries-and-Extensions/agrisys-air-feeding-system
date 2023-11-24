@@ -12,8 +12,4 @@ public class Silo
     public int MixingTime { get; set; }
     public int? AlternativeSiloId { get; set; }
     public Silo? AlternativeSilo { get; set; }
-    
-    // Navigational property for mixtures
-    public ICollection<Mixture> Mixtures { get; set; }
-    public ICollection<Silo> usedIn { get; set; }
 }

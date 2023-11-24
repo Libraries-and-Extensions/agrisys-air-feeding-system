@@ -134,25 +134,6 @@ namespace AgrisysAirFeedingSystem.Migrations
                     b.ToTable("Groups");
                 });
 
-            modelBuilder.Entity("AgrisysAirFeedingSystem.Models.DBModels.Measurement", b =>
-                {
-                    b.Property<int>("MeasurementId")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("INTEGER");
-
-                    b.Property<int>("SensorId")
-                        .HasColumnType("INTEGER");
-
-                    b.Property<int>("Value")
-                        .HasColumnType("INTEGER");
-
-                    b.HasKey("MeasurementId");
-
-                    b.HasIndex("SensorId");
-
-                    b.ToTable("Measurements");
-                });
-
             modelBuilder.Entity("AgrisysAirFeedingSystem.Models.DBModels.Mixture", b =>
                 {
                     b.Property<int>("MixtureId")
@@ -214,6 +195,25 @@ namespace AgrisysAirFeedingSystem.Migrations
                     b.HasIndex("EntityId");
 
                     b.ToTable("Sensors");
+                });
+
+            modelBuilder.Entity("AgrisysAirFeedingSystem.Models.DBModels.SensorMeasurement", b =>
+                {
+                    b.Property<int>("MeasurementId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("INTEGER");
+
+                    b.Property<int>("SensorId")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<int>("Value")
+                        .HasColumnType("INTEGER");
+
+                    b.HasKey("MeasurementId");
+
+                    b.HasIndex("SensorId");
+
+                    b.ToTable("Measurements");
                 });
 
             modelBuilder.Entity("AgrisysAirFeedingSystem.Models.DBModels.Silo", b =>
@@ -292,7 +292,7 @@ namespace AgrisysAirFeedingSystem.Migrations
             modelBuilder.Entity("AgrisysAirFeedingSystem.Models.DBModels.Entity", b =>
                 {
                     b.HasOne("AgrisysAirFeedingSystem.Models.DBModels.Group", "Group")
-                        .WithMany()
+                        .WithMany("Entities")
                         .HasForeignKey("GroupId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -303,7 +303,7 @@ namespace AgrisysAirFeedingSystem.Migrations
             modelBuilder.Entity("AgrisysAirFeedingSystem.Models.DBModels.Event", b =>
                 {
                     b.HasOne("AgrisysAirFeedingSystem.Models.DBModels.Entity", "Entity")
-                        .WithMany()
+                        .WithMany("Events")
                         .HasForeignKey("EntityId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -314,23 +314,12 @@ namespace AgrisysAirFeedingSystem.Migrations
             modelBuilder.Entity("AgrisysAirFeedingSystem.Models.DBModels.FeedingTime", b =>
                 {
                     b.HasOne("AgrisysAirFeedingSystem.Models.DBModels.Area", "Area")
-                        .WithMany()
+                        .WithMany("FeedingTimes")
                         .HasForeignKey("AreaID")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.Navigation("Area");
-                });
-
-            modelBuilder.Entity("AgrisysAirFeedingSystem.Models.DBModels.Measurement", b =>
-                {
-                    b.HasOne("AgrisysAirFeedingSystem.Models.DBModels.Sensor", "Sensor")
-                        .WithMany()
-                        .HasForeignKey("SensorId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Sensor");
                 });
 
             modelBuilder.Entity("AgrisysAirFeedingSystem.Models.DBModels.Mixture", b =>
@@ -355,7 +344,7 @@ namespace AgrisysAirFeedingSystem.Migrations
             modelBuilder.Entity("AgrisysAirFeedingSystem.Models.DBModels.MixtureSetpoint", b =>
                 {
                     b.HasOne("AgrisysAirFeedingSystem.Models.DBModels.Mixture", "Mixture")
-                        .WithMany()
+                        .WithMany("Setpoints")
                         .HasForeignKey("MixtureId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -366,12 +355,23 @@ namespace AgrisysAirFeedingSystem.Migrations
             modelBuilder.Entity("AgrisysAirFeedingSystem.Models.DBModels.Sensor", b =>
                 {
                     b.HasOne("AgrisysAirFeedingSystem.Models.DBModels.Entity", "Entity")
-                        .WithMany()
+                        .WithMany("Sensors")
                         .HasForeignKey("EntityId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.Navigation("Entity");
+                });
+
+            modelBuilder.Entity("AgrisysAirFeedingSystem.Models.DBModels.SensorMeasurement", b =>
+                {
+                    b.HasOne("AgrisysAirFeedingSystem.Models.DBModels.Sensor", "Sensor")
+                        .WithMany("SensorValues")
+                        .HasForeignKey("SensorId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Sensor");
                 });
 
             modelBuilder.Entity("AgrisysAirFeedingSystem.Models.DBModels.Silo", b =>
@@ -386,13 +386,13 @@ namespace AgrisysAirFeedingSystem.Migrations
             modelBuilder.Entity("AgrisysAirFeedingSystem.Models.DBModels.Target", b =>
                 {
                     b.HasOne("AgrisysAirFeedingSystem.Models.DBModels.Area", "Area")
-                        .WithMany()
+                        .WithMany("Targets")
                         .HasForeignKey("AreaID")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.HasOne("AgrisysAirFeedingSystem.Models.DBModels.Mixture", "Mixture")
-                        .WithMany()
+                        .WithMany("UsedForTargets")
                         .HasForeignKey("MixtureId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -400,6 +400,37 @@ namespace AgrisysAirFeedingSystem.Migrations
                     b.Navigation("Area");
 
                     b.Navigation("Mixture");
+                });
+
+            modelBuilder.Entity("AgrisysAirFeedingSystem.Models.DBModels.Area", b =>
+                {
+                    b.Navigation("FeedingTimes");
+
+                    b.Navigation("Targets");
+                });
+
+            modelBuilder.Entity("AgrisysAirFeedingSystem.Models.DBModels.Entity", b =>
+                {
+                    b.Navigation("Events");
+
+                    b.Navigation("Sensors");
+                });
+
+            modelBuilder.Entity("AgrisysAirFeedingSystem.Models.DBModels.Group", b =>
+                {
+                    b.Navigation("Entities");
+                });
+
+            modelBuilder.Entity("AgrisysAirFeedingSystem.Models.DBModels.Mixture", b =>
+                {
+                    b.Navigation("Setpoints");
+
+                    b.Navigation("UsedForTargets");
+                });
+
+            modelBuilder.Entity("AgrisysAirFeedingSystem.Models.DBModels.Sensor", b =>
+                {
+                    b.Navigation("SensorValues");
                 });
 #pragma warning restore 612, 618
         }

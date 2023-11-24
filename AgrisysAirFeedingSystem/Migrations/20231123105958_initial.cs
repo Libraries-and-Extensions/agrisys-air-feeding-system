@@ -147,9 +147,9 @@ namespace AgrisysAirFeedingSystem.Migrations
                 {
                     EventId = table.Column<int>(type: "INTEGER", nullable: false)
                         .Annotation("Sqlite:Autoincrement", true),
-                    EntityId = table.Column<int>(type: "INTEGER", nullable: false),
                     EventDesc = table.Column<string>(type: "TEXT", nullable: false),
-                    EditLevel = table.Column<int>(type: "INTEGER", nullable: false, defaultValue: 0)
+                    EditLevel = table.Column<int>(type: "INTEGER", nullable: false, defaultValue: 0),
+                    EntityId = table.Column<int>(type: "INTEGER", nullable: false)
                 },
                 constraints: table =>
                 {

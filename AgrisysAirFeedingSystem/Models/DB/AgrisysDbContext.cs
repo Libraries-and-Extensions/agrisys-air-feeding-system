@@ -20,6 +20,9 @@ public class AgrisysDbContext : DbContext
         
         modelBuilder.Entity<Event>()
             .Property(b => b.EditLevel).HasDefaultValue(EditLevel.Info);
+
+        modelBuilder.Entity<Mixture>().HasOne<Silo>(m=>m.FirstSilo).WithMany().HasForeignKey(m => m.FirstSiloId);
+        modelBuilder.Entity<Mixture>().HasOne<Silo>(m=>m.SecondSilo).WithMany().HasForeignKey(m => m.SecondSiloId);
     }  
 
     // Define your DbSet properties for each entity
