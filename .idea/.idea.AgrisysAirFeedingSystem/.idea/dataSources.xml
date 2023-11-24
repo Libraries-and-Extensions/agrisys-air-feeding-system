@@ -16,26 +16,11 @@
         </library>
       </libraries>
     </data-source>
-    <data-source source="LOCAL" name="appDev" uuid="4b7d6980-d347-40ff-b716-15d86e9e2b74">
+    <data-source source="LOCAL" name="app" uuid="9280ef75-9987-4c01-aa7a-611db8f6d237">
       <driver-ref>sqlite.xerial</driver-ref>
       <synchronize>true</synchronize>
       <jdbc-driver>org.sqlite.JDBC</jdbc-driver>
-      <jdbc-url>jdbc:sqlite:C:\Users\marcj\RiderProjects\AgrisysAirFeedingSystem\AgrisysAirFeedingSystem\app.db</jdbc-url>
-      <jdbc-additional-properties>
-        <property name="com.intellij.clouds.kubernetes.db.enabled" value="false" />
-      </jdbc-additional-properties>
-      <working-dir>$ProjectFileDir$</working-dir>
-      <libraries>
-        <library>
-          <url>file://$APPLICATION_CONFIG_DIR$/jdbc-drivers/Xerial SQLiteJDBC/3.43.0/org/xerial/sqlite-jdbc/3.43.0.0/sqlite-jdbc-3.43.0.0.jar</url>
-        </library>
-      </libraries>
-    </data-source>
-    <data-source source="LOCAL" name="Agrisys" uuid="e7ee4928-cb67-4ad4-bfdf-d5bb6e481c2c">
-      <driver-ref>sqlite.xerial</driver-ref>
-      <synchronize>true</synchronize>
-      <jdbc-driver>org.sqlite.JDBC</jdbc-driver>
-      <jdbc-url>jdbc:sqlite:C:\Users\marcj\RiderProjects\AgrisysAirFeedingSystem\AgrisysAirFeedingSystem\Database\Agrisys.db</jdbc-url>
+      <jdbc-url>jdbc:sqlite:C:\Users\marcj\RiderProjects\AgrisysAirFeedingSystem\AgrisysAirFeedingSystem\Database\app.db</jdbc-url>
       <jdbc-additional-properties>
         <property name="com.intellij.clouds.kubernetes.db.enabled" value="false" />
       </jdbc-additional-properties>
