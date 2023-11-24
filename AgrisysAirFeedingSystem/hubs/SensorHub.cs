@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Authorization;
+﻿using AgrisysAirFeedingSystem.Utils;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.SignalR;
 
 [Authorize]
@@ -6,18 +7,43 @@ public class SensorHub : Hub
 {
     public override async Task OnConnectedAsync()
     {   
-        //string keys = Context.GetHttpContext().Request.Query["keys"];
+        var context = Context.GetHttpContext();
         
-        //string[] keyArray = keys.Split(';');
-        
-        Console.WriteLine(Context.GetHttpContext().Request.Query["key"]);
-        await Groups.AddToGroupAsync(Context.ConnectionId, Context.GetHttpContext().Request.Query["key"]);
+        if (context is null)
+        {
+            Console.WriteLine("missing https context");
+            return;
+        }
+
+        foreach (var key in QueryUtils.getListParameter(context, "keys"))
+        {
+            await Groups.AddToGroupAsync(Context.ConnectionId, key);
+        }
+       
         await base.OnConnectedAsync();
     }
 
     public override async Task OnDisconnectedAsync(Exception? exception)
     {
-        await Groups.RemoveFromGroupAsync(Context.ConnectionId, Context.GetHttpContext().Request.Query["key"]);
+        if (exception != null)
+        {
+            Console.WriteLine(exception.Message);
+            return;
+        }
+        
+        var context = Context.GetHttpContext();
+        
+        if (context is null)
+        {
+            Console.WriteLine("missing https context");
+            return;
+        }
+
+        foreach (var key in QueryUtils.getListParameter(context, "keys"))
+        {
+            await Groups.RemoveFromGroupAsync(Context.ConnectionId, key);
+        }
+
         await base.OnDisconnectedAsync(exception);
     }
 }

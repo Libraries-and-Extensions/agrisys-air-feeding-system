@@ -7,7 +7,10 @@
 
 <script src="~/js/signalr/dist/browser/signalr.js"></script>
 <script type="text/javascript">
-let builder = new signalR.HubConnectionBuilder().withUrl("/SensorHub?key=1");
+var data = {keys: ["1"]};
+
+
+let builder = new signalR.HubConnectionBuilder().withUrl("/SensorHub?"+new URLSearchParams(data));
 
 var connection = builder.build();
 

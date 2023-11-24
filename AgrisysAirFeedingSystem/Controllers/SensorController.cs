@@ -23,13 +23,13 @@ public class SensorController : Controller
     }
 
     [HttpGet]
-    public async Task<IActionResult> Collect(int key, int value)
+    public async Task<IActionResult> Collect(string key, int value)
     {
         try
         {
             var sensorUpdate = new SensorUpdate()
             {
-                key = key.ToString("X"),
+                key = key,
                 Value = value,
             };
             
@@ -39,7 +39,7 @@ public class SensorController : Controller
             //save to db
             _dbContext.Measurements.Add( new SensorMeasurement()
             {
-                SensorId = key,
+                SensorId = int.Parse(key, System.Globalization.NumberStyles.HexNumber),
                 Value = value,
                 TimeStamp = sensorUpdate.TimeStamp
             });
