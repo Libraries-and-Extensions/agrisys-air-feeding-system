@@ -1,9 +1,12 @@
 ﻿using System.Diagnostics;
+using AgrisysAirFeedingSystem.Authtication;
 using Microsoft.AspNetCore.Mvc;
 using AgrisysAirFeedingSystem.Models;
+using Microsoft.AspNetCore.Authorization;
 
 namespace AgrisysAirFeedingSystem.Controllers;
 
+[Authorize()]
 public class HomeController : Controller
 {
     private readonly ILogger<HomeController> _logger;
@@ -17,7 +20,8 @@ public class HomeController : Controller
     {
         return View();
     }
-
+    
+    [AuthorizeClaim("Privacy")]
     public IActionResult Privacy()
     {
         return View();

@@ -1,8 +1,10 @@
+using AgrisysAirFeedingSystem.Authtication;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using AgrisysAirFeedingSystem.Data;
 using AgrisysAirFeedingSystem.Models.DB;
 using AgrisysAirFeedingSystem.Models.Seeding;
+using Microsoft.AspNetCore.Authorization;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -16,8 +18,15 @@ builder.Services.AddDbContext<ApplicationDbContext>(options =>
 
 builder.Services.AddDatabaseDeveloperPageExceptionFilter();
 
-builder.Services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true)
+builder.Services.AddDefaultIdentity<IdentityUser>(options =>
+    {
+        options.SignIn.RequireConfirmedAccount = true;
+    })
+    .AddRoles<IdentityRole>()
     .AddEntityFrameworkStores<ApplicationDbContext>();
+
+builder.Services.AddSingleton<IAuthorizationHandler, SimpleClaimAuthHandler>();
+
 builder.Services.AddControllersWithViews();
 
 builder.Services.AddSignalR();
