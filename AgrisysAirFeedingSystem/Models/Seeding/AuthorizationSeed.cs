@@ -61,13 +61,18 @@ public class AuthorizationSeed
         }
         
         //create admin user
-        var admin = new IdentityUser(){ UserName = "Admin", EmailConfirmed = true};
+        var admin = new IdentityUser(){ UserName = "Admin"};
         var result = await userManager.CreateAsync(admin, "Password123!");
         
         if (result.Succeeded)
             result = await userManager.SetEmailAsync(admin, "marcjensenvirklund@gmail.com");
         if (result.Succeeded)
             result = await userManager.AddToRoleAsync(admin, "Admin");
+        if (result.Succeeded)
+        {
+            var token = await userManager.GenerateEmailConfirmationTokenAsync(admin);
+            result = await userManager.ConfirmEmailAsync(admin, token);
+        }
             
 
         if (!result.Succeeded) throw new Exception("Failed to create admin user");
