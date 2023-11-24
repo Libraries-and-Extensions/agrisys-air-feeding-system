@@ -34,6 +34,4 @@ Desktop.ini
 .DS_Store
 
 app.db
-/Database/Agrisys.db
-/Database/app.db-shm
-/Database/app.db-wal
+Database/

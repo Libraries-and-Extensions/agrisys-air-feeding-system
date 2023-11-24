@@ -1,0 +1,25 @@
+﻿@{
+	ViewBag.Title = "title";
+	Layout = "_Layout";
+}
+
+<p id="live_content"></p>
+
+<script src="~/js/signalr/dist/browser/signalr.js"></script>
+<script type="text/javascript">
+var data = {keys: ["1"]};
+
+
+let builder = new signalR.HubConnectionBuilder().withUrl("/SensorHub?"+new URLSearchParams(data));
+
+var connection = builder.build();
+
+connection.on("valueUpdate", function (value) {
+ 	console.log(value)
+    document.getElementById("live_content").textContent = value;
+});
+
+connection.start().catch(function (err) {
+    return console.error(err.toString());
+});
+</script>

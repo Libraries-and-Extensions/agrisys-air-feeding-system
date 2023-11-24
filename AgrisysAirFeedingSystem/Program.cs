@@ -29,6 +29,8 @@ builder.Services.AddSingleton<IAuthorizationHandler, SimpleClaimAuthHandler>();
 
 builder.Services.AddControllersWithViews();
 
+builder.Services.AddSignalR();
+
 var app = builder.Build();
 
 AgrisysDBSeeder.Seed(app);
@@ -56,5 +58,7 @@ app.MapControllerRoute(
     name: "default",
     pattern: "{controller=Home}/{action=Index}/{id?}");
 app.MapRazorPages();
+
+app.MapHub<SensorHub>("/SensorHub");
 
 app.Run();
