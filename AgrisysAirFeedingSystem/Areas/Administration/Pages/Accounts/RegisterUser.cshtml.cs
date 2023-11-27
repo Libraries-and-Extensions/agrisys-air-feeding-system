@@ -1,24 +1,11 @@
 #nullable disable
 
-using System;
-using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Text;
-using System.Text.Encodings.Web;
-using System.Threading;
-using System.Threading.Tasks;
-using Humanizer;
-using Microsoft.AspNetCore.Authentication;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
-using Microsoft.AspNetCore.WebUtilities;
-using Microsoft.Extensions.Logging;
 
-namespace AgrisysAirFeedingSystem.Views.Admin
+namespace AgrisysAirFeedingSystem.Areas.Administration.Pages.Accounts
 {
     public class RegisterUserModel : PageModel
     {
@@ -88,8 +75,11 @@ namespace AgrisysAirFeedingSystem.Views.Admin
 
         public async Task<IActionResult> OnPostAsync(string returnUrl = null)
         {
-            returnUrl ??= Url.Content("~/");
-            if (ModelState.IsValid)
+                
+            returnUrl ??= Url.Content("~/Administration/Accounts/RegisterUser?createdUser=" + Input.Email);
+            //Role skal ikke kunne være null ved normal brug, men ved ændring i DOM'en. Derfor vises ingen specifik fejl,
+            //hvorimod siden bare loader igen.
+            if (ModelState.IsValid && Input.Role != null)
             {
                 var user = CreateUser();
 
@@ -102,7 +92,7 @@ namespace AgrisysAirFeedingSystem.Views.Admin
                 {
                     _logger.LogInformation("User created a new account with password.");
 
-                    await _signInManager.SignInAsync(user, isPersistent: false);
+                    //await _signInManager.SignInAsync(user, isPersistent: false);
                     return LocalRedirect(returnUrl);
                 }
                 foreach (var error in result.Errors)

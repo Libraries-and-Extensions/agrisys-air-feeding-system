@@ -1,15 +1,16 @@
 ﻿@page
-@model AgrisysAirFeedingSystem.Views.Admin.RegisterUserModel
+@using AgrisysAirFeedingSystem.Areas.Administration.Pages.Accounts
+@model AgrisysAirFeedingSystem.Areas.Administration.Pages.Accounts.RegisterUserModel
 @{
-    ViewData["Title"] = "Register User";
+    //ViewData["Title"] = "Register User";
 }
 
-<h1>@ViewData["Title"]</h1>
+<h1 xmlns="http://www.w3.org/1999/html">@ViewData["Title"]</h1>
 
-<div class="row">
-    <div class="col-md-4">
+<div class="row justify-content-center">
+    <div class="col-md-6">
         <form id="registerForm" asp-route-returnUrl="@Model.ReturnUrl" method="post">
-            <h2>Registrer ny bruger</h2>
+            <h2>Enter user details</h2>
             <hr />
             <div asp-validation-summary="ModelOnly" class="text-danger" role="alert"></div>
             <div class="form-floating mb-3">
@@ -28,15 +29,36 @@
                 <span asp-validation-for="Input.ConfirmPassword" class="text-danger"></span>
             </div>
             <div class="form-floating mb-3">
-                <select asp-for="Input.Role" class="form-control" aria-required="true"/>
-                <label asp-for="Input.Role">Confirm Password</label>
+                <select asp-for="Input.Role" class="form-control" aria-required="true">
+                    <option selected="selected">User</option>
+                    <option>Manager</option>
+                    <option>Admin</option>
+                </select>
+                <label asp-for="Input.Role">Select role</label>
                 <span asp-validation-for="Input.Role" class="text-danger"></span>
             </div>
-            <button id="registerSubmit" type="submit" class="w-100 btn btn-lg btn-primary">Registrer bruger</button>
+            <a href="javascript:history.back()" class="btn btn-danger">Back</a>
+            <button id="registerSubmit" type="submit" class="btn btn-primary float-end">Registrer bruger</button>
         </form>
     </div>
 </div>
 
+@{
+    if (Request.Query.ContainsKey("createdUser"))
+    {
+        <div id="userCreatedModal">
+            <span>User @Request.Query["createdUser"] has been created.</span>
+        </div>
+    }
+}
 @section Scripts {
     <partial name="_ValidationScriptsPartial" />
+    @if (Request.Query.ContainsKey("createdUser"))
+    {
+        <script type="application/javascript">
+            $().ready(setTimeout(function (){
+                $("#userCreatedModal").fadeOut(500);
+            }, 3000));
+        </script>
+    }
 }
