@@ -1,9 +1,23 @@
-﻿@{
+﻿@using AgrisysAirFeedingSystem.Utils.LiveUpdate.Formatter
+@using AgrisysAirFeedingSystem.Utils.LiveUpdate.Handler
+@{
 	ViewBag.Title = "title";
 	Layout = "_Layout";
 }
 
-<div data-sensor-hub="/SensorHub"><p data-sensor-key="1"></p><p data-sensor-key="2"></p></div>
+<div data-sensor-hub="/SensorHub">
+	<p sensor-name="RPM" sensor-handler="@(new ContentHandler(prefix:"hello value: "))" sensor-format="@(new EnumFormatter("hello", "world","foo","bar"))"></p>
+	<p sensor-name="RPM" sensor-handler="@(new ContentHandler(prefix:"hello value: "))" sensor-format="@(new NumberFormatter(2,0))"></p>
+	<p sensor-name="RPM" sensor-handler="@(new ContentHandler(prefix:"hello value: "))" sensor-format="@(new NumberMapFormatter(2, 10))"></p>
+	
+	<p sensor-name="RPM" sensor-handler="@(new CssStyleHandler("height","rem"))" sensor-format="@(new EnumFormatter("hello", "world","foo","bar"))">hello</p>
+	<p sensor-name="RPM" sensor-handler="@(new CssStyleHandler("height","rem"))" sensor-format="@(new NumberFormatter(2,0))">hello</p>
+	<p sensor-name="RPM" sensor-handler="@(new CssStyleHandler("height","rem"))" sensor-format="@(new NumberMapFormatter(2, 10))">hello</p>
+	
+	<p sensor-name="RPM" sensor-handler="@(new cssClassHandler("hello{value}"))" sensor-format="@(new EnumFormatter("hello", "world","foo","bar"))">hello</p>
+	<p sensor-name="RPM" sensor-handler="@(new cssClassHandler("hello{value}"))" sensor-format="@(new NumberFormatter(2,0))">hello</p>
+    <p sensor-name="RPM" sensor-handler="@(new cssClassHandler("hello{value}"))" sensor-format="@(new NumberMapFormatter(2, 10))">hello</p>
+</div>
 
 
 <script src="~/js/signalr/dist/browser/signalr.js"></script>

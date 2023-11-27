@@ -27,24 +27,43 @@ public class SensorController : Controller
     {
         try
         {
+            var measurement = new SensorMeasurement()
+            {
+                SensorId = int.Parse(key, System.Globalization.NumberStyles.HexNumber),
+                Value = value,
+            };
+            
+            //check if sensor exists
+            var sensor =  _dbContext.Sensors.FirstOrDefault(s => s.SensorId == measurement.SensorId);
+            
+            if (sensor == null)
+            {
+                return StatusCode((int) HttpStatusCode.NotFound);
+            }
+            
+            //check if value is in range
+            if (sensor.min > measurement.Value || sensor.max < measurement.Value)
+            {
+                return StatusCode((int) HttpStatusCode.BadRequest);
+            }
+            
+            //create sensor update
             var sensorUpdate = new SensorUpdate()
             {
                 key = key,
                 Value = value,
+                TimeStamp = measurement.TimeStamp,
             };
             
             //send to group
             await _hubContext.Clients.Group(sensorUpdate.key).SendAsync("valueUpdate",sensorUpdate);
-        
+            
             //save to db
-            _dbContext.Measurements.Add( new SensorMeasurement()
-            {
-                SensorId = int.Parse(key, System.Globalization.NumberStyles.HexNumber),
-                Value = value,
-                TimeStamp = sensorUpdate.TimeStamp
-            });
+            _dbContext.Measurements.Add(measurement);
 
             await _dbContext.SaveChangesAsync();
+            
+            
         }
         catch (Exception)
         {

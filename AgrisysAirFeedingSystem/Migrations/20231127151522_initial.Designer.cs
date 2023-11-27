@@ -11,7 +11,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace AgrisysAirFeedingSystem.Migrations
 {
     [DbContext(typeof(AgrisysDbContext))]
-    [Migration("20231124084137_initial")]
+    [Migration("20231127151522_initial")]
     partial class initial
     {
         /// <inheritdoc />
@@ -190,6 +190,14 @@ namespace AgrisysAirFeedingSystem.Migrations
                         .HasColumnType("INTEGER");
 
                     b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("max")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("min")
                         .IsRequired()
                         .HasColumnType("TEXT");
 

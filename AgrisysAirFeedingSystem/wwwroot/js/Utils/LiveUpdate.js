@@ -5,7 +5,7 @@
  */
 
 class Connection {
-    /** @type {Map<String, dataHandler>} */
+    /** @type {Map<String, [dataHandler]>} */
     targets = new Map();
     /**
      * Represents a book.
@@ -25,7 +25,15 @@ class Connection {
      * @param {keyHandler} target - The author of the book.
      */
     addTarget(target) {
-        this.targets.set(target.key, target.handler);
+        /** @type {[dataHandler]|undefined} */
+        let handlerCollection = this.targets.get(target.key);
+        if (handlerCollection === undefined) {
+            handlerCollection = [];
+            this.targets.set(target.key, handlerCollection);
+        }
+        handlerCollection.push(target.handler);
+        
+        //this.targets.set(target.key, target.handler);
     }
 
     /**
@@ -53,10 +61,12 @@ class Connection {
         this.connection = builder.build();
         this.connection.on("valueUpdate", (value)=>{
             console.log(value)
-            let target = this.targets.get(value.key);
+            let targets = this.targets.get(value.key);
 
-            if (target !== undefined) {
-                target.handleUpdate(value);
+            if (targets !== undefined) {
+                for (const target of targets) {
+                    target.handleUpdate(value);
+                }
             }else{
                 console.log("target not found", value.key);
             }
@@ -72,10 +82,13 @@ class Connection {
      */
     handleUpdate(value) {
         console.log(value)
-        let target = this.targets.get(value.key);
+        /** @type {[dataHandler]|undefined} */
+        let targets = this.targets.get(value.key);
         
-        if (target !== undefined) {
-            target.handleUpdate(value);
+        if (targets !== undefined) {
+            for (const target of targets){
+                target.handleUpdate(value);
+            }
         }else{
             console.log("target not found", value.key);
         }
@@ -154,23 +167,13 @@ class DataExtractor {
     }
 }
 
-
-
+/** @type {[string]} */
+let possibleKeys = [];
 class LiveUpdateDataExtractor extends DataExtractor {
-    /**
-     *
-     */
-    constructor() {
-        super();
-        
-        //TODO: make this dynamic
-        this.keys = ["sensorKey","sensorHub","sensorDataType","sensorInsertMethod","sensorDataScaleFactor","sensorOptions"]
-    }
-
     extract(node) {
         /** @type {Map<string, string | undefined>} */
         let map = new Map();
-        for (const key of this.keys) {
+        for (const key of possibleKeys) {
             let value = node.dataset[key];
             if (value !== undefined) {
                 map.set(key, value);
@@ -211,21 +214,101 @@ class dataHandler {
     }
 }
 
+possibleKeys.push("contentFormat","contentPrefix","contentSuffix");
 class InsertContentHandler extends dataHandler {
     /**
      * provides a way to insert data into the content of an element
      * @param {HTMLElement} target
+     * @param {Map<string,string>} Options
      * @param {dataFormatter} formatter
      */
-    constructor(target, formatter) {
+    constructor(target, formatter,Options) {
         super(formatter);
         this.target = target;
+
+        this.format = Options.get("contentFormat");
+        this.prefix = Options.get("contentPrefix");
+        this.suffix = Options.get("contentSuffix");
+    }
+
+    handleUpdate(update) {
+        let output = "";
+        
+        let value = this.formatHelper(update);
+        
+        
+        if (this.format !== undefined) 
+        {
+            output += this.format.replace("{value}",value.toString());
+        }
+        else if (this.prefix == null || this.suffix == null)
+        {
+
+            if (this.prefix != null) output += this.prefix;
+            output += value;
+            if (this.suffix != null) output += this.suffix;
+        }
+        else
+        {
+            output += value;
+        }
+        
+        this.target.innerText = output;
+    }
+}
+
+possibleKeys.push("styleHandlerProperty","styleHandlerUnit");
+class cssStyleHandler extends dataHandler {
+    /**
+     * provides a way to insert data into the content of an element
+     * @param {HTMLElement} target
+     * @param {dataFormatter} formatter
+     * @param {Map<string,string>} Options
+     */
+    constructor(target, formatter,Options) {
+        super(formatter);
+        this.target = target;
+
+        this.property = Options.get("styleHandlerProperty");
+        this.unit = Options.get("styleHandlerUnit");
     }
 
     handleUpdate(value) {
-        this.target.innerText = this.formatHelper(value);
+        this.target.style[this.property] = this.formatHelper(value) + this.unit;
     }
 }
+
+possibleKeys.push("cssClass","oldCssClass");
+class cssClassHandler extends dataHandler {
+    /**
+     * provides a way to insert data into the content of an element
+     * @param {HTMLElement} target
+     * @param {dataFormatter} formatter
+     * @param {Map<string,string>} Options
+     */
+    constructor(target, formatter,Options) {
+        super(formatter);
+        this.target = target;
+
+        this.class = Options.get("cssClass");
+        this.oldClass = Options.get("oldCssClass") ?? "";
+    }
+
+    handleUpdate(update) {
+        let formattedValue = this.formatHelper(update)
+        
+        if (this.class !== undefined) {
+            formattedValue = this.class.slice().replace("{value}", formattedValue);
+        }
+        
+        this.target.classList.add(formattedValue);
+        if (this.oldClass !== "") this.target.classList.remove(this.oldClass);
+        
+        //TODO: doesn't remove class set by aspnet
+        this.oldClass = formattedValue;
+    }
+}
+
 
 
 class dataFormatter {
@@ -239,27 +322,65 @@ class dataFormatter {
     }
 }
 
+possibleKeys.push("sensorScaleFactor","sensorScaleDigit");
 class NumberFormatter extends dataFormatter {
     /**
      * @param {Map<string,string>} options
      */
     constructor(options) {
         super();
-        this.scaleFactor = options.get("sensorDataScaleFactor");
+        this.scaleFactor = parseInt(options.get("sensorScaleFactor"));        
+        this.digit = parseInt(options.get("sensorScaleDigit"));
+
+        if (this.scaleFactor === undefined) {
+            throw new Error("no scale factor found");
+        }
+    }
+    /**
+     *
+     * @returns {string}
+     */
+    format(update) {
+        let result = (update.value / this.scaleFactor);
+
+        if (this.digit !== undefined) {
+            let digitMultiplier = Math.pow(10, this.digit);
+            result = Math.floor((result + Number.EPSILON) * digitMultiplier) / digitMultiplier;
+        }
+        
+        return result.toString();
+    }
+}
+
+
+
+possibleKeys.push("sensorMapInMin","sensorMapInMax","sensorMapOutMin","sensorMapOutMax");
+class NumberMapFormatter extends dataFormatter {
+    /**
+     * @param {Map<string,string>} options
+     */
+    constructor(options) {
+        super();
+        this.inputMin = parseInt(options.get("sensorMapInMin")??0);
+        this.inputMax = parseInt(options.get("sensorMapInMax"));
+        this.outputMin = parseInt(options.get("sensorMapOutMin")??0);
+        this.outputMax = parseInt(options.get("sensorMapOutMax"));
     }
     /**
      *
      * @returns {string}
      */
     format(data) {
-        if (this.scaleFactor !== undefined) {
-            data = (data.value / this.scaleFactor);
-        }
+        let value = data.value;
         
-        return data.value.toString();
+        //map value
+        value = (value - this.inputMin) * (this.outputMax - this.outputMin) / (this.inputMax - this.inputMin) + this.outputMin;
+
+        return value.toString();
     }
 }
 
+possibleKeys.push("sensorOptions");
 class EnumFormatter extends dataFormatter {
     /**
      *
@@ -281,7 +402,8 @@ class EnumFormatter extends dataFormatter {
      * @returns {string}
      */
     format(data) {
-        return this.Options[data.value] ?? "undefined";
+        //TODO: discuss if the default value should be the empty or undefined
+        return this.Options[data.value] ?? undefined;
     }
 }
 
@@ -385,9 +507,8 @@ class nodeDataFaller {
 
     /**
      * @param {doubleLinkedTreeNode} startNode
-     * @param {Map<HTMLElement, doubleLinkedTreeNode>} nodes
      */
-    traverse(startNode,nodes,) {
+    traverse(startNode) {
         /** @type {[doubleLinkedTreeNode]} */
         let inputs =  [startNode]        
         
@@ -430,6 +551,7 @@ function mapCombiner(map1, map2) {
     return result;
 }
 
+possibleKeys.push("sensorFormat","sensorHandler");
 /**
  * Constructs a handler from the options
  * @param {HTMLElement} target
@@ -440,15 +562,18 @@ function mapCombiner(map1, map2) {
 function BuildHandler(target,options) {
     //if no datatype is set, the handler will just insert the raw data
     /** @type {string | undefined} */
-    let dataType = options.get("sensorDataType");
-    let dataInsertMethod = options.get("sensorInsertMethod") ?? "content";
+    let format = options.get("sensorFormat");
+    let Handler = options.get("sensorHandler") ?? "content";
 
     /** @type {dataFormatter | undefined} */
     let formatter;
 
-    switch (dataType) {
+    switch (format) {
         case "number":
             formatter = new NumberFormatter(options);
+            break;
+        case "numberMap":
+            formatter = new NumberMapFormatter(options);
             break;
         case "enum":
             formatter = new EnumFormatter(options);
@@ -458,9 +583,15 @@ function BuildHandler(target,options) {
     /** @type {dataHandler | undefined} */
     let handler;
 
-    switch (dataInsertMethod) {
+    switch (Handler) {
         case "content":
-            handler = new InsertContentHandler(target,formatter);
+            handler = new InsertContentHandler(target,formatter,options);
+            break
+        case "cssClass":
+            handler = new cssClassHandler(target,formatter,options);
+            break
+        case "cssStyle":
+            handler = new cssStyleHandler(target,formatter,options);
             break
     }
     
@@ -471,6 +602,7 @@ function BuildHandler(target,options) {
 /** @type {[Connection]} */
 let connections = [];
 
+possibleKeys.push("sensorHub","sensorKey");
 function startConnection(){
     let traverser = new domUpTraverser(new RootTraversalLimiter(), new LiveUpdateDataExtractor());
     let dataFiller = new nodeDataFaller();
@@ -480,7 +612,7 @@ function startConnection(){
     let result = traverser.traverse(targets, 
         (node) => targets.includes(node));
 
-    dataFiller.traverse(result.nodes.get(document.querySelectorAll("body")[0]),result.nodes);
+    dataFiller.traverse(result.nodes.get(document.querySelectorAll("body")[0]));
 
      for (const targetsKey of result.inputs) {
          let hub = targetsKey.data.options.get("sensorHub");

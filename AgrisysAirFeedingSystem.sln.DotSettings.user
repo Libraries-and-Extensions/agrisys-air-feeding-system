@@ -4,6 +4,10 @@
     &lt;TestId&gt;xUnit::07FBC266-A3D6-4770-B041-E765D9D3F578::net7.0::AgrisysXTest.Authentication.SimpleClaimAuthHandlerTest&lt;/TestId&gt;&#xD;
     &lt;TestId&gt;xUnit::07FBC266-A3D6-4770-B041-E765D9D3F578::net7.0::AgrisysXTest.Authentication.SimpleClaimAuthFilterTest.TestFail&lt;/TestId&gt;&#xD;
     &lt;TestId&gt;xUnit::07FBC266-A3D6-4770-B041-E765D9D3F578::net7.0::AgrisysXTest.Authentication.SimpleClaimAuthFilterTest&lt;/TestId&gt;&#xD;
+    &lt;TestId&gt;xUnit::07FBC266-A3D6-4770-B041-E765D9D3F578::net7.0::AgrisysXTest.Utils.LiveUpdate.Formatter.NumberMapFormatterTest.Test1&lt;/TestId&gt;&#xD;
+    &lt;TestId&gt;xUnit::07FBC266-A3D6-4770-B041-E765D9D3F578::net7.0::AgrisysXTest.Utils.LiveUpdate.Formatter.NumberMapFormatterTest.TestInput&lt;/TestId&gt;&#xD;
+    &lt;TestId&gt;xUnit::07FBC266-A3D6-4770-B041-E765D9D3F578::net7.0::AgrisysXTest.Utils.LiveUpdate.Formatter.NumberMapFormatterTest.Test2&lt;/TestId&gt;&#xD;
+    &lt;TestId&gt;xUnit::07FBC266-A3D6-4770-B041-E765D9D3F578::net7.0::AgrisysXTest.Utils.LiveUpdate.Formatter.NumberMapFormatterTest&lt;/TestId&gt;&#xD;
   &lt;/TestAncestor&gt;&#xD;
 &lt;/SessionState&gt;</s:String>
 	<s:Boolean x:Key="/Default/UserDictionary/Words/=Agrisys/@EntryIndexedValue">True</s:Boolean>
