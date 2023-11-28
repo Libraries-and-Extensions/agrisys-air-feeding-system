@@ -1,5 +1,5 @@
 ﻿<wpf:ResourceDictionary xml:space="preserve" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:s="clr-namespace:System;assembly=mscorlib" xmlns:ss="urn:shemas-jetbrains-com:settings-storage-xaml" xmlns:wpf="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
-	<s:String x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=67a16274_002Dceb6_002D483f_002D827b_002Dc988a513d09b/@EntryIndexedValue">&lt;SessionState ContinuousTestingMode="0" IsActive="True" Name="SimpleClaimAuthHandlerTest" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session"&gt;&#xD;
+	<s:String x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=1972fc64_002D58b2_002D499b_002D9144_002D7ac12cb74012/@EntryIndexedValue">&lt;SessionState ContinuousTestingMode="0" Name="SimpleClaimAuthHandlerTest #2" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session"&gt;&#xD;
   &lt;TestAncestor&gt;&#xD;
     &lt;TestId&gt;xUnit::07FBC266-A3D6-4770-B041-E765D9D3F578::net7.0::AgrisysXTest.Authentication.SimpleClaimAuthHandlerTest&lt;/TestId&gt;&#xD;
     &lt;TestId&gt;xUnit::07FBC266-A3D6-4770-B041-E765D9D3F578::net7.0::AgrisysXTest.Authentication.SimpleClaimAuthFilterTest.TestFail&lt;/TestId&gt;&#xD;
@@ -8,7 +8,32 @@
     &lt;TestId&gt;xUnit::07FBC266-A3D6-4770-B041-E765D9D3F578::net7.0::AgrisysXTest.Utils.LiveUpdate.Formatter.NumberMapFormatterTest.TestInput&lt;/TestId&gt;&#xD;
     &lt;TestId&gt;xUnit::07FBC266-A3D6-4770-B041-E765D9D3F578::net7.0::AgrisysXTest.Utils.LiveUpdate.Formatter.NumberMapFormatterTest.Test2&lt;/TestId&gt;&#xD;
     &lt;TestId&gt;xUnit::07FBC266-A3D6-4770-B041-E765D9D3F578::net7.0::AgrisysXTest.Utils.LiveUpdate.Formatter.NumberMapFormatterTest&lt;/TestId&gt;&#xD;
+    &lt;TestId&gt;xUnit::07FBC266-A3D6-4770-B041-E765D9D3F578::net7.0::AgrisysXTest.Utils.LiveUpdate.Formatter.FormatInitialValueTests.Should_RoundToTwoDigits&lt;/TestId&gt;&#xD;
+    &lt;TestId&gt;xUnit::07FBC266-A3D6-4770-B041-E765D9D3F578::net7.0::AgrisysXTest.Utils.LiveUpdate.Formatter.FormatInitialValueTests.ShouldAdjustDigitsIfNotSpecified&lt;/TestId&gt;&#xD;
+    &lt;TestId&gt;xUnit::07FBC266-A3D6-4770-B041-E765D9D3F578::net7.0::AgrisysXTest.Utils.LiveUpdate.Formatter.EnumFormatterTests.FormatInitialValue_ReturnsCorrectStringRepresentation&lt;/TestId&gt;&#xD;
+    &lt;TestId&gt;xUnit::07FBC266-A3D6-4770-B041-E765D9D3F578::net7.0::AgrisysXTest.Utils.LiveUpdate.Handler.CssClassHandlerTests.HandleInitialValue_ReturnsCorrectHtml&lt;/TestId&gt;&#xD;
   &lt;/TestAncestor&gt;&#xD;
+&lt;/SessionState&gt;</s:String>
+	<s:String x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=67a16274_002Dceb6_002D483f_002D827b_002Dc988a513d09b/@EntryIndexedValue">&lt;SessionState ContinuousTestingMode="0" Name="SimpleClaimAuthHandlerTest" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session"&gt;&#xD;
+  &lt;TestAncestor&gt;&#xD;
+    &lt;TestId&gt;xUnit::07FBC266-A3D6-4770-B041-E765D9D3F578::net7.0::AgrisysXTest.Authentication.SimpleClaimAuthHandlerTest&lt;/TestId&gt;&#xD;
+    &lt;TestId&gt;xUnit::07FBC266-A3D6-4770-B041-E765D9D3F578::net7.0::AgrisysXTest.Authentication.SimpleClaimAuthFilterTest.TestFail&lt;/TestId&gt;&#xD;
+    &lt;TestId&gt;xUnit::07FBC266-A3D6-4770-B041-E765D9D3F578::net7.0::AgrisysXTest.Authentication.SimpleClaimAuthFilterTest&lt;/TestId&gt;&#xD;
+    &lt;TestId&gt;xUnit::07FBC266-A3D6-4770-B041-E765D9D3F578::net7.0::AgrisysXTest.Utils.LiveUpdate.Formatter.NumberMapFormatterTest.Test1&lt;/TestId&gt;&#xD;
+    &lt;TestId&gt;xUnit::07FBC266-A3D6-4770-B041-E765D9D3F578::net7.0::AgrisysXTest.Utils.LiveUpdate.Formatter.NumberMapFormatterTest.TestInput&lt;/TestId&gt;&#xD;
+    &lt;TestId&gt;xUnit::07FBC266-A3D6-4770-B041-E765D9D3F578::net7.0::AgrisysXTest.Utils.LiveUpdate.Formatter.NumberMapFormatterTest.Test2&lt;/TestId&gt;&#xD;
+    &lt;TestId&gt;xUnit::07FBC266-A3D6-4770-B041-E765D9D3F578::net7.0::AgrisysXTest.Utils.LiveUpdate.Formatter.NumberMapFormatterTest&lt;/TestId&gt;&#xD;
+    &lt;TestId&gt;xUnit::07FBC266-A3D6-4770-B041-E765D9D3F578::net7.0::AgrisysXTest.Utils.LiveUpdate.Formatter.FormatInitialValueTests.Should_RoundToTwoDigits&lt;/TestId&gt;&#xD;
+    &lt;TestId&gt;xUnit::07FBC266-A3D6-4770-B041-E765D9D3F578::net7.0::AgrisysXTest.Utils.LiveUpdate.Formatter.FormatInitialValueTests.ShouldAdjustDigitsIfNotSpecified&lt;/TestId&gt;&#xD;
+    &lt;TestId&gt;xUnit::07FBC266-A3D6-4770-B041-E765D9D3F578::net7.0::AgrisysXTest.Utils.LiveUpdate.Formatter.EnumFormatterTests.FormatInitialValue_ReturnsCorrectStringRepresentation&lt;/TestId&gt;&#xD;
+    &lt;TestId&gt;xUnit::07FBC266-A3D6-4770-B041-E765D9D3F578::net7.0::AgrisysXTest.Utils.LiveUpdate.Handler.CssClassHandlerTests.HandleInitialValue_ReturnsCorrectHtml&lt;/TestId&gt;&#xD;
+  &lt;/TestAncestor&gt;&#xD;
+&lt;/SessionState&gt;</s:String>
+	<s:String x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=858a20c8_002De62c_002D4530_002D8401_002Dd7f25079667b/@EntryIndexedValue">&lt;SessionState ContinuousTestingMode="0" Name="HandleInitialValue_ReturnsCorrectHtml" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session"&gt;&#xD;
+  &lt;Project Location="C:\Users\marcj\RiderProjects\AgrisysAirFeedingSystem\AgrisysXTest" Presentation="&amp;lt;AgrisysXTest&amp;gt;" /&gt;&#xD;
+&lt;/SessionState&gt;</s:String>
+	<s:String x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=b2ccf65d_002Ddea3_002D4ce1_002D84dd_002Dccf554734860/@EntryIndexedValue">&lt;SessionState ContinuousTestingMode="0" IsActive="True" Name="All tests from &amp;lt;AgrisysXTest&amp;gt;" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session"&gt;&#xD;
+  &lt;Project Location="C:\Users\marcj\RiderProjects\AgrisysAirFeedingSystem\AgrisysXTest" Presentation="&amp;lt;AgrisysXTest&amp;gt;" /&gt;&#xD;
 &lt;/SessionState&gt;</s:String>
 	<s:Boolean x:Key="/Default/UserDictionary/Words/=Agrisys/@EntryIndexedValue">True</s:Boolean>
 	<s:Boolean x:Key="/Default/UserDictionary/Words/=Cellesluse/@EntryIndexedValue">True</s:Boolean></wpf:ResourceDictionary>
