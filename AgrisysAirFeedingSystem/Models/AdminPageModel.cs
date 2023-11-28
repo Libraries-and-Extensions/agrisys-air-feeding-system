@@ -6,5 +6,4 @@ namespace AgrisysAirFeedingSystem.Models;
 [Authorize(Roles = "Admin")]
 public class AdminPageModel : PageModel
 {
-    
 }

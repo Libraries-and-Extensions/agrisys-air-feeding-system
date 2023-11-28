@@ -10,11 +10,12 @@ public class SimpleClaimAuthHandlerTest
     public async void TestFail()
     {
         //Arrange    
-        var requirements = new [] { new SimpleClaimRequirement("privacy")};
+        var requirements = new[] { new SimpleClaimRequirement("privacy") };
         var user = new ClaimsPrincipal(
             new ClaimsIdentity(
-                new[] {
-                    new Claim("read", ""),
+                new[]
+                {
+                    new Claim("read", "")
                 })
         );
         var context = new AuthorizationHandlerContext(requirements, user, null);
@@ -26,16 +27,17 @@ public class SimpleClaimAuthHandlerTest
         //Assert
         Assert.False(context.HasSucceeded);
     }
-    
+
     [Fact]
     public async void TestSucces()
     {
         //Arrange    
-        var requirements = new [] { new SimpleClaimRequirement("privacy")};
+        var requirements = new[] { new SimpleClaimRequirement("privacy") };
         var user = new ClaimsPrincipal(
             new ClaimsIdentity(
-                new[] {
-                    new Claim("privacy", ""),
+                new[]
+                {
+                    new Claim("privacy", "")
                 })
         );
         var context = new AuthorizationHandlerContext(requirements, user, null);
