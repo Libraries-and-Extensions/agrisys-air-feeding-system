@@ -1,13 +1,14 @@
 #nullable disable
 
 using System.ComponentModel.DataAnnotations;
+using AgrisysAirFeedingSystem.Models;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 
 namespace AgrisysAirFeedingSystem.Areas.Administration.Pages.Accounts
 {
-    public class RegisterUserModel : PageModel
+    public class RegisterUserModel : AdminPageModel
     {
         private readonly SignInManager<IdentityUser> _signInManager;
         private readonly UserManager<IdentityUser> _userManager;
@@ -81,18 +82,10 @@ namespace AgrisysAirFeedingSystem.Areas.Administration.Pages.Accounts
             //hvorimod siden bare loader igen.
             if (ModelState.IsValid && Input.Role != null)
             {
-                var user = CreateUser();
-
-                await _userStore.SetUserNameAsync(user, Input.Email, CancellationToken.None);
-                await _emailStore.SetEmailAsync(user, Input.Email, CancellationToken.None);
-                await _userManager.CreateAsync(user, Input.Password);
-                var result = await _userManager.AddToRoleAsync(user, Input.Role);
-
+                var result = await RegisterUser(Input);
                 if (result.Succeeded)
                 {
                     _logger.LogInformation("User created a new account with password.");
-
-                    //await _signInManager.SignInAsync(user, isPersistent: false);
                     return LocalRedirect(returnUrl);
                 }
                 foreach (var error in result.Errors)
@@ -117,6 +110,16 @@ namespace AgrisysAirFeedingSystem.Areas.Administration.Pages.Accounts
                     $"Ensure that '{nameof(IdentityUser)}' is not an abstract class and has a parameterless constructor, or alternatively " +
                     $"override the register page in /Areas/Identity/Pages/Account/Register.cshtml");
             }
+        }
+
+        private async Task<IdentityResult> RegisterUser(InputModel input)
+        {
+                var user = CreateUser();
+                await _userStore.SetUserNameAsync(user, Input.Email, CancellationToken.None);
+                await _emailStore.SetEmailAsync(user, Input.Email, CancellationToken.None);
+                await _userManager.CreateAsync(user, Input.Password);
+                return await _userManager.AddToRoleAsync(user, Input.Role);
+            
         }
         private IUserEmailStore<IdentityUser> GetEmailStore()
         {

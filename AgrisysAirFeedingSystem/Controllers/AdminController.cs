@@ -6,7 +6,7 @@ using Microsoft.AspNetCore.Authorization;
 
 namespace AgrisysAirFeedingSystem.Controllers;
 
-[Authorize()]
+[Authorize(Roles = "Admin")]
 public class AdminController : Controller
 {
     public AdminController(ILogger<HomeController> logger)
