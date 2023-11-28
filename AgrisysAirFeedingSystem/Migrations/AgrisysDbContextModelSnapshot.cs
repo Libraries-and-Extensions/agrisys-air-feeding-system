@@ -190,13 +190,11 @@ namespace AgrisysAirFeedingSystem.Migrations
                         .IsRequired()
                         .HasColumnType("TEXT");
 
-                    b.Property<string>("max")
-                        .IsRequired()
-                        .HasColumnType("TEXT");
+                    b.Property<int?>("max")
+                        .HasColumnType("INTEGER");
 
-                    b.Property<string>("min")
-                        .IsRequired()
-                        .HasColumnType("TEXT");
+                    b.Property<int?>("min")
+                        .HasColumnType("INTEGER");
 
                     b.HasKey("SensorId");
 

@@ -170,8 +170,8 @@ namespace AgrisysAirFeedingSystem.Migrations
                         .Annotation("Sqlite:Autoincrement", true),
                     EntityId = table.Column<int>(type: "INTEGER", nullable: false),
                     Name = table.Column<string>(type: "TEXT", nullable: false),
-                    min = table.Column<string>(type: "TEXT", nullable: false),
-                    max = table.Column<string>(type: "TEXT", nullable: false)
+                    min = table.Column<int>(type: "INTEGER", nullable: true),
+                    max = table.Column<int>(type: "INTEGER", nullable: true)
                 },
                 constraints: table =>
                 {

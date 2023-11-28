@@ -10,7 +10,7 @@ public class NumberFormatter : Formatter
     private int? _digit;
     public override string Id => "number";
     
-    public NumberFormatter(int scale, int? digit)
+    public NumberFormatter(int scale, int? digit = null)
     {
         _scale = scale;
         _digit = digit;
@@ -29,14 +29,19 @@ public class NumberFormatter : Formatter
 
     public override void SensorCheck(Sensor sensor)
     {
+        //only adjust if digit is not specified
         if (_digit.HasValue) return;
         
         var max = sensor.max;
         var min = sensor.min;
         
+        //only adjust if both max and min is not null
         if (max == null || min == null) return;
         
         var diff = max.Value - min.Value;
+
+        //adjust for scale
+        diff = diff / _scale;
 
         _digit = diff switch
         {
@@ -52,10 +57,4 @@ public class NumberFormatter : Formatter
         
         if (_digit.HasValue) attributeProvider.Add("data-sensor-scale-digit",_digit.Value);
     }
-    
-    
-    
-    
-    
-    
 }

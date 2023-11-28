@@ -308,6 +308,45 @@ class cssClassHandler extends dataHandler {
         this.oldClass = formattedValue;
     }
 }
+class CustomHandler extends dataHandler {
+    /**
+     * provides a way to insert data into the content of an element
+     * @param {HTMLElement} target
+     * @param {dataFormatter} formatter
+     * @param {Map<string,string>} Options
+     */
+    constructor(target, formatter,Options) {
+        super(formatter);
+        this.target = target;
+        
+        let initial = this.target.dataset["customInitial"];
+
+        this.target.dataset["customInitial"] = undefined;
+
+        this.dispatch({target,initial}, "customHandleInit");
+    }
+
+    handleUpdate(update) {
+        // Dispatch the event.
+        this.dispatch(
+            {
+                formatted:this.formatHelper(update), 
+                target: this.target
+                ,...update
+            }
+        )
+    }
+    
+    dispatch(event,name = "valueUpdate"){
+        // Dispatch the event.
+        this.target.dispatchEvent(new CustomEvent(name,
+            {
+                bubbles: true,
+                ...event
+            }
+        ));
+    }
+}
 
 
 
@@ -380,6 +419,48 @@ class NumberMapFormatter extends dataFormatter {
     }
 }
 
+possibleKeys.push("sensorLevels");
+class LevelFormatter extends dataFormatter {
+    /**
+     * @param {Map<string,string>} options
+     */
+    constructor(options) {
+        super();
+        
+        let levelsStr = options.get("sensorLevels");
+        
+        if (levelsStr === undefined) throw new Error("no levels found");
+        
+        let levels = levelsStr.split(",");
+        /** @type {Map<number,string>} */
+        let map = new Map();
+        for (let i = 0; i < levels.length; i++) {
+            let [key, value] = levels[i].split(":");
+            map.set(parseInt(key),value);
+        }
+
+        
+        this.levels = map;
+    }
+    /**
+     *
+     * @returns {string}
+     */
+    format(data) {
+        let value = "Unknown";
+
+        for (const entry of this.levels.entries()) {
+            if (entry[0] > data.value) {
+                break;
+            }
+
+            value = entry[1];
+        }
+
+        return value;
+    }
+}
+
 possibleKeys.push("sensorOptions");
 class EnumFormatter extends dataFormatter {
     /**
@@ -403,7 +484,7 @@ class EnumFormatter extends dataFormatter {
      */
     format(data) {
         //TODO: discuss if the default value should be the empty or undefined
-        return this.Options[data.value] ?? undefined;
+        return this.Options[data.value] ?? throw new Error("value out of range");
     }
 }
 
@@ -578,6 +659,9 @@ function BuildHandler(target,options) {
         case "enum":
             formatter = new EnumFormatter(options);
             break;
+        case "level":
+            formatter = new LevelFormatter(options);
+            break;
     }
 
     /** @type {dataHandler | undefined} */
@@ -592,6 +676,9 @@ function BuildHandler(target,options) {
             break
         case "cssStyle":
             handler = new cssStyleHandler(target,formatter,options);
+            break
+        case "custom":
+            handler = new CustomHandler(target,formatter,options);
             break
     }
     

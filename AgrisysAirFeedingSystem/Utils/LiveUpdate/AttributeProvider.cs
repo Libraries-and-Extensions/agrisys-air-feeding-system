@@ -16,17 +16,22 @@ public class AttributeProvider
         Add(key,value.ToString());
     }
     
-    public void remove(string key)
+    public void Remove(string key)
     {
         _attributes.Remove(key);
     }
     
-    public bool tryGet(string key, out string? value)
+    public bool TryGet(string key, out string? value)
     {
         return _attributes.TryGetValue(key, out value);
     }
     
-    public bool has(string key)
+    public string? Get(string key)
+    {
+        return _attributes.TryGetValue(key, out string? value) ? value : null;
+    }
+    
+    public bool Has(string key)
     {
         return _attributes.ContainsKey(key);
     }

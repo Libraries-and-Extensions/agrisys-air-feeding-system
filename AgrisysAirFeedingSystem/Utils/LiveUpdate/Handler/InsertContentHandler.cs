@@ -1,4 +1,5 @@
 ﻿using System.Text;
+using AgrisysAirFeedingSystem.Models.DBModels;
 using Microsoft.AspNetCore.Razor.TagHelpers;
 
 namespace AgrisysAirFeedingSystem.Utils.LiveUpdate.Handler;
@@ -9,7 +10,7 @@ public class ContentHandler : BaseHandler
     private readonly string? _prefix;
     private readonly string? _suffix;
     public override string id => "content";
-    public override void HandleInitialValue(string value, TagHelperOutput output)
+    public override void HandleInitialValue(string value, TagHelperOutput output,SensorMeasurement? measurement)
     {
         StringBuilder builder = new();
         
@@ -17,7 +18,7 @@ public class ContentHandler : BaseHandler
         {
             builder.Append(_format.Replace("{value}",value));
         }
-        else if (_prefix == null || _suffix == null)
+        else if (_prefix != null || _suffix != null)
         {
             if (_prefix != null) builder.Append(_prefix);
             builder.Append(value);

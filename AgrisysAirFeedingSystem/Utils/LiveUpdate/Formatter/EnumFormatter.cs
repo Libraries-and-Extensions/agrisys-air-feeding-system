@@ -9,7 +9,7 @@ public class EnumFormatter : Formatter
     public override string Id => "enum";
     public override string FormatInitialValue(SensorMeasurement measurement)
     {
-        if (measurement.Value >= _enumOptions.Length && measurement.Value < 0)
+        if ( 0 <= measurement.Value&& measurement.Value < _enumOptions.Length )
         {
             return _enumOptions[measurement.Value];
         }
@@ -47,12 +47,10 @@ public class EnumFormatter : Formatter
         }
 
         var list = new string[enumValues.Length];
-        
-        StringBuilder sb = new(enumValues.GetValue(0)!.ToString());
 
-        for (int i = 1; i < enumValues.Length; i++)
+        for (int i = 0; i < enumValues.Length; i++)
         {
-            list[i] = (string)enumValues.GetValue(i)!;
+            list[i] = enumValues.GetValue(i)!.ToString() ?? throw new InvalidOperationException();
         }
         
         _enumOptions = list.ToArray();

@@ -1,13 +1,14 @@
 ﻿using System.Text;
+using AgrisysAirFeedingSystem.Models.DBModels;
 using Microsoft.AspNetCore.Razor.TagHelpers;
 
 namespace AgrisysAirFeedingSystem.Utils.LiveUpdate.Handler;
 
-public class cssClassHandler : BaseHandler
+public class CssClassHandler : BaseHandler
 {
-    private readonly string _cssClass;
+    private readonly string? _clazz;
     public override string id => "cssClass";
-    public override void HandleInitialValue(string value, TagHelperOutput output)
+    public override void HandleInitialValue(string value, TagHelperOutput output,SensorMeasurement? measurement)
     {
         StringBuilder builder = new();
         
@@ -16,9 +17,9 @@ public class cssClassHandler : BaseHandler
             builder.Append(attribute);
         }
         
-        if (!string.IsNullOrEmpty(_cssClass))
+        if (!string.IsNullOrEmpty(_clazz))
         {
-            builder.Append(" " + _cssClass.Replace("{value}",value));
+            builder.Append(" " + _clazz.Replace("{value}",value));
         }
         else
         {
@@ -31,11 +32,16 @@ public class cssClassHandler : BaseHandler
 
     public override void AddAttributes(AttributeProvider attribute)
     {
-        attribute.Add("data-css-class", _cssClass);
+        attribute.Add("data-css-class", _clazz);
     }
 
-    public cssClassHandler(string cssClass)
+    public CssClassHandler(string? clazz = null)
     {
-        _cssClass = cssClass;
+        if (clazz != null && !clazz.Contains("{value}"))
+        {
+            throw new Exception("cssClass must contain {value}");
+        }
+        
+        _clazz = clazz;
     }
 }

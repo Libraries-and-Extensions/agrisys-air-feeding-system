@@ -47,7 +47,6 @@ public class LiveUpdateTagHelper : TagHelper
             .Where(m=>m.SensorId == sensor.SensorId)
             .OrderByDescending(c => c.TimeStamp)
             .FirstOrDefault(m => m.SensorId == sensor.SensorId);
-
         
         var attribute = new AttributeProvider();
         
@@ -69,7 +68,7 @@ public class LiveUpdateTagHelper : TagHelper
             Handler.AddAttributes(attribute);
             output.Attributes.Add("data-sensor-handler",Handler.id);
             
-            Handler.HandleInitialValue(value,output);
+            Handler.HandleInitialValue(value,output,lastMeasurement);
         }else
         {
             output.Content.SetContent(value);
