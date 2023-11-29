@@ -13,7 +13,6 @@ public class EnumFormatter : Formatter
         {
             return _enumOptions[measurement.Value];
         }
-        //TODO: what should be return if value is out of range
         return "Undefined";
     }
 
