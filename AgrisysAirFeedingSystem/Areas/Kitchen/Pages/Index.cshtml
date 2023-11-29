@@ -1,4 +1,7 @@
 ﻿@page
+@using AgrisysAirFeedingSystem.Models.DB
+@using AgrisysAirFeedingSystem.Models.DBModels
+@using Microsoft.EntityFrameworkCore
 @model AgrisysAirFeedingSystem.Areas.Kitchen.Pages.Index
 
 @{
@@ -7,19 +10,35 @@
 
 <div class="row">
     <div class="col-md">
-        <div class="siloContainer">
-            <span>silo name</span>
-            <span>silo weight kg</span>
-            <img src="images/silo-icon.jpg" alt="icon of silo"/>
-        </div>
+        @{
+            DbContext db = new AgrisysDbContext();
+            foreach (Silo silo in db.Set<Silo>())
+            {
+                <div class="siloContainer justify-content-center">
+                    <span>Silo @silo.SiloId</span>
+                    <span>@silo.Capacity kg max</span>
+                    <img max-width="90%" src="images/silo-icon.jpg" alt="icon of silo"/>
+                </div>
+            }
+        }
         <div>
-            <img src="" alt="Image of dosage supplying mechanism"/>
+            <img src="images/pipe.png" alt="Icon of dosage supplying pipe"/>
+            <img src="images/spinmechanism.png" alt="Icon of doser mechanism"/>
         </div>
     </div>
     <div class="col-md">
-        
+        <div class="justify-content-center">
+            <span>### kg</span>
+            <img src="images/mixer.png" alt="Icon of mixer"/>
+            <img src="images/mixer.png" alt="Icon of supplier (fordeler)"/>
+        </div>
     </div>
     <div class="col-md">
-        <a href="javascript:alert(1);">Test button</a>
+        <a href="javascript:alert(1);">Test doser</a>
+        <a>Test mixer omrører</a>
+        <a>Test lem(danger)</a>
+        <a>Test fordeler omrører</a>
+        <a>Test cellesluser</a>
+        <a>Test blæser</a>
     </div>
 </div>
