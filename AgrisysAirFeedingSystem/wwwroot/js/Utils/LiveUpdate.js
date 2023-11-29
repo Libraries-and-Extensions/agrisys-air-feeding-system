@@ -53,14 +53,14 @@ class Connection {
             keys += ","+key;
         }
         
-        console.log(keys);
+        //console.log(keys);
         
         let builder = new signalR.HubConnectionBuilder()
             .withUrl(this.url+"?"+new URLSearchParams({keys}));
         
         this.connection = builder.build();
         this.connection.on("valueUpdate", (value)=>{
-            console.log(value)
+            //console.log(value)
             let targets = this.targets.get(value.key);
 
             if (targets !== undefined) {
@@ -74,24 +74,6 @@ class Connection {
         this.connection.start().catch(function (err) {
             return console.error(err.toString());
         });
-    }
-
-    /**
-     * 
-     * @param {valueUpdate} value
-     */
-    handleUpdate(value) {
-        console.log(value)
-        /** @type {[dataHandler]|undefined} */
-        let targets = this.targets.get(value.key);
-        
-        if (targets !== undefined) {
-            for (const target of targets){
-                target.handleUpdate(value);
-            }
-        }else{
-            console.log("target not found", value.key);
-        }
     }
 }
 
@@ -304,7 +286,6 @@ class cssClassHandler extends dataHandler {
         this.target.classList.add(formattedValue);
         if (this.oldClass !== "") this.target.classList.remove(this.oldClass);
         
-        //TODO: doesn't remove class set by aspnet
         this.oldClass = formattedValue;
     }
 }
@@ -318,12 +299,18 @@ class CustomHandler extends dataHandler {
     constructor(target, formatter,Options) {
         super(formatter);
         this.target = target;
-        
-        let initial = this.target.dataset["customInitial"];
 
-        this.target.dataset["customInitial"] = undefined;
+        let initialStr = this.target.dataset["customInitial"];
+        let initial = undefined;
 
-        this.dispatch({target,initial}, "customHandleInit");
+        if (initialStr !== undefined) {
+            initial = JSON.parse(initialStr);
+            initial.TimeStamp = new Date(initial.TimeStamp);
+        }
+
+        delete this.target.dataset["customInitial"];
+
+        this.dispatch({target, initial}, "customHandleInit");
     }
 
     handleUpdate(update) {
@@ -483,8 +470,13 @@ class EnumFormatter extends dataFormatter {
      * @returns {string}
      */
     format(data) {
-        //TODO: discuss if the default value should be the empty or undefined
-        return this.Options[data.value] ?? throw new Error("value out of range");
+        let value = this.Options[data.value];
+
+        if (value === undefined) {
+            throw new Error("value out of range");
+        }
+
+        return value;
     }
 }
 
@@ -544,7 +536,7 @@ class domUpTraverser {
                 if (parent === undefined) {
                     parent = new doubleLinkedTreeNode(this.dataExtractor.extract(parentElement));
 
-                    console.log("parent", parentElement);
+                    //console.log("parent", parentElement);
                     // Save the node
                     nodes.set(parentElement, parent)
                     
@@ -605,7 +597,7 @@ class nodeDataFaller {
                     
                     child.data.options= mapCombiner(child.data.options,node.data.options);
                     
-                    console.log(child.data);
+                    //console.log(child.data);
                 }
 
                 tmp = tmp.concat(children);
