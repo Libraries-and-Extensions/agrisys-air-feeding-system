@@ -7,7 +7,7 @@
     let timeout = parseInt(element.dataset.longPressTimeout);
     timeout = !isNaN(timeout) ? timeout : 1000;
     
-    if (element.dataset.preventClick === "true") {
+    if (element.dataset.longPressPreventClick.toLowerCase() === "true") {
         element.addEventListener("click", function (e) {
             e.preventDefault();
         })

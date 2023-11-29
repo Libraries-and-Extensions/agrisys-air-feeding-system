@@ -23,6 +23,9 @@ public class LongPressTaghelper : TagHelper
     [HtmlAttributeName("long-press-timout")]
     public int? Timeout {get; set;}
     
+    [HtmlAttributeName("long-press-prevent-click")]
+    public bool? PreventClick {get; set;}
+    
     [HtmlAttributeName(DictionaryAttributePrefix = "long-press-url-")]
     public Dictionary<string, object> PageUrlValues { get; set; } = new Dictionary<string, object>();
 
@@ -44,5 +47,6 @@ public class LongPressTaghelper : TagHelper
         
         output.Attributes.SetAttribute("data-long-press", urlHelper.Action(Action, Controller, PageUrlValues));
         if (Timeout.HasValue) output.Attributes.SetAttribute("data-long-press-timeout", Timeout.Value);
+        if (PreventClick.HasValue) output.Attributes.SetAttribute("data-long-press-prevent-click", PreventClick.Value);
     }
 }
