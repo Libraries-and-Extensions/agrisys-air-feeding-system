@@ -6,9 +6,9 @@ using Microsoft.AspNetCore.SignalR;
 public class SensorHub : Hub
 {
     public override async Task OnConnectedAsync()
-    {   
+    {
         var context = Context.GetHttpContext();
-        
+
         if (context is null)
         {
             Console.WriteLine("missing https context");
@@ -16,10 +16,8 @@ public class SensorHub : Hub
         }
 
         foreach (var key in QueryUtils.getListParameter(context, "keys"))
-        {
             await Groups.AddToGroupAsync(Context.ConnectionId, key);
-        }
-       
+
         await base.OnConnectedAsync();
     }
 
@@ -30,9 +28,9 @@ public class SensorHub : Hub
             Console.WriteLine(exception.Message);
             return;
         }
-        
+
         var context = Context.GetHttpContext();
-        
+
         if (context is null)
         {
             Console.WriteLine("missing https context");
@@ -40,9 +38,7 @@ public class SensorHub : Hub
         }
 
         foreach (var key in QueryUtils.getListParameter(context, "keys"))
-        {
             await Groups.RemoveFromGroupAsync(Context.ConnectionId, key);
-        }
 
         await base.OnDisconnectedAsync(exception);
     }

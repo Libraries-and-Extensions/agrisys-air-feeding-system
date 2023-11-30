@@ -36,3 +36,4 @@ Desktop.ini
 app.db
 Database/*
 !Database/.gitkeep
+/Areas/Test/

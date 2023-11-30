@@ -1,28 +1,18 @@
 ﻿using System.Diagnostics;
-using AgrisysAirFeedingSystem.Authtication;
 using AgrisysAirFeedingSystem.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace AgrisysAirFeedingSystem.Controllers;
 
-[Authorize]
-public class HomeController : Controller
+[Authorize(Roles = "Admin")]
+public class AdminController : Controller
 {
-    private readonly ILogger<HomeController> _logger;
-
-    public HomeController(ILogger<HomeController> logger)
+    public AdminController(ILogger<HomeController> logger)
     {
-        _logger = logger;
     }
 
     public IActionResult Index()
-    {
-        return View();
-    }
-
-    [AuthorizeClaim("Privacy")]
-    public IActionResult Privacy()
     {
         return View();
     }

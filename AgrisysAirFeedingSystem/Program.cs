@@ -1,10 +1,10 @@
 using AgrisysAirFeedingSystem.Authtication;
-using Microsoft.AspNetCore.Identity;
-using Microsoft.EntityFrameworkCore;
 using AgrisysAirFeedingSystem.Data;
 using AgrisysAirFeedingSystem.Models.DB;
 using AgrisysAirFeedingSystem.Models.Seeding;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -18,10 +18,7 @@ builder.Services.AddDbContext<ApplicationDbContext>(options =>
 
 builder.Services.AddDatabaseDeveloperPageExceptionFilter();
 
-builder.Services.AddDefaultIdentity<IdentityUser>(options =>
-    {
-        options.SignIn.RequireConfirmedAccount = true;
-    })
+builder.Services.AddDefaultIdentity<IdentityUser>(options => { options.SignIn.RequireConfirmedAccount = false; })
     .AddRoles<IdentityRole>()
     .AddEntityFrameworkStores<ApplicationDbContext>();
 
@@ -56,8 +53,8 @@ app.UseRouting();
 app.UseAuthorization();
 
 app.MapControllerRoute(
-    name: "default",
-    pattern: "{controller=Home}/{action=Index}/{id?}");
+    "default",
+    "{controller=Home}/{action=Index}/{id?}");
 app.MapRazorPages();
 
 app.MapHub<SensorHub>("/SensorHub");

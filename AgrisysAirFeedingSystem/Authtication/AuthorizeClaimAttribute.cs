@@ -2,10 +2,10 @@
 
 namespace AgrisysAirFeedingSystem.Authtication;
 
-public class AuthorizeClaimAttribute:TypeFilterAttribute
+public class AuthorizeClaimAttribute : TypeFilterAttribute
 {
-    public AuthorizeClaimAttribute(string claim, params string[]? values):base(typeof(SimpleClaimAuthFilter))
+    public AuthorizeClaimAttribute(string claim, params string[]? values) : base(typeof(SimpleClaimAuthFilter))
     {
-        Arguments = new object[] { claim,values};
+        Arguments = new object[] { claim, values };
     }
 }

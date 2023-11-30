@@ -1,22 +1,20 @@
-﻿using System.Security.Claims;
-using Microsoft.AspNetCore.Authorization;
+﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
 
 namespace AgrisysAirFeedingSystem.Authtication;
 
-
-public class SimpleClaimAuthFilter: IAsyncAuthorizationFilter
+public class SimpleClaimAuthFilter : IAsyncAuthorizationFilter
 {
     private readonly IAuthorizationService _authorization;
-    
-    public SimpleClaimRequirement _requirement { get; private set; }
-    
-    public SimpleClaimAuthFilter(IAuthorizationService authorization,string claim, params string[]? values)
+
+    public SimpleClaimAuthFilter(IAuthorizationService authorization, string claim, params string[]? values)
     {
         _authorization = authorization;
-       _requirement = new SimpleClaimRequirement(claim, values);
+        _requirement = new SimpleClaimRequirement(claim, values);
     }
+
+    public SimpleClaimRequirement _requirement { get; }
 
     public async Task OnAuthorizationAsync(AuthorizationFilterContext context)
     {
@@ -30,9 +28,6 @@ public class SimpleClaimAuthFilter: IAsyncAuthorizationFilter
 
         var result = await _authorization.AuthorizeAsync(user, null, _requirement);
 
-         if (!result.Succeeded)
-         {
-             context.Result = new ForbidResult();
-         }
+        if (!result.Succeeded) context.Result = new ForbidResult();
     }
 }
