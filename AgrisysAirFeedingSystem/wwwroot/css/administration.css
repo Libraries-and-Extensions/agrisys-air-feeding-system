@@ -1,0 +1,10 @@
+﻿#userCreatedModal {
+    padding: 30px 30px;
+    border: solid 1px;
+    border-radius: 6px;
+    display: inline-block;
+    top: 110px;
+    position: absolute;
+    left: 50px;
+    background-color: #fff;
+}
