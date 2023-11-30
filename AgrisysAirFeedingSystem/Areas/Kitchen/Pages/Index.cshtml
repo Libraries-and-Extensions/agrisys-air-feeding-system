@@ -1,7 +1,5 @@
 ﻿@page
-@using AgrisysAirFeedingSystem.Models.DB
 @using AgrisysAirFeedingSystem.Models.DBModels
-@using Microsoft.EntityFrameworkCore
 @model AgrisysAirFeedingSystem.Areas.Kitchen.Pages.Index
 
 @{
@@ -12,8 +10,7 @@
     <div class="col-md-4">
         <div class="row">
             @{
-                DbContext db = new AgrisysDbContext();
-                foreach (Silo silo in db.Set<Silo>())
+                foreach (Silo silo in Model.Silos)
                 {
                     <div class="silo-container justify-content-center col-sm-6">
                         <p>Silo @silo.SiloId</p>
@@ -39,7 +36,7 @@
         <div id="supplier-container">
             <img width="80%" height="auto" class="bucket" src="images/bucket.png" alt="Icon of supplier (fordeler)"/>
             <p><span>###</span> kg</p>
-            <img class="stirrer-icon" src="images/spinmechanism.png"alt="Icon of stirrer in supplier"/>
+            <img class="stirrer-icon" src="images/spinmechanism.png" alt="Icon of stirrer in supplier"/>
             <div id="supplier-sluice"></div>
         </div>
         <div id="blower-container">
