@@ -9,36 +9,60 @@
 }
 
 <div class="row">
-    <div class="col-md">
-        @{
-            DbContext db = new AgrisysDbContext();
-            foreach (Silo silo in db.Set<Silo>())
-            {
-                <div class="siloContainer justify-content-center">
-                    <span>Silo @silo.SiloId</span>
-                    <span>@silo.Capacity kg max</span>
-                    <img max-width="90%" src="images/silo-icon.jpg" alt="icon of silo"/>
-                </div>
+    <div class="col-md-4">
+        <div class="row">
+            @{
+                DbContext db = new AgrisysDbContext();
+                foreach (Silo silo in db.Set<Silo>())
+                {
+                    <div class="silo-container justify-content-center col-sm-6">
+                        <p>Silo @silo.SiloId</p>
+                        <p>@silo.Capacity kg max</p>
+                        <img width="90%" height="auto" src="images/silo-icon.jpg" alt="icon of silo"/>
+                    </div>
+                }
             }
+        </div>
+        <p>Doser action view:</p>
+        <div id="pipe-container">
+            <img width="90%" height="auto" src="images/pipe.png" alt="Icon of dosage supplying pipe"/>
+            <img width="15%" height="auto" id="pipe-doser" src="images/spinmechanism.png" alt="Icon of doser mechanism"/>
+        </div>
+    </div>
+    <div class="col-md-4">
+        <div id="mixer-container">
+            <img width="80%" height="auto" class="bucket" src="images/bucket.png" alt="Icon of mixer"/>
+            <p><span>###</span> kg</p>
+            <img class="stirrer-icon" src="images/spinmechanism.png" alt="Icon of stirrer in mixer"/>
+            <div id="mixer-trap"></div>
+        </div>
+        <div id="supplier-container">
+            <img width="80%" height="auto" class="bucket" src="images/bucket.png" alt="Icon of supplier (fordeler)"/>
+            <p><span>###</span> kg</p>
+            <img class="stirrer-icon" src="images/spinmechanism.png"alt="Icon of stirrer in supplier"/>
+            <div id="supplier-sluice"></div>
+        </div>
+        <div id="blower-container">
+            <img id="blower-icon" src="images/blower.png" alt="Icon of blower motor"/>
+            <div id="blower-pipe">
+                <p><span id="blower-speed-value">spd</span>% <span id="blower-pipe-value">###</span> bar</p>
+            </div>
+        </div>
+    </div>
+    @{
+        if (User.HasClaim("manual_control", "")) {
+            <div class="col-md-4">
+                <a href="javascript:alert(1);" class="kitchen-btn btn btn-primary">Test doser</a>
+                <a href="javascript:alert(1);" class="kitchen-btn btn btn-primary">Test mixer stirrer</a>
+                <a href="javascript:alert('danger btn');" class="kitchen-btn btn btn-warning">Test mixer trap(danger)</a>
+                <a href="javascript:alert(1);" class="kitchen-btn btn btn-primary">Test supplier stirrer</a>
+                <a href="javascript:alert(1);" class="kitchen-btn btn btn-primary">Test cell sluice</a>
+                <a href="javascript:alert(1);" class="kitchen-btn btn btn-primary">Test blower</a>
+            </div>
         }
-        <div>
-            <img src="images/pipe.png" alt="Icon of dosage supplying pipe"/>
-            <img src="images/spinmechanism.png" alt="Icon of doser mechanism"/>
-        </div>
-    </div>
-    <div class="col-md">
-        <div class="justify-content-center">
-            <span>### kg</span>
-            <img src="images/mixer.png" alt="Icon of mixer"/>
-            <img src="images/mixer.png" alt="Icon of supplier (fordeler)"/>
-        </div>
-    </div>
-    <div class="col-md">
-        <a href="javascript:alert(1);">Test doser</a>
-        <a>Test mixer omrører</a>
-        <a>Test lem(danger)</a>
-        <a>Test fordeler omrører</a>
-        <a>Test cellesluser</a>
-        <a>Test blæser</a>
-    </div>
+    }
 </div>
+@section Styles
+{
+    <link rel="stylesheet" href="css/kitchen.css"/>
+}
