@@ -1,5 +1,6 @@
 using System.Diagnostics.Metrics;
 using AgrisysAirFeedingSystem.Models.DBModels;
+using Microsoft.EntityFrameworkCore;
 using LogLevel = Microsoft.Extensions.Logging.LogLevel;
 
 namespace AgrisysAirFeedingSystem.Models.DB;
