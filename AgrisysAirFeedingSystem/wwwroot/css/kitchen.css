@@ -1,0 +1,58 @@
+﻿#blower-icon {
+    width: 20%;
+    height: auto;
+}
+#blower-pipe {
+    display: inline-block;
+    border: solid #000 3px;
+    width: 70%;
+}
+#blower-pipe p {
+    margin: 0 1rem;
+    display: block;
+    text-align: center;
+}
+#mixer-trap, #supplier-sluice {
+    width: 10%;
+    height: 30px;
+    border: solid 3px;
+    margin-left: 45%;
+}
+#pipe-container {
+    position: relative;
+}
+#pipe-doser {
+    position: absolute;
+    top: 20%;
+    left: 20%;
+}
+#supplier-container, #mixer-container {
+    position: relative;
+}
+#supplier-container p, #mixer-container p {
+    text-align: center;
+    position: absolute;
+    width: 100%;
+    top: 20%;
+}
+.bucket {
+    display: block;
+    margin-left: 10%;
+}
+.kitchen-btn {
+    margin: 1rem;
+    display: block;
+}
+.silo-container p {
+    text-align: center;
+}
+.silo-container img {
+    margin: 0 5%;
+}
+.stirrer-icon {
+    position: absolute;
+    width: 15%;
+    height: auto;
+    top: 60%;
+    left: 42.5%;
+}
