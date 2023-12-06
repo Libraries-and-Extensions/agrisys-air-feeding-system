@@ -582,6 +582,9 @@ class nodeDataFaller {
      * @param {doubleLinkedTreeNode} startNode
      */
     traverse(startNode) {
+        if (startNode === undefined) {
+            throw new Error("start node must be root");
+        }        
         /** @type {[doubleLinkedTreeNode]} */
         let inputs =  [startNode]        
         
@@ -592,6 +595,7 @@ class nodeDataFaller {
             for (let i = 0; i < inputs.length; i++) {
                 let node = inputs[i];
                 let children = node.children;
+                if (node.children === undefined) continue;
                 for (let j = 0; j < children.length; j++) {
                     let child = children[j];
                     
@@ -687,6 +691,11 @@ function startConnection(){
     let dataFiller = new nodeDataFaller();
     /** @type {[HTMLElement]} */
     let targets =  Array.from(document.querySelectorAll("[data-sensor-key]"));
+    
+    if (targets.length === 0) {
+        console.log("no targets found");
+        return;
+    }
     
     let result = traverser.traverse(targets, 
         (node) => targets.includes(node));
