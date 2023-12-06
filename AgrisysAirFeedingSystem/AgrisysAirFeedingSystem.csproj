@@ -27,6 +27,7 @@
         <Content Include="..\.dockerignore">
             <Link>.dockerignore</Link>
         </Content>
+        <Content Remove="Areas\Kitchen\Pages\_ViewStart.cshtml" />
     </ItemGroup>
 
     <ItemGroup>
@@ -35,6 +36,7 @@
 
     <ItemGroup>
       <Folder Include="Database\" />
+      <Folder Include="Views\Kitchen\" />
     </ItemGroup>
 
 </Project>

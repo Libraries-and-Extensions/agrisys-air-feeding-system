@@ -64,15 +64,15 @@ public class AgrisysDBSeeder
         context.Mixtures.AddRange(mixtures);
 
 
-        var Areas = new List<Area>();
+        var areas = new List<Area>();
 
-        Areas.Add(new Area
+        areas.Add(new Area
         {
             Name = "test"
         });
 
 
-        context.Areas.AddRange(Areas);
+        context.Areas.AddRange(areas);
 
         var setPoints = new List<MixtureSetpoint>();
 
@@ -126,7 +126,7 @@ public class AgrisysDBSeeder
             BeforeClose = 100,
             pigCount = 5,
             pigAge = 2,
-            Area = Areas[0],
+            Area = areas[0],
             Mixture = mixtures[0]
         });
 
@@ -139,7 +139,7 @@ public class AgrisysDBSeeder
             BeforeClose = 100,
             pigCount = 10,
             pigAge = 2,
-            Area = Areas[0],
+            Area = areas[0],
             Mixture = mixtures[1]
         });
 
@@ -166,93 +166,114 @@ public class AgrisysDBSeeder
         context.Sensors.Add(new Sensor
         {
             Entity = blower,
-            Name = "tmp"
+            Name = "blower_tmp"
         });
 
         context.Sensors.Add(new Sensor
         {
             Entity = blower,
-            Name = "RPM"
+            Name = "blower_RPM"
         });
 
-        var distributer = new Entity
+        context.Sensors.Add(new Sensor
+        {
+            Entity = blower,
+            Name = "blower_pressure"
+        });
+
+        var distributor = new Entity
         {
             EntityType = EntityType.Distribute,
-            Name = "Kitchen Distributer",
+            Name = "Kitchen Distributor",
             Group = kitchen
         };
 
-        context.Entities.Add(distributer);
+        context.Entities.Add(distributor);
 
         context.Sensors.Add(new Sensor
         {
-            Entity = distributer,
-            Name = "fill"
+            Entity = distributor,
+            Name = "distributor_mixing",
+            min = 0,
+            max = 1
         });
 
         context.Sensors.Add(new Sensor
         {
-            Entity = distributer,
-            Name = "weight"
+            Entity = distributor,
+            Name = "distributor_weight"
         });
 
 
-        var Mixer = new Entity
+        var mixer = new Entity
         {
             EntityType = EntityType.Distribute,
             Name = "Kitchen Mixer",
             Group = kitchen
         };
 
-        context.Entities.Add(Mixer);
+        context.Entities.Add(mixer);
 
         context.Sensors.Add(new Sensor
         {
-            Entity = Mixer,
-            Name = "fill"
+            Entity = mixer,
+            Name = "mixer_mixing",
+            min = 0,
+            max = 1
         });
 
         context.Sensors.Add(new Sensor
         {
-            Entity = Mixer,
-            Name = "weight"
+            Entity = mixer,
+            Name = "mixer_weight"
         });
 
 
-        var Hatch1 = new Entity
+        var hatch1 = new Entity
         {
             EntityType = EntityType.Distribute,
-            Name = "Kitchen_Hatch1",
+            Name = "kitchen_hatch",
             Group = kitchen
         };
 
-        context.Entities.Add(Hatch1);
+        context.Entities.Add(hatch1);
 
         context.Sensors.Add(new Sensor
         {
-            Entity = Hatch1,
-            Name = "status"
+            Entity = hatch1,
+            Name = "hatch_status"
         });
 
-        var Cellulose = new Entity
+        var cellsluice = new Entity
         {
             EntityType = EntityType.Distribute,
-            Name = "Kitchen_Cellulose",
+            Name = "Kitchen_Cellsluice",
             Group = kitchen
         };
 
-        context.Entities.Add(Cellulose);
+        context.Entities.Add(cellsluice);
 
         context.Sensors.Add(new Sensor
         {
-            Entity = Cellulose,
-            Name = "RPM"
+            Entity = cellsluice,
+            Name = "cellsluice_rpm"
         });
 
-        context.Sensors.Add(new Sensor
+        var doser = new Entity
+            {
+                Name = "kitchen_doser",
+                Group = kitchen,
+                EntityType = EntityType.Distribute
+            };
+        
+        context.Add(doser);
+
+        context.Add(new Sensor
         {
-            Entity = Cellulose,
-            Name = "TMP"
+            Entity = doser,
+            Name = "doser_RPM",
+            max = 200,
+            min = 0
         });
     }
 }

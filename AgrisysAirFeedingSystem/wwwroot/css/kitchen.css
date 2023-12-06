@@ -12,7 +12,7 @@
     display: block;
     text-align: center;
 }
-#mixer-trap, #supplier-sluice {
+#mixer-trap, #distributor-sluice {
     width: 10%;
     height: 30px;
     border: solid 3px;
@@ -26,10 +26,10 @@
     top: 20%;
     left: 20%;
 }
-#supplier-container, #mixer-container {
+#distributor-container, #mixer-container {
     position: relative;
 }
-#supplier-container p, #mixer-container p {
+#distributor-container p, #mixer-container p {
     text-align: center;
     position: absolute;
     width: 100%;
@@ -49,10 +49,29 @@
 .silo-container img {
     margin: 0 5%;
 }
-.stirrer-icon {
+#mixer-stirrer-icon, #distributor-stirrer-icon {
     position: absolute;
     width: 15%;
     height: auto;
     top: 60%;
     left: 42.5%;
+}
+.hatch_status0{
+    background-color: black;
+}
+.hatch_status1{
+    background-color: red;
+}
+
+/*** animations***/
+@-webkit-keyframes rotate {
+    from {
+        -webkit-transform: rotate(0deg);
+    }
+    to {
+        -webkit-transform: rotate(360deg);
+    }
+}
+.rotating1 {
+    -webkit-animation: rotate 5s linear infinite;
 }

@@ -2,7 +2,7 @@
 
 namespace AgrisysAirFeedingSystem.Controllers;
 
-public class KitchenController : Controller
+public class TestKitchenController : Controller
 {
     public IActionResult Index()
     {

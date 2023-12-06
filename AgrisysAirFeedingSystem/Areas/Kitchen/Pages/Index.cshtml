@@ -1,12 +1,25 @@
 ﻿@page
 @using AgrisysAirFeedingSystem.Models.DBModels
+@using AgrisysAirFeedingSystem.Utils.LiveUpdate.Formatter
+@using AgrisysAirFeedingSystem.Utils.LiveUpdate.Handler
 @model AgrisysAirFeedingSystem.Areas.Kitchen.Pages.Index
 
 @{
     ViewData["Title"] = "Kitchen";
 }
 
-<div class="row">
+<div class="row" data-sensor-hub="/SensorHub">
+	@{
+		var statuses = new Dictionary<int, string>()
+		{
+			{ 0, "Off" },
+			{ 1, "On" },
+			{ 2, "Error" },
+			{ 3, "Warning" },
+			{ 4, "Info" },
+			{ 5, "Debug" },
+		};
+	}
     <div class="col-md-4">
         <div class="row">
             @{
@@ -23,27 +36,29 @@
         <p>Doser action view:</p>
         <div id="pipe-container">
             <img width="90%" height="auto" src="images/pipe.png" alt="Icon of dosage supplying pipe"/>
-            <img width="15%" height="auto" id="pipe-doser" src="images/spinmechanism.png" alt="Icon of doser mechanism"/>
+            <img sensor-name="doser_RPM" sensor-handler="@(new CustomHandler())" width="15%" height="auto" id="pipe-doser" src="images/spinmechanism.png" alt="Icon of doser mechanism"/>
         </div>
     </div>
     <div class="col-md-4">
         <div id="mixer-container">
             <img width="80%" height="auto" class="bucket" src="images/bucket.png" alt="Icon of mixer"/>
-            <p><span>###</span> kg</p>
-            <img class="stirrer-icon" src="images/spinmechanism.png" alt="Icon of stirrer in mixer"/>
-            <div id="mixer-trap"></div>
+            <p sensor-name="mixer_weight" sensor-handler="@(new ContentHandler(suffix: " kg"))" sensor-format="@(new NumberFormatter(1000, 0))">###</p>
+            <img sensor-name="mixer_mixing" sensor-handler="@(new CssClassHandler("rotating{value}"))" id="mixer-stirrer-icon" src="images/spinmechanism.png" alt="Icon of stirrer in mixer"/>
+            <div id="mixer-trap" sensor-name="hatch_status" sensor-handler="@(new CssClassHandler("hatch_status{value}"))"></div>
         </div>
-        <div id="supplier-container">
-            <img width="80%" height="auto" class="bucket" src="images/bucket.png" alt="Icon of supplier (fordeler)"/>
-            <p><span>###</span> kg</p>
-            <img class="stirrer-icon" src="images/spinmechanism.png" alt="Icon of stirrer in supplier"/>
-            <div id="supplier-sluice"></div>
+        <div id="distributor-container">
+            <img width="80%" height="auto" class="bucket" src="images/bucket.png" alt="Icon of distributor (fordeler)"/>
+            <p sensor-name="distributor_weight" sensor-handler="@(new ContentHandler(suffix: " kg"))" sensor-format="@(new NumberFormatter(1000, 0))">###</p>
+            <img sensor-name="distributor_mixing" sensor-handler="@(new CssClassHandler("rotating{value}"))" id="distributor-stirrer-icon" src="images/spinmechanism.png" alt="Icon of stirrer in distributor"/>
+            <div id="distributor-sluice"></div>
         </div>
         <div id="blower-container">
             <img id="blower-icon" src="images/blower.png" alt="Icon of blower motor"/>
             <div id="blower-pipe">
-                <p><span id="blower-speed-value">spd</span>% <span id="blower-pipe-value">###</span> bar</p>
+                <p><span sensor-name="blower_RPM" sensor-handler="@(new ContentHandler(suffix: " RPM"))">RPM</span> / 
+                    <span sensor-name="blower_pressure" sensor-handler="@(new ContentHandler(suffix: " bar"))" id="blower-pipe-value">###</span></p>
             </div>
+            <p sensor-name="blower_tmp" sensor-handler="@(new ContentHandler(prefix: "Temp: "))">blower temp</p>
         </div>
     </div>
     @{
@@ -51,7 +66,7 @@
             <div class="col-md-4">
                 <a href="javascript:alert(1);" class="kitchen-btn btn btn-primary">Test doser</a>
                 <a href="javascript:alert(1);" class="kitchen-btn btn btn-primary">Test mixer stirrer</a>
-                <a href="javascript:alert('danger btn');" class="kitchen-btn btn btn-warning">Test mixer trap(danger)</a>
+                <a href="javascript:alert('danger btn');" class="kitchen-btn btn btn-warning">Test mixer hatch</a>
                 <a href="javascript:alert(1);" class="kitchen-btn btn btn-primary">Test supplier stirrer</a>
                 <a href="javascript:alert(1);" class="kitchen-btn btn btn-primary">Test cell sluice</a>
                 <a href="javascript:alert(1);" class="kitchen-btn btn btn-primary">Test blower</a>
@@ -62,4 +77,10 @@
 @section Styles
 {
     <link rel="stylesheet" href="css/kitchen.css"/>
+}
+@section Scripts 
+{
+    <script src="~/js/signalr/dist/browser/signalr.js"></script>
+    <script src="~/js/Utils/LiveUpdate.js"></script>
+    <script src="~/js/kitchen.js"></script>
 }
