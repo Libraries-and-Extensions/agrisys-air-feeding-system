@@ -1,4 +1,5 @@
-﻿using AgrisysAirFeedingSystem.Models.DB;
+﻿using AgrisysAirFeedingSystem.Controllers;
+using AgrisysAirFeedingSystem.Models.DB;
 using AgrisysAirFeedingSystem.Models.DBModels;
 using Microsoft.EntityFrameworkCore;
 
@@ -14,15 +15,15 @@ public class AgrisysDBSeeder
         if (context == null) throw new Exception("AgrisysDbContext is null");
 
         if (context.Database.GetPendingMigrations().Any()) context.Database.Migrate();
-
-        SeedLiveDataSensor(context);
-        SeedSettingsData(context);
+        
+        var hello = SeedSettingsData(context);
+        SeedLiveDataSensor(context,hello);
         context.SaveChanges();
     }
 
-    private static void SeedSettingsData(AgrisysDbContext context)
+    private static Group SeedSettingsData(AgrisysDbContext context)
     {
-        if (context.Silos.Any()) return;
+        if (context.Silos.Any()) return context.Groups.First();
 
         var silos = new List<Silo>();
         //populate Silo, Target, FeedingTime, Area, Mixture tables
@@ -144,13 +145,22 @@ public class AgrisysDBSeeder
         });
 
         context.Target.AddRange(targets);
+        
+        var kitchen = new Group { GroupType = GroupType.Kitchen };
+        
+        context.Kitchens.Add(new Kitchen
+        {
+            Name = "Kitchen0",
+            Group = kitchen
+        });
+
+        return kitchen;
     }
 
-    private static void SeedLiveDataSensor(AgrisysDbContext context)
+    private static void SeedLiveDataSensor(AgrisysDbContext context,Group kitchen)
     {
         if (context.Groups.Any()) return;
-
-        var kitchen = new Group { GroupType = GroupType.Kitchen };
+     
         context.Groups.Add(kitchen);
 
         var blower = new Entity
@@ -166,7 +176,17 @@ public class AgrisysDBSeeder
         context.Sensors.Add(new Sensor
         {
             Entity = blower,
-            Name = "tmp"
+            Name = blower.Name+"_status",
+            SensorType = SensorType.Status,
+            min = 0,
+            max = Enum.GetValues(typeof(SensorStatus)).Length
+        });
+        
+        context.Sensors.Add(new Sensor
+        {
+            Entity = blower,
+            Name = "Kitchen0_Blower0_RPM",
+            SensorType = SensorType.Temperature
         });
 
         context.Sensors.Add(new Sensor
@@ -178,9 +198,18 @@ public class AgrisysDBSeeder
         var distributer = new Entity
         {
             EntityType = EntityType.Distribute,
-            Name = "Kitchen Distributer",
+            Name = "Kitchen0_Distribute0",
             Group = kitchen
         };
+        
+        context.Sensors.Add(new Sensor
+        {
+            Entity = distributer,
+            Name = distributer.Name+"_status",
+            SensorType = SensorType.Status,
+            min = 0,
+            max = Enum.GetValues(typeof(SensorStatus)).Length
+        });
 
         context.Entities.Add(distributer);
 
@@ -199,10 +228,19 @@ public class AgrisysDBSeeder
 
         var Mixer = new Entity
         {
-            EntityType = EntityType.Distribute,
-            Name = "Kitchen Mixer",
+            EntityType = EntityType.Mixer,
+            Name = "Kitchen0_Mixer0",
             Group = kitchen
         };
+        
+        context.Sensors.Add(new Sensor
+        {
+            Entity = Mixer,
+            Name = Mixer.Name+"_status",
+            SensorType = SensorType.Status,
+            min = 0,
+            max = Enum.GetValues(typeof(SensorStatus)).Length
+        });
 
         context.Entities.Add(Mixer);
 
@@ -222,11 +260,20 @@ public class AgrisysDBSeeder
         var Hatch1 = new Entity
         {
             EntityType = EntityType.Distribute,
-            Name = "Kitchen_Hatch1",
+            Name = "Kitchen0_Hatch0",
             Group = kitchen
         };
 
         context.Entities.Add(Hatch1);
+        
+        context.Sensors.Add(new Sensor
+        {
+            Entity = Hatch1,
+            Name = Hatch1.Name+"_status",
+            SensorType = SensorType.Status,
+            min = 0,
+            max = Enum.GetValues(typeof(SensorStatus)).Length
+        });
 
         context.Sensors.Add(new Sensor
         {
@@ -237,12 +284,21 @@ public class AgrisysDBSeeder
         var Cellulose = new Entity
         {
             EntityType = EntityType.Distribute,
-            Name = "Kitchen_Cellulose",
+            Name = "Kitchen0_Cellulose0",
             Group = kitchen
         };
 
         context.Entities.Add(Cellulose);
 
+        context.Sensors.Add(new Sensor
+        {
+            Entity = Cellulose,
+            Name = Cellulose.Name+"_status",
+            SensorType = SensorType.Status,
+            min = 0,
+            max = Enum.GetValues(typeof(SensorStatus)).Length
+        });
+        
         context.Sensors.Add(new Sensor
         {
             Entity = Cellulose,

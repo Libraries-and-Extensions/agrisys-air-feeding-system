@@ -134,6 +134,26 @@ namespace AgrisysAirFeedingSystem.Migrations
                     b.ToTable("Groups");
                 });
 
+            modelBuilder.Entity("AgrisysAirFeedingSystem.Models.DBModels.Kitchen", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("INTEGER");
+
+                    b.Property<int>("GroupId")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("GroupId");
+
+                    b.ToTable("Kitchens");
+                });
+
             modelBuilder.Entity("AgrisysAirFeedingSystem.Models.DBModels.Mixture", b =>
                 {
                     b.Property<int>("MixtureId")
@@ -189,6 +209,9 @@ namespace AgrisysAirFeedingSystem.Migrations
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasColumnType("TEXT");
+
+                    b.Property<int>("SensorType")
+                        .HasColumnType("INTEGER");
 
                     b.Property<int?>("max")
                         .HasColumnType("INTEGER");
@@ -329,6 +352,17 @@ namespace AgrisysAirFeedingSystem.Migrations
                         .IsRequired();
 
                     b.Navigation("Area");
+                });
+
+            modelBuilder.Entity("AgrisysAirFeedingSystem.Models.DBModels.Kitchen", b =>
+                {
+                    b.HasOne("AgrisysAirFeedingSystem.Models.DBModels.Group", "Group")
+                        .WithMany()
+                        .HasForeignKey("GroupId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Group");
                 });
 
             modelBuilder.Entity("AgrisysAirFeedingSystem.Models.DBModels.Mixture", b =>

@@ -314,6 +314,7 @@ class CustomHandler extends dataHandler {
     }
 
     handleUpdate(update) {
+        console.log(update);
         // Dispatch the event.
         this.dispatch(
             {
@@ -592,6 +593,9 @@ class nodeDataFaller {
             for (let i = 0; i < inputs.length; i++) {
                 let node = inputs[i];
                 let children = node.children;
+                
+                if (children === undefined) continue
+                
                 for (let j = 0; j < children.length; j++) {
                     let child = children[j];
                     
