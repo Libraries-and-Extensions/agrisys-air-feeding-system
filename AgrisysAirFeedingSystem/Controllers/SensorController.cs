@@ -51,13 +51,13 @@ public class SensorController : Controller
             //create sensor update
             var sensorUpdate = new SensorUpdate()
             {
-                key = key,
+                Key = key,
                 Value = value,
                 TimeStamp = measurement.TimeStamp,
             };
 
             //send to group
-            await _hubContext.Clients.Group(sensorUpdate.key).SendAsync("valueUpdate",sensorUpdate);
+            await _hubContext.Clients.Group(sensorUpdate.Key).SendAsync("valueUpdate",sensorUpdate);
             
             //save to db
             _dbContext.Measurements.Add(measurement);

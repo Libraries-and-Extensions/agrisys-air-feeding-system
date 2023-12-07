@@ -14,12 +14,11 @@ public class CustomHandler : BaseHandler
         
         var data = new
         {
-            measurement.TimeStamp,
-            measurement.Value,
+            timestamp = measurement.TimeStamp,
+            value = measurement.Value,
             key=measurement.SensorId.ToString("X"),
             formatted = value
         }.ToJToken();
-        data["formatted"] = value;
         
         output.Attributes.SetAttribute("data-custom-initial", data.ToString(Formatting.None));
     }
