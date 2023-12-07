@@ -5,7 +5,7 @@ name: .NET
 
 on:
   push:
-    branches: [ "main" ]
+    branches: [ "main","AAFS-112-opret-github-actions-til-test-af-programmet" ]
   pull_request:
     branches: [ "main" ]
 
