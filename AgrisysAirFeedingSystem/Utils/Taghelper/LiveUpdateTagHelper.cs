@@ -62,6 +62,10 @@ public class LiveUpdateTagHelper : TagHelper
 
             if (lastMeasurement != null) value = Formatter.FormatInitialValue(lastMeasurement);
         }
+        else
+        {
+            if (lastMeasurement != null) value = lastMeasurement.Value.ToString();
+        }
         
         if (Handler != null)
         {

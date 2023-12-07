@@ -38,7 +38,8 @@
 	<p sensor-name="RPM" sensor-handler="@(new CustomHandler())" sensor-format="@(new LevelFormatter(statuses))"></p>
 </div>
 
+@section Scripts {
+    @{await Html.RenderPartialAsync("_LiveUpdateScripts"); }
+}
 
 
-<script src="~/js/signalr/dist/browser/signalr.js"></script>
-<script src="~/js/Utils/LiveUpdate.js"></script>

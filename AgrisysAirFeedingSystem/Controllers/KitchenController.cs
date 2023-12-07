@@ -2,9 +2,6 @@
 using AgrisysAirFeedingSystem.Models.DBModels;
 using AgrisysAirFeedingSystem.Models.viewModels;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
-using Newtonsoft.Json;
-using NuGet.Protocol;
 
 namespace AgrisysAirFeedingSystem.Controllers;
 
@@ -19,10 +16,10 @@ public class KitchenController : Controller
     
     public IActionResult List()
     {
-        var Kitchens = _context.Kitchens.ToList();
+        var kitchens = _context.Kitchens.ToList();
         List<KitchenViewModel> viewModels = new();
         
-        foreach (var kitchen in Kitchens)
+        foreach (var kitchen in kitchens)
         {
             var sensorsData = from sensor in _context.Sensors
                 join e in _context.Entities on sensor.EntityId equals e.EntityId
@@ -38,13 +35,18 @@ public class KitchenController : Controller
 
             
             var sensorData = sensorsData.FirstOrDefault();
+            
+            var statusMsg = "Inactive";
 
-            Console.WriteLine(sensorData.e.Name+ " " + (SensorStatus)sensorData.m.Value);
+            if (sensorData != null)
+            {
+                statusMsg = sensorData.e.Name+ " " + (SensorStatus)sensorData.m.Value;
+            }
             
             viewModels.Add(new KitchenViewModel
             {
                 kitchen = kitchen,
-                statusMsg = sensorData.e.Name+ " " + (SensorStatus)sensorData.m.Value,
+                statusMsg = statusMsg,
                 OperationMsg = "Not implemented"
             });
         }
