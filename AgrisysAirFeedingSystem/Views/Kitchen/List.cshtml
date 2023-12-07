@@ -1,0 +1,40 @@
+﻿@model IEnumerable<KitchenViewModel>
+
+@{
+	ViewBag.Title = "Kitchens";
+	Layout = "_Layout";
+}
+
+<h1>@ViewBag.Title</h1>
+
+@foreach(var kitchen in Model)
+{
+	<div class="card">
+		<div class="card-header">
+			Kitchen @kitchen.kitchen.Id
+		</div>
+		<div class="card-body">
+			<div class="card-text d-flex flex-md-row flex-column">
+				<div class="d-flex flex-md-nowrap flex-wrap gap-5 mb-lg-0 mb-3">
+					<div>
+						<div class="fw-bold">Kitchen name</div>
+						<div>@kitchen.kitchen.Name</div>
+					</div>
+					<div>
+						<div class="fw-bold">Kitchen status</div>
+						<div >@kitchen.statusMsg</div>
+					</div>
+					<div>
+						<div class="fw-bold">Kitchen operation</div>
+						<div >@kitchen.OperationMsg</div>
+					</div>
+					
+				</div>
+				<a href="@Url.Action("Index","Kitchen",new {kitchen.kitchen.Id})" class="btn btn-primary ms-md-auto">Go Kitchen</a>
+			</div>
+		</div>
+	</div>
+}
+
+
+

@@ -2,6 +2,7 @@
 using System.Net;
 using AgrisysAirFeedingSystem.Models.DB;
 using AgrisysAirFeedingSystem.Models.DBModels;
+using AgrisysAirFeedingSystem.Models.Extra;
 using AgrisysAirFeedingSystem.Models.LiveUpdate;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.SignalR;
@@ -38,13 +39,13 @@ public class SensorController : Controller
             
             if (sensor == null)
             {
-                return StatusCode((int) HttpStatusCode.NotFound);
+                return new ErrorResponse("Sensor Not found", (int) HttpStatusCode.NotFound);
             }
             
             //check if value is in range
             if (sensor.min > measurement.Value || sensor.max < measurement.Value)
             {
-                return StatusCode((int) HttpStatusCode.BadRequest);
+                return new ErrorResponse("Value out of range", (int) HttpStatusCode.BadRequest);
             }
             
             //create sensor update

@@ -20,6 +20,7 @@ public class AgrisysDbContext : DbContext
     public DbSet<Target> Target { get; set; }
     public DbSet<MixtureSetpoint> MixtureSetpoints { get; set; }
     public DbSet<Silo> Silos { get; set; }
+    public DbSet<Kitchen> Kitchens { get; set; }
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     {
@@ -35,6 +36,6 @@ public class AgrisysDbContext : DbContext
             .Property(b => b.EditLevel).HasDefaultValue(EditLevel.Info);
 
         modelBuilder.Entity<Mixture>().HasOne<Silo>(m => m.FirstSilo).WithMany().HasForeignKey(m => m.FirstSiloId);
-        modelBuilder.Entity<Mixture>().HasOne<Silo>(m => m.SecondSilo).WithMany().HasForeignKey(m => m.SecondSiloId);
+        modelBuilder.Entity<Mixture>().HasOne<Silo>(m => m.SecondSilo).WithMany().HasForeignKey(m => m.SecondSiloId); 
     }
 }

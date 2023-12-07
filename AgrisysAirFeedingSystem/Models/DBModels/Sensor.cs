@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using AgrisysAirFeedingSystem.Controllers;
 
 namespace AgrisysAirFeedingSystem.Models.DBModels;
 
@@ -14,4 +15,5 @@ public class Sensor
     
     // Navigational property for sensorvalues
     public ICollection<SensorMeasurement> SensorValues { get; set; }
+    public SensorType SensorType { get; set; }
 }

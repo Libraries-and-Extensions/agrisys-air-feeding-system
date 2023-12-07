@@ -52,7 +52,7 @@ public class LiveUpdateTagHelper : TagHelper
         
         attribute.Add("data-sensor-key",sensor.SensorId.ToString("X"));
         
-        var value = "no value";
+        var value = "no_value";
         
         if (Formatter != null)
         {

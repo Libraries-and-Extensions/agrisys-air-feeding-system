@@ -33,8 +33,4 @@
         <Compile Remove="Data\ApplicationDbContext.cs"/>
     </ItemGroup>
 
-    <ItemGroup>
-      <Folder Include="Database\" />
-    </ItemGroup>
-
 </Project>
