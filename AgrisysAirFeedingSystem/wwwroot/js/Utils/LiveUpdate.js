@@ -1,7 +1,13 @@
 ﻿/**
  * A number, or a string containing a number.
- * @typedef {{key: string, timeStamp: string, value: int}} valueUpdate
+ * @typedef {{key: string, timeStamp: string, value: int}} valueUpdateSignalR
+ * @typedef {{key: string, timeStamp: string, value: int,formatted:string,target:HTMLElement}} ValueUpdateEventDetail
  * @typedef {{key: string, handler:dataHandler}} keyHandler
+ */
+
+/**
+ * @typedef {CustomEvent<ValueUpdateEventDetail>} ValueUpdateEvent
+ * @property {ValueUpdateEventDetail} detail
  */
 
 class Connection {
@@ -178,14 +184,14 @@ class dataHandler {
 
     /**
      * Handle the incoming data
-     * @param {valueUpdate} value
+     * @param {valueUpdateSignalR} value
      */
     handleUpdate(value) {
         console.log(value);
     }
 
     /**
-     * @param {valueUpdate} update
+     * @param {valueUpdateSignalR} update
      * @returns {string}
      */
     formatHelper (update) {
@@ -225,7 +231,6 @@ class InsertContentHandler extends dataHandler {
         }
         else if (this.prefix == null || this.suffix == null)
         {
-
             if (this.prefix != null) output += this.prefix;
             output += value;
             if (this.suffix != null) output += this.suffix;
@@ -305,14 +310,15 @@ class CustomHandler extends dataHandler {
 
         if (initialStr !== undefined) {
             initial = JSON.parse(initialStr);
-            initial.TimeStamp = new Date(initial.TimeStamp);
+            initial.timestamp = new Date(initial.timestamp);
         }
 
         delete this.target.dataset["customInitial"];
 
-        this.dispatch({target, initial}, "customHandleInit");
+        this.dispatch({target, ...initial});
     }
 
+    
     handleUpdate(update) {
         // Dispatch the event.
         this.dispatch(
@@ -323,13 +329,17 @@ class CustomHandler extends dataHandler {
             }
         )
     }
-    
+    /**
+     * provides a way to insert data into the content of an element
+     * @param {object} event
+     * @param {string} name
+     */
     dispatch(event,name = "valueUpdate"){
         // Dispatch the event.
         this.target.dispatchEvent(new CustomEvent(name,
             {
                 bubbles: true,
-                ...event
+                detail: event
             }
         ));
     }
@@ -340,7 +350,7 @@ class CustomHandler extends dataHandler {
 class dataFormatter {
     /**
      *
-     * @param {valueUpdate} update
+     * @param {valueUpdateSignalR} update
      * @returns {string}
      */
     format(update) {
