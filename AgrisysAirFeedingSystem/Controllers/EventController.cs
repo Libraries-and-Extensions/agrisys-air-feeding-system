@@ -14,18 +14,34 @@ public class EventController : Controller
     {
         _dbContext = dbContext;
     }
-    public IActionResult Index(EditLevel? level)
+    public IActionResult Index(EditLevel? level,int pageCount = 20)
     {
         Console.WriteLine("level {0}",level);
         
         var models = _dbContext.Events
             .Include(e => e.Entity)
-            .Where(e => level == null || e.EditLevel == level).OrderByDescending((e => e.TimeStamp));
+            .Where(e => level == null || e.EditLevel == level)
+            .OrderByDescending((e => e.TimeStamp))
+            .Take(pageCount);
         
         return View(new EventListViewModel()
         {
             Events = models,
-            Level = level
+            Level = level,
+            PageCount = pageCount
         });
+    }
+    public IActionResult IndexPartial(int offset,EditLevel? level, int fetchCount = 10)
+    {
+        Console.WriteLine("level {0}",level);
+        
+        var models = _dbContext.Events
+            .Include(e => e.Entity)
+            .Where(e => level == null || e.EditLevel == level)
+            .OrderByDescending((e => e.TimeStamp))
+            .Skip(offset)
+            .Take(fetchCount);
+        
+        return View(models);
     }
 }

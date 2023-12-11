@@ -1,5 +1,4 @@
 ﻿@using AgrisysAirFeedingSystem.Models.DBModels
-@using AgrisysAirFeedingSystem.Utils.LiveUpdate.Handler
 @model EventListViewModel
 
 @{
@@ -9,8 +8,9 @@
 
 <h1>@ViewBag.Title</h1>
 
-<form id="eventFilter" asp-action="Index" class="d-flex gap-3">
+<form id="eventFilter" asp-action="Index" method="get" class="d-flex gap-3">
   <select asp-for="Level" name="level" class="form-select w-auto ms-auto" aria-label="Default select example">
+    <option selected value="">All</option>
     @foreach (var val in Enum.GetValues(typeof(EditLevel)))
     {
       <option>@val.ToString()</option>
@@ -22,43 +22,48 @@
 <table class="table" id="eventTable" hub-name="/EventsHub">
   <thead>
   <tr>
-    <th scope="col">#</th>
+    <th scope="col">Timestamp</th>
     <th scope="col">Event Level</th>
     <th scope="col">Entity Name</th>
     <th scope="col">Description</th>
   </tr>
   </thead>
-  <tbody>
-  @foreach (var eventEntry in Model.Events)
-  {
-    <tr class="@GetEventClass(eventEntry.EditLevel)">
-      <th scope="row">@(++i)</th>
-      <td>@eventEntry.EditLevel</td>
-      <td>@eventEntry.Entity.Name</td>
-      <td>@eventEntry.EventDesc</td>
-    </tr>
-  }
+  <tbody id="tableBody">
+  <partial name="IndexPartial" model="@Model.Events"/>
   </tbody>
 </table>
-
-@functions
-{
-  private int i;
-  
-  private static string GetEventClass(EditLevel level)
-  {
-    return level switch
-    {
-      EditLevel.Info => "",
-      EditLevel.Warning => "text-warning",
-      EditLevel.Error => "text-danger",
-      _ => throw new ArgumentOutOfRangeException(nameof(level), level, null)
-    };
-  }
-}
+<form id="loadMore" asp-action="IndexPartial">
+  <input hidden name="fetchCount" type="number" value="10"/>
+  <input hidden name="offset" type="number" value="@Model.Events.Count()"/>
+  <button class="btn btn-primary" type="submit">load more</button>
+</form>
 
 @section Scripts
 {
+  <!--suppress JSCheckFunctionSignatures -->
+<script type="text/javascript">
+    let formLoadMore = document.getElementById("loadMore");
+    let offsetInput = formLoadMore.querySelector("#loadMore > input[name='offset']");
+    
+    formLoadMore.addEventListener("submit",(e)=>{
+      e.preventDefault();
+      let formData = new FormData(formLoadMore);
+      let url = formLoadMore.getAttribute("action");
+      let method = formLoadMore.getAttribute("method");
+     
+      url += "?" + new URLSearchParams(formData).toString();
+      
+      fetch(url,{
+        method: method,
+        body: formData
+      }).then(response => response.text())
+        .then(text => {
+          tableBody.innerHTML += text;
+          offsetInput.setAttribute("value",tableBody.children.length);
+        })
+    });
+      
+  </script>
   <script type="text/javascript">
     let levelCSS = [
       "",
@@ -73,14 +78,8 @@
     ]
     
     let eventTable = document.getElementById("eventTable");
-   
     let tableBody = eventTable.children[1]
-    
-    let index = +tableBody.children[tableBody.children.length-1].children[0].innerText 
-    
-    console.log(index)
-    
-    
+
     function simpleCreateElement(tag,value){
         let element = document.createElement(tag)
             
@@ -93,9 +92,8 @@
       
       let root = document.createElement("tr")
       root.classList.add(levelCSS[evt.detail.level]);
-      
  
-       let numbering = simpleCreateElement("th",++index);
+       let numbering = simpleCreateElement("th",evt.detail.timeStamp);
        numbering.setAttribute("scope","row");
       
       root.appendChild(numbering);
@@ -103,7 +101,11 @@
       root.appendChild(simpleCreateElement("td",evt.detail.entityName));
       root.appendChild(simpleCreateElement("td",evt.detail.formatted));
       
-      tableBody.appendChild(root)
+      tableBody.insertBefore(root, tableBody.firstChild);
+      
+      if (tableBody.children.length > 100) {
+        tableBody.removeChild(tableBody.lastChild);
+      }
     })
   </script>
   @{ await Html.RenderPartialAsync("_LiveUpdateScripts"); }

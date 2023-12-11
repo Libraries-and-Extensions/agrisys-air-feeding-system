@@ -2,9 +2,9 @@
 
 namespace AgrisysAirFeedingSystem.Models.viewModels;
 
-public class EventListViewModel
+public class EventListPartialViewModel
 {
-    public IEnumerable<Event> Events { get; set; }
+    public IQueryable<Event> Events { get; set; }
     public EditLevel? Level { get; set; }
-    public int PageCount { get; set; }
+    public int offset { get; set; }
 }
