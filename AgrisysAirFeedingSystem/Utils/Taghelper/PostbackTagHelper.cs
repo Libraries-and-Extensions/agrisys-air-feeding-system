@@ -51,6 +51,7 @@ public class PostbackTagHelper : Microsoft.AspNetCore.Razor.TagHelpers.TagHelper
         
         if (MethodEnum.HasValue) output.Attributes.SetAttribute("data-postback-method", MethodEnum.Value.ToString());
 
+        //if the method is get then we need to add the request data to the url instead of the body
         if (MethodEnum == HttpMethodEnum.GET)
         {
             output.Attributes.SetAttribute("data-postback", urlHelper.Action(Action, Controller, PageUrlValues));
@@ -59,6 +60,7 @@ public class PostbackTagHelper : Microsoft.AspNetCore.Razor.TagHelpers.TagHelper
         {
             output.Attributes.SetAttribute("data-postback", urlHelper.Action(Action, Controller));
 
+            // Add the request data if any
             if (PageUrlValues.Count == 0) return;
             
             var stringB = new StringBuilder();
