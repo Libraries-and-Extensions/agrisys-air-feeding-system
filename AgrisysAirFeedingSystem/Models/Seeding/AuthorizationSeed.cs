@@ -16,13 +16,13 @@ public class AuthorizationSeed
     private static readonly string[] _managerClaims =
     {
         "mixture:create", "mixture:delete", "feeding_time:read", "feeding_time:create", "feeding_time:update",
-        "feeding_time:delete", "manual_control"
+        "feeding_time:delete", "manual_control", "role:read", "role:assign"
     };
 
     private static readonly string[] _adminClaims =
     {
-        "user:create", "user:read", "user:update", "user:delete", "role:create", "role:read", "role:update",
-        "role:delete", "role:assign", "farm_database:read", "farm_database:update", "farm_database:delete",
+        "user:create", "user:read", "user:update", "user:delete", "role:create", "role:update",
+        "role:delete", "farm_database:read", "farm_database:update", "farm_database:delete",
         "farm_database:create", "farm_database:read"
     };
 
