@@ -32,6 +32,9 @@
 					<li class="nav-item">
 						<a class="nav-link text-dark" asp-area="" asp-controller="Admin" asp-action="Index">Administration</a>
 					</li>
+					<li class="nav-item">
+						<a class="nav-link text-dark" asp-area="" asp-controller="User" asp-action="List">Users</a>
+					</li>
 				</ul>
 				<partial name="_LoginPartial"/>
 			</div>
@@ -42,6 +45,18 @@
 	<main role="main" class="pb-3">
 		@RenderBody()
 	</main>
+
+	<div class="toast-container position-fixed bottom-0 end-0 p-3">
+		<div id="liveToast" class="toast" role="alert" aria-live="assertive" aria-atomic="true">
+			<div class="toast-header">
+				<strong id="toastTitle" class="me-auto">Bootstrap</strong>
+				<button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
+			</div>
+			<div id="toastBody" class="toast-body">
+				Hello, world! This is a toast message.
+			</div>
+		</div>
+	</div>
 </div>
 
 <footer class="border-top footer text-muted">

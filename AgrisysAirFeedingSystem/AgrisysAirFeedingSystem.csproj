@@ -33,4 +33,10 @@
         <Compile Remove="Data\ApplicationDbContext.cs"/>
     </ItemGroup>
 
+    <ItemGroup>
+      <Folder Include="Controllers\api\" />
+      <Folder Include="Models\Enum\" />
+      <Folder Include="Views\Shared\partial\" />
+    </ItemGroup>
+
 </Project>
