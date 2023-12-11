@@ -55,6 +55,7 @@ app.UseAuthorization();
 app.MapControllerRoute(
     "default",
     "{controller=Home}/{action=Index}/{id?}");
+
 app.MapRazorPages();
 
 app.MapHub<SensorHub>("/SensorHub");

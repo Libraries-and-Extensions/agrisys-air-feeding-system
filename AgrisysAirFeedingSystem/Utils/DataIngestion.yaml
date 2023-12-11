@@ -1,0 +1,58 @@
+﻿openapi: 3.0.3
+info:
+  title: Title
+  description: Title
+  version: 1.0.0
+servers:
+  - url: 'http://localhost:5294'
+    description: Local server
+paths:
+  /Sensor/Collect:
+    get:
+      summary: "GET Sensor/Collect"
+      parameters:
+        - name: "key"
+          in: "path"
+          required: false
+          schema:
+            type: string
+        - name: "value"
+          in: "path"
+          required: false
+          schema:
+            type: integer
+      responses:
+        "204":
+          description: "OK"
+        "404":
+            description: "Entity not found"
+        "400":
+            description: "Value is out ouf range"
+          
+  /api/Event/AcceptEvent: 
+    get:
+      summary: "GET api/Event/AcceptEvent"
+      parameters:
+        - name: "EntityID"
+          in: "path"
+          required: true
+          schema:
+            type: integer
+        - name: "msg"
+          in: "path"
+          required: true
+          schema:
+            type: string
+        - name: "level"
+          in: "path"
+          required: true
+          schema:
+            type: string
+            enum: [ "info", "warning","error" ]
+            default: "info"
+      responses:
+        "204":
+          description: "OK"
+        "404":
+         description: "Entity not found"
+  

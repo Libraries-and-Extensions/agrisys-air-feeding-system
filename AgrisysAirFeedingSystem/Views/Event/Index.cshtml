@@ -1,0 +1,57 @@
+﻿@using AgrisysAirFeedingSystem.Models.DBModels
+@model EventListViewModel
+
+@{
+	ViewBag.Title = "Event Log";
+	Layout = "_Layout";
+}
+
+<h1>@ViewBag.Title</h1>
+
+<form id="eventFilter" asp-action="Index" class="d-flex gap-3">
+  <select asp-for="Level" name="level" class="form-select w-auto ms-auto" aria-label="Default select example">
+    @foreach (var val in Enum.GetValues(typeof(EditLevel)))
+    {
+      <option>@val.ToString()</option>
+    }
+  </select>
+  <button type="submit" class="btn btn-primary">submit</button>
+</form>
+
+<table class="table" id="eventTable">
+  <thead>
+  <tr>
+    <th scope="col">#</th>
+    <th scope="col">Event Level</th>
+    <th scope="col">Entity Name</th>
+    <th scope="col">Description</th>
+  </tr>
+  </thead>
+  <tbody>
+  @foreach (var eventEntry in Model.Events)
+  {
+    <tr class="@GetEventClass(eventEntry.EditLevel)">
+      <th scope="row">@(++i)</th>
+      <td>@eventEntry.EditLevel</td>
+      <td>@eventEntry.Entity.Name</td>
+      <td>@eventEntry.EventDesc</td>
+    </tr>
+  }
+  </tbody>
+</table>
+
+@functions
+{
+  private int i;
+  
+  private static string GetEventClass(EditLevel level)
+  {
+    return level switch
+    {
+      EditLevel.Info => "",
+      EditLevel.Warning => "text-warning",
+      EditLevel.Error => "text-danger",
+      _ => throw new ArgumentOutOfRangeException(nameof(level), level, null)
+    };
+  }
+}

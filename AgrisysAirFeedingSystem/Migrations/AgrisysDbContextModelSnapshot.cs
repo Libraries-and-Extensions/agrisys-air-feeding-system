@@ -75,6 +75,9 @@ namespace AgrisysAirFeedingSystem.Migrations
                         .IsRequired()
                         .HasColumnType("TEXT");
 
+                    b.Property<DateTime>("TimeStamp")
+                        .HasColumnType("TEXT");
+
                     b.HasKey("EventId");
 
                     b.HasIndex("EntityId");
