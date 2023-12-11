@@ -1,4 +1,5 @@
 ﻿@using AgrisysAirFeedingSystem.Models.DBModels
+@using AgrisysAirFeedingSystem.Utils.LiveUpdate.Handler
 @model EventListViewModel
 
 @{
@@ -18,7 +19,7 @@
   <button type="submit" class="btn btn-primary">submit</button>
 </form>
 
-<table class="table" id="eventTable">
+<table class="table" id="eventTable" hub-name="/EventsHub">
   <thead>
   <tr>
     <th scope="col">#</th>
@@ -54,4 +55,57 @@
       _ => throw new ArgumentOutOfRangeException(nameof(level), level, null)
     };
   }
+}
+
+@section Scripts
+{
+  <script type="text/javascript">
+    let levelCSS = [
+      "",
+      "text-warning",
+      "text-danger"
+    ]
+    
+    let levelOptions = [
+       "Info",
+       "Warning",
+       "Error"
+    ]
+    
+    let eventTable = document.getElementById("eventTable");
+   
+    let tableBody = eventTable.children[1]
+    
+    let index = +tableBody.children[tableBody.children.length-1].children[0].innerText 
+    
+    console.log(index)
+    
+    
+    function simpleCreateElement(tag,value){
+        let element = document.createElement(tag)
+            
+        element.innerText = value;
+        return element
+    }
+    
+    eventTable.addEventListener("valueUpdate",evt => {
+         console.log(evt)
+      
+      let root = document.createElement("tr")
+      root.classList.add(levelCSS[evt.detail.level]);
+      
+ 
+       let numbering = simpleCreateElement("th",++index);
+       numbering.setAttribute("scope","row");
+      
+      root.appendChild(numbering);
+      root.appendChild(simpleCreateElement("td",levelOptions[evt.detail.level]));
+      root.appendChild(simpleCreateElement("td",evt.detail.entityName));
+      root.appendChild(simpleCreateElement("td",evt.detail.formatted));
+      
+      tableBody.appendChild(root)
+    })
+  </script>
+  @{ await Html.RenderPartialAsync("_LiveUpdateScripts"); }
+
 }

@@ -31,9 +31,9 @@ paths:
           
   /api/Event/AcceptEvent: 
     get:
-      summary: "GET api/Event/AcceptEvent"
+      summary: "GET api/Event/Collect"
       parameters:
-        - name: "EntityID"
+        - name: "entityId"
           in: "path"
           required: true
           schema:

@@ -59,5 +59,6 @@ app.MapControllerRoute(
 app.MapRazorPages();
 
 app.MapHub<SensorHub>("/SensorHub");
+app.MapHub<EventHub>("/EventsHub");
 
 app.Run();
