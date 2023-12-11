@@ -25,13 +25,13 @@
 
     element.addEventListener("change", function () {
         console.log(element.value);
-
-        data["old"+parameter] = oldValue;
-        data[parameter] = element.value;
-        oldValue = element.value;
         
         if (fetchMethod === "GET") {
             url += "?" + parameter + "=" + element.value;
+        }else{
+            data["old"+parameter] = oldValue;
+            data[parameter] = element.value;
+            oldValue = element.value;
         }
 
         fetch(url, {
