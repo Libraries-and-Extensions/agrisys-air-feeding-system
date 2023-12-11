@@ -7,8 +7,8 @@ namespace AgrisysAirFeedingSystem.Models.Extra;
 
 public class ErrorResponse : ActionResult
 {
-    private string msg { get; set; }
-    private int statusCode { get; set; }
+    public string Msg { get; set; }
+    public int StatusCode { get; set; }
     
     public ErrorResponse(string msg, HttpStatusCode statusCode) : this(msg,(int) statusCode)
     {
@@ -16,8 +16,8 @@ public class ErrorResponse : ActionResult
     
     public ErrorResponse(string msg, int statusCode) 
     {
-        this.msg = msg;
-        this.statusCode = statusCode;
+        this.Msg = msg;
+        this.StatusCode = statusCode;
     }
     
     public override void ExecuteResult(ActionContext context)
@@ -29,9 +29,9 @@ public class ErrorResponse : ActionResult
 
         var httpContext = context.HttpContext;
         
-        httpContext.Response.StatusCode = statusCode;
+        httpContext.Response.StatusCode = StatusCode;
         
-        var response = new {msg};
+        var response = new { msg = Msg};
         
         httpContext.Response.Body.WriteAsync(Encoding.UTF8.GetBytes(response.ToJson()));
     }

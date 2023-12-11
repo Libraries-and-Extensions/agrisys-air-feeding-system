@@ -6,11 +6,11 @@ using Microsoft.AspNetCore.Mvc.Routing;
 using Microsoft.AspNetCore.Mvc.ViewFeatures;
 using Microsoft.AspNetCore.Razor.TagHelpers;
 
-namespace AgrisysAirFeedingSystem.Utils.Taghelper;
+namespace AgrisysAirFeedingSystem.Utils.TagHelper;
 
 
 [HtmlTargetElement(Attributes = "long-press")]  
-public class LongPressTaghelper : TagHelper
+public class LongPressTagHelper : Microsoft.AspNetCore.Razor.TagHelpers.TagHelper
 {
     [HtmlAttributeName("long-press")]
     [AspMvcAction, LocalizationRequired(false)]
@@ -36,7 +36,7 @@ public class LongPressTaghelper : TagHelper
     
     private readonly IUrlHelperFactory _urlFactory;
 
-    public LongPressTaghelper(IUrlHelperFactory urlHelperFactory)
+    public LongPressTagHelper(IUrlHelperFactory urlHelperFactory)
     {
         _urlFactory = urlHelperFactory;
     }

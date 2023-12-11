@@ -32,8 +32,13 @@
 	<s:String x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=858a20c8_002De62c_002D4530_002D8401_002Dd7f25079667b/@EntryIndexedValue">&lt;SessionState ContinuousTestingMode="0" Name="HandleInitialValue_ReturnsCorrectHtml" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session"&gt;&#xD;
   &lt;Project Location="C:\Users\marcj\RiderProjects\AgrisysAirFeedingSystem\AgrisysXTest" Presentation="&amp;lt;AgrisysXTest&amp;gt;" /&gt;&#xD;
 &lt;/SessionState&gt;</s:String>
-	<s:String x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=b2ccf65d_002Ddea3_002D4ce1_002D84dd_002Dccf554734860/@EntryIndexedValue">&lt;SessionState ContinuousTestingMode="0" IsActive="True" Name="All tests from &amp;lt;AgrisysXTest&amp;gt;" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session"&gt;&#xD;
+	<s:String x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=b2ccf65d_002Ddea3_002D4ce1_002D84dd_002Dccf554734860/@EntryIndexedValue">&lt;SessionState ContinuousTestingMode="0" Name="All tests from &amp;lt;AgrisysXTest&amp;gt;" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session"&gt;&#xD;
   &lt;Project Location="C:\Users\marcj\RiderProjects\AgrisysAirFeedingSystem\AgrisysXTest" Presentation="&amp;lt;AgrisysXTest&amp;gt;" /&gt;&#xD;
+&lt;/SessionState&gt;</s:String>
+	<s:String x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=b4f26e41_002D19ba_002D4d9d_002Db65b_002Dbe43509c2257/@EntryIndexedValue">&lt;SessionState ContinuousTestingMode="0" IsActive="True" Name="TestGetUsers" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session"&gt;&#xD;
+  &lt;TestAncestor&gt;&#xD;
+    &lt;TestId&gt;xUnit::07FBC266-A3D6-4770-B041-E765D9D3F578::net7.0::AgrisysXTest.Controllers.UserApiTest&lt;/TestId&gt;&#xD;
+  &lt;/TestAncestor&gt;&#xD;
 &lt;/SessionState&gt;</s:String>
 	<s:Boolean x:Key="/Default/UserDictionary/Words/=Agrisys/@EntryIndexedValue">True</s:Boolean>
 	<s:Boolean x:Key="/Default/UserDictionary/Words/=Cellesluse/@EntryIndexedValue">True</s:Boolean></wpf:ResourceDictionary>
