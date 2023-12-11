@@ -68,7 +68,11 @@ class Connection {
         this.connection.on("valueUpdate", (value)=>{
             //console.log(value)
             let targets = this.targets.get(value.key);
-
+            let allCollector = this.targets.get("all");
+            if (allCollector !== undefined) {
+                targets = (targets ?? []).concat(allCollector);
+            }
+            
             if (targets !== undefined) {
                 for (const target of targets) {
                     target.handleUpdate(value);
@@ -308,11 +312,12 @@ class CustomHandler extends dataHandler {
         let initialStr = this.target.dataset["customInitial"];
         let initial = undefined;
 
-        if (initialStr !== undefined) {
-            initial = JSON.parse(initialStr);
-            initial.timestamp = new Date(initial.timestamp);
-        }
-
+        if (initialStr === undefined)
+            return;
+        
+        initial = JSON.parse(initialStr);
+        initial.timestamp = new Date(initial.timestamp);
+        
         delete this.target.dataset["customInitial"];
 
         this.dispatch({target, ...initial});

@@ -11,6 +11,7 @@ public class Event
 
     public int EntityId { get; set; } // Foreign Key
 
+    public DateTime TimeStamp { get; set; } = DateTime.Now;
     // Navigational property
     public Entity Entity { get; set; }
 }

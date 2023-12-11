@@ -11,8 +11,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace AgrisysAirFeedingSystem.Migrations
 {
     [DbContext(typeof(AgrisysDbContext))]
-    [Migration("20231201110401_initial")]
-    partial class initial
+    [Migration("20231211115441_inital")]
+    partial class inital
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -76,6 +76,9 @@ namespace AgrisysAirFeedingSystem.Migrations
 
                     b.Property<string>("EventDesc")
                         .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.Property<DateTime>("TimeStamp")
                         .HasColumnType("TEXT");
 
                     b.HasKey("EventId");

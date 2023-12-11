@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace AgrisysAirFeedingSystem.Migrations
 {
     /// <inheritdoc />
-    public partial class initial : Migration
+    public partial class inital : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -169,7 +169,8 @@ namespace AgrisysAirFeedingSystem.Migrations
                         .Annotation("Sqlite:Autoincrement", true),
                     EventDesc = table.Column<string>(type: "TEXT", nullable: false),
                     EditLevel = table.Column<int>(type: "INTEGER", nullable: false, defaultValue: 0),
-                    EntityId = table.Column<int>(type: "INTEGER", nullable: false)
+                    EntityId = table.Column<int>(type: "INTEGER", nullable: false),
+                    TimeStamp = table.Column<DateTime>(type: "TEXT", nullable: false)
                 },
                 constraints: table =>
                 {
