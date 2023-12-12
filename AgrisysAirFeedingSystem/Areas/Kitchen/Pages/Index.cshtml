@@ -50,7 +50,7 @@
             <img width="80%" height="auto" class="bucket" src="images/bucket.png" alt="Icon of distributor (fordeler)"/>
             <p sensor-name="distributor_weight" sensor-handler="@(new ContentHandler(suffix: " kg"))" sensor-format="@(new NumberFormatter(1000, 0))">###</p>
             <img sensor-name="distributor_mixing" sensor-handler="@(new CssClassHandler("rotating{value}"))" id="distributor-stirrer-icon" src="images/spinmechanism.png" alt="Icon of stirrer in distributor"/>
-            <div id="distributor-sluice"></div>
+            <div id="distributor-sluice" sensor-name="cellsluice_rpm" sensor-handler="new CustomHandler()"></div>
         </div>
         <div id="blower-container">
             <img id="blower-icon" src="images/blower.png" alt="Icon of blower motor"/>
@@ -64,23 +64,23 @@
     @{
         if (User.HasClaim("manual_control", "")) {
             <div class="col-md-4">
-                <a href="javascript:alert(1);" class="kitchen-btn btn btn-primary">Test doser</a>
-                <a href="javascript:alert(1);" class="kitchen-btn btn btn-primary">Test mixer stirrer</a>
-                <a href="javascript:alert('danger btn');" class="kitchen-btn btn btn-warning">Test mixer hatch</a>
-                <a href="javascript:alert(1);" class="kitchen-btn btn btn-primary">Test supplier stirrer</a>
-                <a href="javascript:alert(1);" class="kitchen-btn btn btn-primary">Test cell sluice</a>
-                <a href="javascript:alert(1);" class="kitchen-btn btn btn-primary">Test blower</a>
+                <a id="dosertestbtn" href="#" class="kitchen-btn btn btn-primary">Test doser</a>
+                <a id="mixerstirrertestbtn" href="#" class="kitchen-btn btn btn-primary">Test mixer stirrer</a>
+                <a id="hatchtestbtn" href="javascript:alert('danger btn');" class="kitchen-btn btn btn-warning">Test mixer hatch</a>
+                <a id="distributorstirrertestbtn" href="#" class="kitchen-btn btn btn-primary">Test supplier stirrer</a>
+                <a id="cellsluicetestbtn" href="#" class="kitchen-btn btn btn-primary">Test cell sluice</a>
+                <a id="blowertestbtn" href="#" class="kitchen-btn btn btn-primary">Test blower</a>
             </div>
         }
     }
 </div>
-@section Styles
-{
-    <link rel="stylesheet" href="css/kitchen.css"/>
-}
 @section Scripts 
 {
     <script src="~/js/signalr/dist/browser/signalr.js"></script>
     <script src="~/js/Utils/LiveUpdate.js"></script>
     <script src="~/js/kitchen.js"></script>
+}
+@section Styles
+{
+    <link rel="stylesheet" href="css/kitchen.css"/>
 }
