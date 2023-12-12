@@ -1,0 +1,29 @@
+﻿@using AgrisysAirFeedingSystem.Models.DBModels
+@model IEnumerable<Event> 
+@{
+	Layout = null;
+}
+
+@foreach (var eventEntry in Model)
+  {
+    <tr class="@GetEventClass(eventEntry.EditLevel)">
+      <th scope="row">@eventEntry.TimeStamp</th>
+      <td>@eventEntry.EditLevel</td>
+      <td>@eventEntry.Entity.Name</td>
+      <td>@eventEntry.EventDesc</td>
+    </tr>
+  }
+
+@functions
+{
+  private static string GetEventClass(EditLevel level)
+  {
+    return level switch
+    {
+      EditLevel.Info => "",
+      EditLevel.Warning => "text-warning",
+      EditLevel.Error => "text-danger",
+      _ => throw new ArgumentOutOfRangeException(nameof(level), level, null)
+    };
+  }
+}

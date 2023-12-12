@@ -3,6 +3,7 @@ using System.Net;
 using AgrisysAirFeedingSystem.Hubs;
 using AgrisysAirFeedingSystem.Models.DB;
 using AgrisysAirFeedingSystem.Models.DBModels;
+using AgrisysAirFeedingSystem.Models.Extra;
 using AgrisysAirFeedingSystem.Models.LiveUpdate;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.SignalR;
@@ -39,25 +40,25 @@ public class SensorController : Controller
             
             if (sensor == null)
             {
-                return StatusCode((int) HttpStatusCode.NotFound);
+                return new ErrorResponse("Sensor Not found", (int) HttpStatusCode.NotFound);
             }
             
             //check if value is in range
             if (sensor.min > measurement.Value || sensor.max < measurement.Value)
             {
-                return StatusCode((int) HttpStatusCode.BadRequest);
+                return new ErrorResponse("Value out of range", (int) HttpStatusCode.BadRequest);
             }
             
             //create sensor update
             var sensorUpdate = new SensorUpdate()
             {
-                key = key,
+                Key = key,
                 Value = value,
                 TimeStamp = measurement.TimeStamp,
             };
 
             //send to group
-            await _hubContext.Clients.Group(sensorUpdate.key).SendAsync("valueUpdate",sensorUpdate);
+            await _hubContext.Clients.Group(sensorUpdate.Key).SendAsync("valueUpdate",sensorUpdate);
             
             //save to db
             _dbContext.Measurements.Add(measurement);

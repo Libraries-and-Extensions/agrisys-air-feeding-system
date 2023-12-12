@@ -6,10 +6,10 @@ using AgrisysAirFeedingSystem.Utils.LiveUpdate.Handler;
 using Microsoft.AspNetCore.Razor.TagHelpers;
 using Microsoft.EntityFrameworkCore;
 
-namespace AgrisysAirFeedingSystem.Utils.Taghelper;
+namespace AgrisysAirFeedingSystem.Utils.TagHelper;
 
 [HtmlTargetElement(Attributes = "sensor-name")]  
-public class LiveUpdateTagHelper : TagHelper  
+public class LiveUpdateTagHelper : Microsoft.AspNetCore.Razor.TagHelpers.TagHelper  
 {
     private readonly AgrisysDbContext _dbContext;
 
@@ -52,7 +52,7 @@ public class LiveUpdateTagHelper : TagHelper
         
         attribute.Add("data-sensor-key",sensor.SensorId.ToString("X"));
         
-        var value = "no value";
+        var value = "no_value";
         
         if (Formatter != null)
         {

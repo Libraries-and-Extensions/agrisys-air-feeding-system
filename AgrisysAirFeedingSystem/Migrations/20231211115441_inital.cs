@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace AgrisysAirFeedingSystem.Migrations
 {
     /// <inheritdoc />
-    public partial class initial : Migration
+    public partial class inital : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -116,6 +116,26 @@ namespace AgrisysAirFeedingSystem.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "Kitchens",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "INTEGER", nullable: false)
+                        .Annotation("Sqlite:Autoincrement", true),
+                    Name = table.Column<string>(type: "TEXT", nullable: false),
+                    GroupId = table.Column<int>(type: "INTEGER", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Kitchens", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Kitchens_Groups_GroupId",
+                        column: x => x.GroupId,
+                        principalTable: "Groups",
+                        principalColumn: "GroupId",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Mixtures",
                 columns: table => new
                 {
@@ -149,7 +169,8 @@ namespace AgrisysAirFeedingSystem.Migrations
                         .Annotation("Sqlite:Autoincrement", true),
                     EventDesc = table.Column<string>(type: "TEXT", nullable: false),
                     EditLevel = table.Column<int>(type: "INTEGER", nullable: false, defaultValue: 0),
-                    EntityId = table.Column<int>(type: "INTEGER", nullable: false)
+                    EntityId = table.Column<int>(type: "INTEGER", nullable: false),
+                    TimeStamp = table.Column<DateTime>(type: "TEXT", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -171,7 +192,8 @@ namespace AgrisysAirFeedingSystem.Migrations
                     EntityId = table.Column<int>(type: "INTEGER", nullable: false),
                     Name = table.Column<string>(type: "TEXT", nullable: false),
                     min = table.Column<int>(type: "INTEGER", nullable: true),
-                    max = table.Column<int>(type: "INTEGER", nullable: true)
+                    max = table.Column<int>(type: "INTEGER", nullable: true),
+                    SensorType = table.Column<int>(type: "INTEGER", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -275,6 +297,11 @@ namespace AgrisysAirFeedingSystem.Migrations
                 column: "AreaID");
 
             migrationBuilder.CreateIndex(
+                name: "IX_Kitchens_GroupId",
+                table: "Kitchens",
+                column: "GroupId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_Measurements_SensorId",
                 table: "Measurements",
                 column: "SensorId");
@@ -326,6 +353,9 @@ namespace AgrisysAirFeedingSystem.Migrations
 
             migrationBuilder.DropTable(
                 name: "FeedingTimes");
+
+            migrationBuilder.DropTable(
+                name: "Kitchens");
 
             migrationBuilder.DropTable(
                 name: "Measurements");

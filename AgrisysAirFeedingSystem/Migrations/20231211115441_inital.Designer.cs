@@ -11,8 +11,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace AgrisysAirFeedingSystem.Migrations
 {
     [DbContext(typeof(AgrisysDbContext))]
-    [Migration("20231128104103_initial")]
-    partial class initial
+    [Migration("20231211115441_inital")]
+    partial class inital
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -78,6 +78,9 @@ namespace AgrisysAirFeedingSystem.Migrations
                         .IsRequired()
                         .HasColumnType("TEXT");
 
+                    b.Property<DateTime>("TimeStamp")
+                        .HasColumnType("TEXT");
+
                     b.HasKey("EventId");
 
                     b.HasIndex("EntityId");
@@ -137,6 +140,26 @@ namespace AgrisysAirFeedingSystem.Migrations
                     b.ToTable("Groups");
                 });
 
+            modelBuilder.Entity("AgrisysAirFeedingSystem.Models.DBModels.Kitchen", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("INTEGER");
+
+                    b.Property<int>("GroupId")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("GroupId");
+
+                    b.ToTable("Kitchens");
+                });
+
             modelBuilder.Entity("AgrisysAirFeedingSystem.Models.DBModels.Mixture", b =>
                 {
                     b.Property<int>("MixtureId")
@@ -192,6 +215,9 @@ namespace AgrisysAirFeedingSystem.Migrations
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasColumnType("TEXT");
+
+                    b.Property<int>("SensorType")
+                        .HasColumnType("INTEGER");
 
                     b.Property<int?>("max")
                         .HasColumnType("INTEGER");
@@ -332,6 +358,17 @@ namespace AgrisysAirFeedingSystem.Migrations
                         .IsRequired();
 
                     b.Navigation("Area");
+                });
+
+            modelBuilder.Entity("AgrisysAirFeedingSystem.Models.DBModels.Kitchen", b =>
+                {
+                    b.HasOne("AgrisysAirFeedingSystem.Models.DBModels.Group", "Group")
+                        .WithMany()
+                        .HasForeignKey("GroupId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Group");
                 });
 
             modelBuilder.Entity("AgrisysAirFeedingSystem.Models.DBModels.Mixture", b =>

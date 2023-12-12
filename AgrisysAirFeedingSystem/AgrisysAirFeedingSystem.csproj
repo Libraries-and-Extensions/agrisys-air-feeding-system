@@ -28,6 +28,7 @@
             <Link>.dockerignore</Link>
         </Content>
         <Content Remove="Areas\Kitchen\Pages\_ViewStart.cshtml" />
+        <Content Remove="Areas\Kitchen\Pages\_ViewStart.cshtml" />
     </ItemGroup>
 
     <ItemGroup>
@@ -37,6 +38,9 @@
     <ItemGroup>
       <Folder Include="Database\" />
       <Folder Include="Views\Kitchen\" />
+      <Folder Include="Controllers\api\" />
+      <Folder Include="Models\Enum\" />
+      <Folder Include="Views\Shared\partial\" />
     </ItemGroup>
 
 </Project>
