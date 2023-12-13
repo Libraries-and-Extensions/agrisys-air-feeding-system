@@ -11,12 +11,7 @@
 <div class="row" data-sensor-hub="/SensorHub">
     @{
         int id = Model.Id;
-        var statuses = new Dictionary<int, string>()
-        {
-            { 0, "Off" },
-            { 1, "On" },
-            { 2, "Error" }
-        };
+        var statuses = new []{"Off","On", "Error"};
     }
     <div class="col-md-4">
         <div class="row">
