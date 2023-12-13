@@ -25,7 +25,7 @@ public class KitchenController : Controller
                 join e in _context.Entities on sensor.EntityId equals e.EntityId
                 join g in _context.Groups on e.GroupId equals g.GroupId
                 join m in _context.Measurements on sensor.SensorId equals m.SensorId
-                where g.GroupId == kitchen.GroupId && sensor.SensorType == SensorType.Status
+                where g.GroupId == kitchen.GroupId && sensor.SensorType == SensorType.Status && m.Value == (int)SensorStatus.Inactive
                 orderby sensor.SensorId descending
                 select new
                 {
