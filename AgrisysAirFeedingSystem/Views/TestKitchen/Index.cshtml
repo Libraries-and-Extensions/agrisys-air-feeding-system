@@ -1,0 +1,45 @@
+﻿@using AgrisysAirFeedingSystem.Utils.LiveUpdate.Formatter
+@using AgrisysAirFeedingSystem.Utils.LiveUpdate.Handler
+@{
+	ViewBag.Title = "title";
+	Layout = "_Layout";
+}
+
+<div data-sensor-hub="/SensorHub">
+	@{
+		var statuses = new Dictionary<int, string>()
+		{
+			{ 0, "Off" },
+			{ 1, "On" },
+			{ 2, "Error" },
+			{ 3, "Warning" },
+			{ 4, "Info" },
+			{ 5, "Debug" },
+		};
+	}
+	<p sensor-name="blower_RPM" sensor-handler="@(new ContentHandler(prefix: "hello value: "))" sensor-format="@(new EnumFormatter("hello", "world", "foo", "bar"))"></p>
+	<p sensor-name="blower_RPM" sensor-handler="@(new ContentHandler(prefix: "hello value: "))" sensor-format="@(new NumberFormatter(2, 0))"></p>
+	<p sensor-name="blower_RPM" sensor-handler="@(new ContentHandler(prefix: "hello value: "))" sensor-format="@(new NumberMapFormatter(10, 2))"></p>
+	<p sensor-name="blower_RPM" sensor-handler="@(new ContentHandler(prefix: "hello value: "))" sensor-format="@(new LevelFormatter(statuses))"></p>
+
+	<p sensor-name="blower_RPM" sensor-handler="@(new CssStyleHandler("height", "rem"))" sensor-format="@(new EnumFormatter("hello", "world", "foo", "bar"))">hello</p>
+	<p sensor-name="blower_RPM" sensor-handler="@(new CssStyleHandler("height", "rem"))" sensor-format="@(new NumberFormatter(2, 0))">hello</p>
+	<p sensor-name="blower_RPM" sensor-handler="@(new CssStyleHandler("height", "rem"))" sensor-format="@(new NumberMapFormatter(2, 10))">hello</p>
+	<p sensor-name="blower_RPM" sensor-handler="@(new CssStyleHandler("height", "rem"))" sensor-format="@(new LevelFormatter(statuses))"></p>
+	
+	<p sensor-name="blower_RPM" sensor-handler="@(new CssClassHandler("hello{value}"))" sensor-format="@(new EnumFormatter("hello", "world", "foo", "bar"))">hello</p>
+	<p sensor-name="blower_RPM" sensor-handler="@(new CssClassHandler("hello{value}"))" sensor-format="@(new NumberFormatter(2, 0))">hello</p>
+	<p sensor-name="blower_RPM" sensor-handler="@(new CssClassHandler("hello{value}"))" sensor-format="@(new NumberMapFormatter(2, 10))">hello</p>
+	<p sensor-name="blower_RPM" sensor-handler="@(new CssClassHandler("hello{value}"))" sensor-format="@(new LevelFormatter(statuses))"></p>
+    	
+	<p sensor-name="blower_RPM" sensor-handler="@(new CustomHandler())" sensor-format="@(new EnumFormatter("hello", "world", "foo", "bar"))">hello</p>
+	<p sensor-name="blower_RPM" sensor-handler="@(new CustomHandler())" sensor-format="@(new NumberFormatter(2, 0))">hello</p>
+	<p sensor-name="blower_RPM" sensor-handler="@(new CustomHandler())" sensor-format="@(new NumberMapFormatter(2, 10))">hello</p>
+	<p sensor-name="blower_RPM" sensor-handler="@(new CustomHandler())" sensor-format="@(new LevelFormatter(statuses))"></p>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_LiveUpdateScripts"); }
+}
+
+

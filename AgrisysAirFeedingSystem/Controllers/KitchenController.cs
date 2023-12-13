@@ -53,9 +53,4 @@ public class KitchenController : Controller
         
         return View(viewModels);
     }
-    
-    public IActionResult Index()
-    {
-        return View();
-    }
 }
