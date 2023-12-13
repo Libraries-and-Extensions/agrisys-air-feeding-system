@@ -37,7 +37,6 @@
 
     <ItemGroup>
       <Folder Include="Database\" />
-      <Folder Include="Views\Kitchen\" />
       <Folder Include="Controllers\api\" />
       <Folder Include="Models\Enum\" />
       <Folder Include="Views\Shared\partial\" />

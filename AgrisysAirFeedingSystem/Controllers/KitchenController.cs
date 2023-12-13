@@ -5,7 +5,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace AgrisysAirFeedingSystem.Controllers;
 
-public class TestKitchenController : Controller
+public class KitchenController : Controller
 {
     private readonly AgrisysDbContext _context;
 
@@ -52,10 +52,5 @@ public class TestKitchenController : Controller
         }
         
         return View(viewModels);
-    }
-    
-    public IActionResult Index()
-    {
-        return View();
     }
 }

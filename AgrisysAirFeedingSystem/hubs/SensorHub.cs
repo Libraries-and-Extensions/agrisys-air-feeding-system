@@ -1,4 +1,4 @@
-﻿using AgrisysAirFeedingSystem.hubs;
+﻿using AgrisysAirFeedingSystem.Hubs;
 using AgrisysAirFeedingSystem.Utils;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.SignalR;

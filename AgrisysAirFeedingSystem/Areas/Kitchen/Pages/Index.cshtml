@@ -2,24 +2,22 @@
 @using AgrisysAirFeedingSystem.Models.DBModels
 @using AgrisysAirFeedingSystem.Utils.LiveUpdate.Formatter
 @using AgrisysAirFeedingSystem.Utils.LiveUpdate.Handler
-@model AgrisysAirFeedingSystem.Areas.Kitchen.Pages.Index
+@model AgrisysAirFeedingSystem.Areas.Kitchen.Pages.IndexModel
 
 @{
     ViewData["Title"] = "Kitchen";
 }
 
 <div class="row" data-sensor-hub="/SensorHub">
-	@{
-		var statuses = new Dictionary<int, string>()
-		{
-			{ 0, "Off" },
-			{ 1, "On" },
-			{ 2, "Error" },
-			{ 3, "Warning" },
-			{ 4, "Info" },
-			{ 5, "Debug" },
-		};
-	}
+    @{
+        int id = Model.Id;
+        var statuses = new Dictionary<int, string>()
+        {
+            { 0, "Off" },
+            { 1, "On" },
+            { 2, "Error" }
+        };
+    }
     <div class="col-md-4">
         <div class="row">
             @{
@@ -36,29 +34,29 @@
         <p>Doser action view:</p>
         <div id="pipe-container">
             <img width="90%" height="auto" src="images/pipe.png" alt="Icon of dosage supplying pipe"/>
-            <img sensor-name="doser_RPM" sensor-handler="@(new CustomHandler())" width="15%" height="auto" id="pipe-doser" src="images/spinmechanism.png" alt="Icon of doser mechanism"/>
+            <img sensor-name='@(EntityNameBuilder(id, "doser0_status"))' sensor-handler="@(new CssClassHandler("rotation{value}"))" sensor-format="@(new LevelFormatter(statuses))" width="15%" height="auto" id="pipe-doser" src="images/spinmechanism.png" alt="Icon of doser mechanism"/>
         </div>
     </div>
     <div class="col-md-4">
         <div id="mixer-container">
             <img width="80%" height="auto" class="bucket" src="images/bucket.png" alt="Icon of mixer"/>
-            <p sensor-name="mixer_weight" sensor-handler="@(new ContentHandler(suffix: " kg"))" sensor-format="@(new NumberFormatter(1000, 0))">###</p>
-            <img sensor-name="mixer_mixing" sensor-handler="@(new CssClassHandler("rotating{value}"))" id="mixer-stirrer-icon" src="images/spinmechanism.png" alt="Icon of stirrer in mixer"/>
-            <div id="mixer-trap" sensor-name="hatch_status" sensor-handler="@(new CssClassHandler("hatch_status{value}"))"></div>
+            <p sensor-name="@(EntityNameBuilder(id, "mixer0_weight"))" sensor-handler="@(new ContentHandler(suffix: " kg"))" sensor-format="@(new NumberFormatter(1000, 0))">###</p>
+            <img sensor-name="@(EntityNameBuilder(id, "mixer0_mixing"))" sensor-handler="@(new CssClassHandler("rotation{value}"))" sensor-format="@(new LevelFormatter(statuses))" id="mixer-stirrer-icon" src="images/spinmechanism.png" alt="Icon of stirrer in mixer"/>
+            <div id="mixer-trap" sensor-name="@(EntityNameBuilder(id, "hatch0_status"))" sensor-handler="@(new CssClassHandler("hatch_status{value}"))" sensor-format="@(new LevelFormatter(statuses))"></div>
         </div>
         <div id="distributor-container">
             <img width="80%" height="auto" class="bucket" src="images/bucket.png" alt="Icon of distributor (fordeler)"/>
-            <p sensor-name="distributor_weight" sensor-handler="@(new ContentHandler(suffix: " kg"))" sensor-format="@(new NumberFormatter(1000, 0))">###</p>
-            <img sensor-name="distributor_mixing" sensor-handler="@(new CssClassHandler("rotating{value}"))" id="distributor-stirrer-icon" src="images/spinmechanism.png" alt="Icon of stirrer in distributor"/>
-            <div id="distributor-sluice" sensor-name="cellsluice_rpm" sensor-handler="new CustomHandler()"></div>
+            <p sensor-name="@(EntityNameBuilder(id, "distributor0_weight"))" sensor-handler="@(new ContentHandler(suffix: " kg"))" sensor-format="@(new NumberFormatter(1000, 0))">###</p>
+            <img sensor-name="@(EntityNameBuilder(id, "distributor0_status"))" sensor-handler="@(new CssClassHandler("rotation{value}"))" sensor-format="@(new LevelFormatter(statuses))" id="distributor-stirrer-icon" src="images/spinmechanism.png" alt="Icon of stirrer in distributor"/>
+            <div id="distributor-sluice" sensor-name="@(EntityNameBuilder(id, "cellsluice0_status"))" sensor-handler="@(new CssClassHandler("rotation{value}"))" sensor-format="@(new LevelFormatter(statuses))"></div>
         </div>
         <div id="blower-container">
             <img id="blower-icon" src="images/blower.png" alt="Icon of blower motor"/>
             <div id="blower-pipe">
-                <p><span sensor-name="blower_RPM" sensor-handler="@(new ContentHandler(suffix: " RPM"))">RPM</span> / 
-                    <span sensor-name="blower_pressure" sensor-handler="@(new ContentHandler(suffix: " bar"))" id="blower-pipe-value">###</span></p>
+                <p><span sensor-name="@(EntityNameBuilder(id, "blower0_rpm"))" sensor-handler="@(new ContentHandler(suffix: " RPM"))">RPM</span> / 
+                    <span sensor-name="@(EntityNameBuilder(id, "blower0_pressure"))" sensor-handler="@(new ContentHandler(suffix: " bar"))" id="blower-pipe-value">###</span></p>
             </div>
-            <p sensor-name="blower_tmp" sensor-handler="@(new ContentHandler(prefix: "Temp: "))">blower temp</p>
+            <p sensor-name="@(EntityNameBuilder(id, "blower0_tmp"))" sensor-handler="@(new ContentHandler(prefix: "Temp: "))">blower temp</p>
         </div>
     </div>
     @{
@@ -74,6 +72,14 @@
         }
     }
 </div>
+@functions {
+
+    public String EntityNameBuilder(int kitchenId, string entityName)
+    {
+        return $"kitchen{kitchenId}_{entityName}";
+    }
+
+}
 @section Scripts 
 {
     <script src="~/js/signalr/dist/browser/signalr.js"></script>

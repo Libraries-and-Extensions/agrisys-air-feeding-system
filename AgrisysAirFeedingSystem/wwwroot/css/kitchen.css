@@ -72,6 +72,6 @@
         -webkit-transform: rotate(360deg);
     }
 }
-.rotating1 {
+.rotationOn {
     -webkit-animation: rotate 5s linear infinite;
 }

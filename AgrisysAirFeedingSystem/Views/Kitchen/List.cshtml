@@ -30,7 +30,7 @@
 					</div>
 					
 				</div>
-				<a href="@Url.Action("Index","Kitchen",new {kitchen.kitchen.Id})" class="btn btn-primary ms-md-auto">Go Kitchen</a>
+				<a asp-area="Kitchen" asp-page="/Index" asp-route-kitchenid="@kitchen.kitchen.Id" class="btn btn-primary ms-md-auto">Go Kitchen</a>
 			</div>
 		</div>
 	</div>
