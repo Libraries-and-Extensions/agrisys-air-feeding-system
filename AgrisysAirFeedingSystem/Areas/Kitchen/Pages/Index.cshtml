@@ -34,24 +34,24 @@
         <p>Doser action view:</p>
         <div id="pipe-container">
             <img width="90%" height="auto" src="images/pipe.png" alt="Icon of dosage supplying pipe"/>
-            <img sensor-name='@(EntityNameBuilder(id, "doser0_status"))' sensor-handler="@(new CssClassHandler("rotation{value}"))" sensor-format="@(new LevelFormatter(statuses))" width="15%" height="auto" id="pipe-doser" src="images/spinmechanism.png" alt="Icon of doser mechanism"/>
-            <p sensor-name='@(EntityNameBuilder(id, "doser0_status"))' sensor-handler="@(new CssClassHandler("errmsg{value}"))" sensor-format="@(new LevelFormatter(statuses))">Doser error.</p>
+            <img sensor-name='@(EntityNameBuilder(id, "doser0_status"))' sensor-handler="@(new CssClassHandler("rotation{value}"))" sensor-format="@(new EnumFormatter(statuses))" width="15%" height="auto" id="pipe-doser" src="images/spinmechanism.png" alt="Icon of doser mechanism"/>
+            <p sensor-name='@(EntityNameBuilder(id, "doser0_status"))' sensor-handler="@(new CssClassHandler("errmsg{value}"))" sensor-format="@(new EnumFormatter(statuses))">Doser error.</p>
         </div>
     </div>
     <div class="col-md-4">
         <div id="mixer-container">
             <img width="80%" height="auto" class="bucket" src="images/bucket.png" alt="Icon of mixer"/>
             <p sensor-name="@(EntityNameBuilder(id, "mixer0_weight"))" sensor-handler="@(new ContentHandler(suffix: " kg"))" sensor-format="@(new NumberFormatter(1000, 0))">###</p>
-            <p sensor-name="@(EntityNameBuilder(id, "mixer0_status"))" sensor-handler="@(new CssClassHandler("errmsg{value}"))" sensor-format="@(new LevelFormatter(statuses))">Mixer error</p>
-            <img sensor-name="@(EntityNameBuilder(id, "mixer0_status"))" sensor-handler="@(new CssClassHandler("rotation{value}"))" sensor-format="@(new LevelFormatter(statuses))" id="mixer-stirrer-icon" src="images/spinmechanism.png" alt="Icon of stirrer in mixer"/>
-            <div id="mixer-trap" sensor-name="@(EntityNameBuilder(id, "hatch0_status"))" sensor-handler="@(new CssClassHandler("hatch_status{value}"))" sensor-format="@(new LevelFormatter(statuses))"></div>
+            <p sensor-name="@(EntityNameBuilder(id, "mixer0_status"))" sensor-handler="@(new CssClassHandler("errmsg{value}"))" sensor-format="@(new EnumFormatter(statuses))">Mixer error</p>
+            <img sensor-name="@(EntityNameBuilder(id, "mixer0_status"))" sensor-handler="@(new CssClassHandler("rotation{value}"))" sensor-format="@(new EnumFormatter(statuses))" id="mixer-stirrer-icon" src="images/spinmechanism.png" alt="Icon of stirrer in mixer"/>
+            <div id="mixer-trap" sensor-name="@(EntityNameBuilder(id, "hatch0_status"))" sensor-handler="@(new CssClassHandler("hatch_status{value}"))" sensor-format="@(new EnumFormatter(statuses))"></div>
         </div>
         <div id="distributor-container">
             <img width="80%" height="auto" class="bucket" src="images/bucket.png" alt="Icon of distributor (fordeler)"/>
             <p sensor-name="@(EntityNameBuilder(id, "distributor0_weight"))" sensor-handler="@(new ContentHandler(suffix: " kg"))" sensor-format="@(new NumberFormatter(1000, 0))">###</p>
-            <p sensor-name="@(EntityNameBuilder(id, "distributor0_status"))" sensor-handler="@(new CssClassHandler("errmsg{value}"))" sensor-format="@(new LevelFormatter(statuses))">Distributor error</p>
-            <img sensor-name="@(EntityNameBuilder(id, "distributor0_status"))" sensor-handler="@(new CssClassHandler("rotation{value}"))" sensor-format="@(new LevelFormatter(statuses))" id="distributor-stirrer-icon" src="images/spinmechanism.png" alt="Icon of stirrer in distributor"/>
-            <div id="distributor-sluice" sensor-name="@(EntityNameBuilder(id, "cellsluice0_status"))" sensor-handler="@(new CssClassHandler("hatch_status{value}"))" sensor-format="@(new LevelFormatter(statuses))"></div>
+            <p sensor-name="@(EntityNameBuilder(id, "distributor0_status"))" sensor-handler="@(new CssClassHandler("errmsg{value}"))" sensor-format="@(new EnumFormatter(statuses))">Distributor error</p>
+            <img sensor-name="@(EntityNameBuilder(id, "distributor0_status"))" sensor-handler="@(new CssClassHandler("rotation{value}"))" sensor-format="@(new EnumFormatter(statuses))" id="distributor-stirrer-icon" src="images/spinmechanism.png" alt="Icon of stirrer in distributor"/>
+            <div id="distributor-sluice" sensor-name="@(EntityNameBuilder(id, "cellsluice0_status"))" sensor-handler="@(new CssClassHandler("hatch_status{value}"))" sensor-format="@(new EnumFormatter(statuses))"></div>
         </div>
         <div id="blower-container">
             <img id="blower-icon" src="images/blower.png" alt="Icon of blower motor"/>
@@ -60,6 +60,7 @@
                     <span sensor-name="@(EntityNameBuilder(id, "blower0_pressure"))" sensor-handler="@(new ContentHandler(suffix: " bar"))" id="blower-pipe-value">###</span></p>
             </div>
             <p sensor-name="@(EntityNameBuilder(id, "blower0_tmp"))" sensor-handler="@(new ContentHandler(prefix: "Temp: "))">blower temp</p>
+            <p sensor-name="@(EntityNameBuilder(id, "blower0_status"))" sensor-handler="@(new CssClassHandler("errmsg{value}"))">Blower error</p>
         </div>
     </div>
     @{
