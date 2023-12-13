@@ -35,6 +35,7 @@
 
     <ItemGroup>
       <Folder Include="Controllers\api\" />
+      <Folder Include="Migrations\" />
       <Folder Include="Models\Enum\" />
       <Folder Include="Views\Shared\partial\" />
     </ItemGroup>

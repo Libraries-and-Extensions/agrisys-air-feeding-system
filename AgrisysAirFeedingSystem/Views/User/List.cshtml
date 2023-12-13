@@ -41,7 +41,7 @@
 						    }
 					    </div>
 					    <div class="d-flex ms-auto">
-						    @if (Model.hasUpdatePermission && user.Identity.Id != Model.CurrentUser.Id)
+						    @if (Model.hasUpdatePermission && user.Identity.Id != Model.CurrentUser.Id && user.Role.GetRoleLevel() > Model.CurrentUserRole.GetRoleLevel())
 						    {
 							    <select class="form-select w-auto ms-auto" style="min-height: 3rem" 
 							            postback="ChangeRole" postback-controller="UserApi" 

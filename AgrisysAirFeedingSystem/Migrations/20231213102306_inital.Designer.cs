@@ -11,7 +11,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace AgrisysAirFeedingSystem.Migrations
 {
     [DbContext(typeof(AgrisysDbContext))]
-    [Migration("20231211115441_inital")]
+    [Migration("20231213102306_inital")]
     partial class inital
     {
         /// <inheritdoc />

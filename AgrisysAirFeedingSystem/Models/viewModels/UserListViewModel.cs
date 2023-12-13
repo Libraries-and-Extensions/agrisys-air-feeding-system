@@ -15,6 +15,7 @@ public class UserListViewModel
     public IEnumerable<UserListEntryViewModel> Users { get; set; }
     
     public IdentityUser CurrentUser { get; set; }
+    public RoleEnum CurrentUserRole { get; set; }
     
     public IEnumerable<RoleEnum> roleOptions { get; set; }
 
