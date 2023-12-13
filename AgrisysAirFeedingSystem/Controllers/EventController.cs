@@ -16,8 +16,6 @@ public class EventController : Controller
     }
     public IActionResult Index(EditLevel? level,int pageCount = 20)
     {
-        Console.WriteLine("level {0}",level);
-        
         var models = _dbContext.Events
             .Include(e => e.Entity)
             .Where(e => level == null || e.EditLevel == level)

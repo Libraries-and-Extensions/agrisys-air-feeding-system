@@ -93,7 +93,9 @@
       let root = document.createElement("tr")
       root.classList.add(levelCSS[evt.detail.level]);
  
-       let numbering = simpleCreateElement("th",evt.detail.timeStamp);
+         let time = new Date(evt.detail.timestamp);
+         
+       let numbering = simpleCreateElement("th",time.toLocaleString());
        numbering.setAttribute("scope","row");
       
       root.appendChild(numbering);

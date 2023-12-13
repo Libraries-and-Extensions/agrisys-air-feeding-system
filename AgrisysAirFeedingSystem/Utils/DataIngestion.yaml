@@ -12,12 +12,12 @@ paths:
       summary: "GET Sensor/Collect"
       parameters:
         - name: "key"
-          in: "path"
+          in: "query"
           required: false
           schema:
             type: string
         - name: "value"
-          in: "path"
+          in: "query"
           required: false
           schema:
             type: integer
@@ -29,22 +29,22 @@ paths:
         "400":
             description: "Value is out ouf range"
           
-  /api/Event/AcceptEvent: 
+  /Api/Event/Collect: 
     get:
       summary: "GET api/Event/Collect"
       parameters:
         - name: "entityId"
-          in: "path"
+          in: "query"
           required: true
           schema:
             type: integer
         - name: "msg"
-          in: "path"
+          in: "query"
           required: true
           schema:
             type: string
         - name: "level"
-          in: "path"
+          in: "query"
           required: true
           schema:
             type: string

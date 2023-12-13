@@ -45,6 +45,7 @@ public class EventController : ApiBaseController
             Value = msg,
             EntityName = entity.Name,
             Level = level,
+            timestamp = DateTime.Now
         };
         
         //send to group
@@ -64,4 +65,5 @@ class EventUpdate
     public string Value { get; set; }
     public string EntityName { get; set; }
     public EditLevel Level { get; set; }
+    public DateTime timestamp { get; set; }
 }
