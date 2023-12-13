@@ -29,11 +29,17 @@
 #distributor-container, #mixer-container {
     position: relative;
 }
-#distributor-container p, #mixer-container p {
+#distributor-container p:nth-child(2), #mixer-container p:nth-child(2) {
     text-align: center;
     position: absolute;
     width: 100%;
     top: 20%;
+}
+#distributor-container p:nth-child(3), #mixer-container p:nth-child(3) {
+    text-align: center;
+    position: absolute;
+    width: 100%;
+    top: 40%;
 }
 .bucket {
     display: block;
@@ -56,13 +62,22 @@
     top: 60%;
     left: 42.5%;
 }
-.hatch_status0{
+.hatch_statusOff{
     background-color: black;
 }
-.hatch_status1{
+.hatch_statusOn{
+    background-color: yellow;
+}
+.hatch_statusError{
     background-color: red;
 }
-
+.errmsgOff, .errmsgOn {
+    display: none;
+}
+.errmsgError {
+    display: block;
+    color: orangered;
+}
 /*** animations***/
 @-webkit-keyframes rotate {
     from {

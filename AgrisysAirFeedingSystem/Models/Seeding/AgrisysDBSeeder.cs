@@ -249,14 +249,6 @@ public class AgrisysDBSeeder
         context.Sensors.Add(new Sensor
         {
             Entity = mixer,
-            Name = mixer.Name+"_mixing",
-            min = 0,
-            max = 1
-        });
-
-        context.Sensors.Add(new Sensor
-        {
-            Entity = mixer,
             Name = mixer.Name+"_weight",
             SensorType = SensorType.Weight
         });
