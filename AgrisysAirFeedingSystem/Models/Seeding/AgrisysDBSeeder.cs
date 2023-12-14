@@ -64,9 +64,8 @@ public class AgrisysDBSeeder
 
         context.Mixtures.AddRange(mixtures);
 
-
         var areas = new List<Area>();
-
+        
         areas.Add(new Area
         {
             Name = "test"

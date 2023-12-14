@@ -18,7 +18,7 @@
             @{
                 foreach (Silo silo in Model.Silos)
                 {
-                    <div class="silo-container justify-content-center col-sm-6">
+                    <div class="silo-container justify-content-center col-6">
                         <p>Silo @silo.SiloId</p>
                         <p>@silo.Capacity kg max</p>
                         <img width="90%" height="auto" src="images/silo-icon.jpg" alt="icon of silo"/>
@@ -55,7 +55,7 @@
                     <span sensor-name="@(EntityNameBuilder(id, "blower0_pressure"))" sensor-handler="@(new ContentHandler(suffix: " bar"))" id="blower-pipe-value">###</span></p>
             </div>
             <p sensor-name="@(EntityNameBuilder(id, "blower0_tmp"))" sensor-handler="@(new ContentHandler(prefix: "Temp: "))">blower temp</p>
-            <p sensor-name="@(EntityNameBuilder(id, "blower0_status"))" sensor-handler="@(new CssClassHandler("errmsg{value}"))">Blower error</p>
+            <p sensor-name="@(EntityNameBuilder(id, "blower0_status"))" sensor-handler="@(new CssClassHandler("errmsg{value}"))" sensor-format="@(new EnumFormatter(statuses))">Blower error</p>
         </div>
     </div>
     @{
