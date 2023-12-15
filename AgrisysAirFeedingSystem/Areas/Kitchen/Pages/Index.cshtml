@@ -2,18 +2,23 @@
 @using AgrisysAirFeedingSystem.Models.DBModels
 @using AgrisysAirFeedingSystem.Utils.LiveUpdate.Formatter
 @using AgrisysAirFeedingSystem.Utils.LiveUpdate.Handler
-@model AgrisysAirFeedingSystem.Areas.Kitchen.Pages.Index
+@model AgrisysAirFeedingSystem.Areas.Kitchen.Pages.IndexModel
 
 @{
     ViewData["Title"] = "Kitchen";
 }
-<div class="row">
+
+<div class="row" data-sensor-hub="/SensorHub">
+    @{
+        int id = Model.Id;
+        var statuses = new []{"Off","On", "Error"};
+    }
     <div class="col-md-4">
         <div class="row">
             @{
                 foreach (Silo silo in Model.Silos)
                 {
-                    <div class="silo-container justify-content-center col-sm-6">
+                    <div class="silo-container justify-content-center col-6">
                         <p>Silo @silo.SiloId</p>
                         <p>@silo.Capacity kg max</p>
                         <img width="90%" height="auto" src="images/silo-icon.jpg" alt="icon of silo"/>
@@ -24,42 +29,64 @@
         <p>Doser action view:</p>
         <div id="pipe-container">
             <img width="90%" height="auto" src="images/pipe.png" alt="Icon of dosage supplying pipe"/>
-            <img width="15%" height="auto" id="pipe-doser" src="images/spinmechanism.png" alt="Icon of doser mechanism"/>
+            <img sensor-name='@(EntityNameBuilder(id, "doser0_status"))' sensor-handler="@(new CssClassHandler("rotation{value}"))" sensor-format="@(new EnumFormatter(statuses))" width="15%" height="auto" id="pipe-doser" src="images/spinmechanism.png" alt="Icon of doser mechanism"/>
+            <p sensor-name='@(EntityNameBuilder(id, "doser0_status"))' sensor-handler="@(new CssClassHandler("errmsg{value}"))" sensor-format="@(new EnumFormatter(statuses))">Doser error.</p>
         </div>
     </div>
     <div class="col-md-4">
         <div id="mixer-container">
             <img width="80%" height="auto" class="bucket" src="images/bucket.png" alt="Icon of mixer"/>
-            <p><span>###</span> kg</p>
-            <img class="stirrer-icon" src="images/spinmechanism.png" alt="Icon of stirrer in mixer"/>
-            <div id="mixer-trap"></div>
+            <p sensor-name="@(EntityNameBuilder(id, "mixer0_weight"))" sensor-handler="@(new ContentHandler(suffix: " kg"))" sensor-format="@(new NumberFormatter(1000, 0))">###</p>
+            <p sensor-name="@(EntityNameBuilder(id, "mixer0_status"))" sensor-handler="@(new CssClassHandler("errmsg{value}"))" sensor-format="@(new EnumFormatter(statuses))">Mixer error</p>
+            <img sensor-name="@(EntityNameBuilder(id, "mixer0_status"))" sensor-handler="@(new CssClassHandler("rotation{value}"))" sensor-format="@(new EnumFormatter(statuses))" id="mixer-stirrer-icon" src="images/spinmechanism.png" alt="Icon of stirrer in mixer"/>
+            <div id="mixer-trap" sensor-name="@(EntityNameBuilder(id, "hatch0_status"))" sensor-handler="@(new CssClassHandler("hatch_status{value}"))" sensor-format="@(new EnumFormatter(statuses))"></div>
         </div>
-        <div id="supplier-container">
-            <img width="80%" height="auto" class="bucket" src="images/bucket.png" alt="Icon of supplier (fordeler)"/>
-            <p><span>###</span> kg</p>
-            <img class="stirrer-icon" src="images/spinmechanism.png" alt="Icon of stirrer in supplier"/>
-            <div id="supplier-sluice"></div>
+        <div id="distributor-container">
+            <img width="80%" height="auto" class="bucket" src="images/bucket.png" alt="Icon of distributor (fordeler)"/>
+            <p sensor-name="@(EntityNameBuilder(id, "distributor0_weight"))" sensor-handler="@(new ContentHandler(suffix: " kg"))" sensor-format="@(new NumberFormatter(1000, 0))">###</p>
+            <p sensor-name="@(EntityNameBuilder(id, "distributor0_status"))" sensor-handler="@(new CssClassHandler("errmsg{value}"))" sensor-format="@(new EnumFormatter(statuses))">Distributor error</p>
+            <img sensor-name="@(EntityNameBuilder(id, "distributor0_status"))" sensor-handler="@(new CssClassHandler("rotation{value}"))" sensor-format="@(new EnumFormatter(statuses))" id="distributor-stirrer-icon" src="images/spinmechanism.png" alt="Icon of stirrer in distributor"/>
+            <div id="distributor-sluice" sensor-name="@(EntityNameBuilder(id, "cellsluice0_status"))" sensor-handler="@(new CssClassHandler("hatch_status{value}"))" sensor-format="@(new EnumFormatter(statuses))"></div>
         </div>
         <div id="blower-container">
             <img id="blower-icon" src="images/blower.png" alt="Icon of blower motor"/>
             <div id="blower-pipe">
-                <p><span id="blower-speed-value">spd</span>% <span id="blower-pipe-value">###</span> bar</p>
+                <p><span sensor-name="@(EntityNameBuilder(id, "blower0_rpm"))" sensor-handler="@(new ContentHandler(suffix: " RPM"))">RPM</span> / 
+                    <span sensor-name="@(EntityNameBuilder(id, "blower0_pressure"))" sensor-handler="@(new ContentHandler(suffix: " bar"))" id="blower-pipe-value">###</span></p>
             </div>
+            <p sensor-name="@(EntityNameBuilder(id, "blower0_tmp"))" sensor-handler="@(new ContentHandler(prefix: "Temp: "))">blower temp</p>
+            <p sensor-name="@(EntityNameBuilder(id, "blower0_status"))" sensor-handler="@(new CssClassHandler("errmsg{value}"))" sensor-format="@(new EnumFormatter(statuses))">Blower error</p>
         </div>
     </div>
     @{
         if (User.HasClaim("manual_control", "")) {
             <div class="col-md-4">
-                <a href="javascript:alert(1);" class="kitchen-btn btn btn-primary">Test doser</a>
-                <a href="javascript:alert(1);" class="kitchen-btn btn btn-primary">Test mixer stirrer</a>
-                <a href="javascript:alert('danger btn');" class="kitchen-btn btn btn-warning">Test mixer trap(danger)</a>
-                <a href="javascript:alert(1);" class="kitchen-btn btn btn-primary">Test supplier stirrer</a>
-                <a href="javascript:alert(1);" class="kitchen-btn btn btn-primary">Test cell sluice</a>
-                <a href="javascript:alert(1);" class="kitchen-btn btn btn-primary">Test blower</a>
+                <a id="dosertestbtn" href="#" class="kitchen-btn btn btn-primary">Test doser</a>
+                <a id="mixerstirrertestbtn" href="#" class="kitchen-btn btn btn-primary">Test mixer stirrer</a>
+                <a id="mixerweighttestbtn" href="#" class="kitchen-btn btn btn-primary">Test mixer weight</a>
+                <a id="hatchtestbtn" href="javascript:alert('danger btn');" class="kitchen-btn btn btn-warning">Test mixer hatch</a>
+                <a id="distributorstirrertestbtn" href="#" class="kitchen-btn btn btn-primary">Test distributor stirrer</a>
+                <a id="distributorweighttestbtn" href="#" class="kitchen-btn btn btn-primary">Test distributor weight</a>
+                <a id="cellsluicetestbtn" href="#" class="kitchen-btn btn btn-primary">Test cell sluice</a>
+                <a id="blowertestbtn" href="#" class="kitchen-btn btn btn-primary">Test blower</a>
             </div>
         }
     }
 </div>
+@functions {
+
+    public String EntityNameBuilder(int kitchenId, string entityName)
+    {
+        return $"kitchen{kitchenId}_{entityName}";
+    }
+
+}
+@section Scripts 
+{
+    <script src="~/js/signalr/dist/browser/signalr.js"></script>
+    <script src="~/js/Utils/LiveUpdate.js"></script>
+    <script src="~/js/kitchen.js"></script>
+}
 @section Styles
 {
     <link rel="stylesheet" href="css/kitchen.css"/>

@@ -1,5 +1,6 @@
 ﻿using System.Globalization;
 using System.Net;
+using AgrisysAirFeedingSystem.Hubs;
 using AgrisysAirFeedingSystem.Models.DB;
 using AgrisysAirFeedingSystem.Models.DBModels;
 using AgrisysAirFeedingSystem.Models.Extra;

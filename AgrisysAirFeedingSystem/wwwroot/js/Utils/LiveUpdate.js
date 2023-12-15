@@ -609,6 +609,7 @@ class nodeDataFaller {
 
             for (let i = 0; i < inputs.length; i++) {
                 let node = inputs[i];
+                if (node === undefined) continue;
                 let children = node.children;
                 if (node.children === undefined) continue;
                 for (let j = 0; j < children.length; j++) {

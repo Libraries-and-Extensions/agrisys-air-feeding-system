@@ -1,7 +1,7 @@
 ﻿using AgrisysAirFeedingSystem.Utils;
 using Microsoft.AspNetCore.SignalR;
 
-namespace AgrisysAirFeedingSystem.hubs;
+namespace AgrisysAirFeedingSystem.Hubs;
 
 public class BaseLiveUpdateHub : Hub
 {

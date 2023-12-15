@@ -16,14 +16,14 @@ public class AgrisysDBSeeder
 
         if (context.Database.GetPendingMigrations().Any()) context.Database.Migrate();
         
-        var hello = SeedSettingsData(context);
-        SeedLiveDataSensor(context,hello);
+        SeedSettingsData(context);
+        SeedLiveDataSensor(context);
         context.SaveChanges();
     }
 
-    private static Group SeedSettingsData(AgrisysDbContext context)
+    private static void SeedSettingsData(AgrisysDbContext context)
     {
-        if (context.Silos.Any()) return context.Groups.First();
+        if (context.Silos.Any()) return;
 
         var silos = new List<Silo>();
         //populate Silo, Target, FeedingTime, Area, Mixture tables
@@ -64,16 +64,15 @@ public class AgrisysDBSeeder
 
         context.Mixtures.AddRange(mixtures);
 
-
-        var Areas = new List<Area>();
-
-        Areas.Add(new Area
+        var areas = new List<Area>();
+        
+        areas.Add(new Area
         {
             Name = "test"
         });
 
 
-        context.Areas.AddRange(Areas);
+        context.Areas.AddRange(areas);
 
         var setPoints = new List<MixtureSetpoint>();
 
@@ -127,7 +126,7 @@ public class AgrisysDBSeeder
             BeforeClose = 100,
             pigCount = 5,
             pigAge = 2,
-            Area = Areas[0],
+            Area = areas[0],
             Mixture = mixtures[0]
         });
 
@@ -140,34 +139,33 @@ public class AgrisysDBSeeder
             BeforeClose = 100,
             pigCount = 10,
             pigAge = 2,
-            Area = Areas[0],
+            Area = areas[0],
             Mixture = mixtures[1]
         });
 
         context.Target.AddRange(targets);
         
-        var kitchen = new Group { GroupType = GroupType.Kitchen };
-        
-        context.Kitchens.Add(new Kitchen
-        {
-            Name = "Kitchen0",
-            Group = kitchen
-        });
-
-        return kitchen;
     }
 
-    private static void SeedLiveDataSensor(AgrisysDbContext context,Group kitchen)
+    private static void SeedLiveDataSensor(AgrisysDbContext context)
     {
         if (context.Groups.Any()) return;
      
-        context.Groups.Add(kitchen);
+        Group kitchenGroup = new() { GroupType = GroupType.Kitchen };
+        
+        Kitchen kitchen = new()
+        {
+            Name = "kitchen0",
+            Group = kitchenGroup
+        };
+        context.Groups.Add(kitchenGroup);
+        context.Kitchens.Add(kitchen);
 
         var blower = new Entity
         {
             EntityType = EntityType.Blower,
-            Name = "Kitchen Blower",
-            Group = kitchen
+            Name = kitchen.Name+"_blower0",
+            Group = kitchenGroup
         };
 
         context.Entities.Add(blower);
@@ -185,130 +183,136 @@ public class AgrisysDBSeeder
         context.Sensors.Add(new Sensor
         {
             Entity = blower,
-            Name = "Kitchen0_Blower0_RPM",
-            SensorType = SensorType.Temperature
+            Name = blower.Name+"_rpm",
+            SensorType = SensorType.Flow
         });
 
         context.Sensors.Add(new Sensor
         {
             Entity = blower,
-            Name = "RPM"
+            Name = blower.Name+"_pressure",
+            SensorType = SensorType.Pressure
         });
 
-        var distributer = new Entity
+        context.Sensors.Add(new Sensor
+        {
+            Entity = blower,
+            Name = blower.Name+"_tmp",
+            SensorType = SensorType.Temperature
+        });
+
+        var distributor = new Entity
         {
             EntityType = EntityType.Distribute,
-            Name = "Kitchen0_Distribute0",
-            Group = kitchen
+            Name = kitchen.Name+"_distributor0",
+            Group = kitchenGroup
         };
         
         context.Sensors.Add(new Sensor
         {
-            Entity = distributer,
-            Name = distributer.Name+"_status",
+            Entity = distributor,
+            Name = distributor.Name+"_status",
             SensorType = SensorType.Status,
             min = 0,
             max = Enum.GetValues(typeof(SensorStatus)).Length
         });
 
-        context.Entities.Add(distributer);
+        context.Entities.Add(distributor);
 
         context.Sensors.Add(new Sensor
         {
-            Entity = distributer,
-            Name = "fill"
-        });
-
-        context.Sensors.Add(new Sensor
-        {
-            Entity = distributer,
-            Name = "weight"
+            Entity = distributor,
+            Name = distributor.Name+"_weight",
+            SensorType = SensorType.Weight
         });
 
 
-        var Mixer = new Entity
+        var mixer = new Entity
         {
             EntityType = EntityType.Mixer,
-            Name = "Kitchen0_Mixer0",
-            Group = kitchen
+            Name = kitchen.Name+"_mixer0",
+            Group = kitchenGroup
         };
         
         context.Sensors.Add(new Sensor
         {
-            Entity = Mixer,
-            Name = Mixer.Name+"_status",
+            Entity = mixer,
+            Name = mixer.Name+"_status",
             SensorType = SensorType.Status,
             min = 0,
             max = Enum.GetValues(typeof(SensorStatus)).Length
         });
 
-        context.Entities.Add(Mixer);
+        context.Entities.Add(mixer);
 
         context.Sensors.Add(new Sensor
         {
-            Entity = Mixer,
-            Name = "fill"
-        });
-
-        context.Sensors.Add(new Sensor
-        {
-            Entity = Mixer,
-            Name = "weight"
+            Entity = mixer,
+            Name = mixer.Name+"_weight",
+            SensorType = SensorType.Weight
         });
 
 
-        var Hatch1 = new Entity
+        var hatch1 = new Entity
         {
             EntityType = EntityType.Distribute,
-            Name = "Kitchen0_Hatch0",
-            Group = kitchen
+            Name = kitchen.Name+"_hatch0",
+            Group = kitchenGroup
         };
 
-        context.Entities.Add(Hatch1);
+        context.Entities.Add(hatch1);
         
         context.Sensors.Add(new Sensor
         {
-            Entity = Hatch1,
-            Name = Hatch1.Name+"_status",
+            Entity = hatch1,
+            Name = hatch1.Name+"_status",
             SensorType = SensorType.Status,
             min = 0,
             max = Enum.GetValues(typeof(SensorStatus)).Length
         });
 
-        context.Sensors.Add(new Sensor
-        {
-            Entity = Hatch1,
-            Name = "status"
-        });
-
-        var Cellulose = new Entity
+        var cellsluice = new Entity
         {
             EntityType = EntityType.Distribute,
-            Name = "Kitchen0_Cellulose0",
-            Group = kitchen
+            Name = kitchen.Name+"_cellsluice0",
+            Group = kitchenGroup
         };
 
-        context.Entities.Add(Cellulose);
+        context.Entities.Add(cellsluice);
 
         context.Sensors.Add(new Sensor
         {
-            Entity = Cellulose,
-            Name = Cellulose.Name+"_status",
+            Entity = cellsluice,
+            Name = cellsluice.Name+"_status",
             SensorType = SensorType.Status,
             min = 0,
             max = Enum.GetValues(typeof(SensorStatus)).Length
         });
         
-        context.Sensors.Add(new Sensor
-        {
-            Entity = Cellulose,
-            Name = "RPM"
-        });
+        var doser = new Entity
+            {
+                Name = kitchen.Name+"_doser0",
+                Group = kitchenGroup,
+                EntityType = EntityType.Distribute
+            };
+        
+        context.Add(doser);
 
-        context.Sensors.Add(new Sensor
+        context.Add(new Sensor
         {
-            Entity = Cellulose,
-            Name = "TMP"
+            Entity = doser,
+            Name = doser.Name+"_rpm",
+            max = 200,
+            min = 0,
+            SensorType = SensorType.Rotation
+        });
+        context.Add(new Sensor
+        {
+            Entity = doser,
+            Name = doser.Name+"_status",
+            max = Enum.GetValues(typeof(SensorStatus)).Length,
+            min = 0,
+            SensorType = SensorType.Status  
         });
     }
 }

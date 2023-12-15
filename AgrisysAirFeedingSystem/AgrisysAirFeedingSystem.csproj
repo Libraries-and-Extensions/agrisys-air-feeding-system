@@ -27,6 +27,8 @@
         <Content Include="..\.dockerignore">
             <Link>.dockerignore</Link>
         </Content>
+        <Content Remove="Areas\Kitchen\Pages\_ViewStart.cshtml" />
+        <Content Remove="Areas\Kitchen\Pages\_ViewStart.cshtml" />
     </ItemGroup>
 
     <ItemGroup>
@@ -34,6 +36,7 @@
     </ItemGroup>
 
     <ItemGroup>
+      <Folder Include="Database\" />
       <Folder Include="Controllers\api\" />
       <Folder Include="Migrations\" />
       <Folder Include="Models\Enum\" />
