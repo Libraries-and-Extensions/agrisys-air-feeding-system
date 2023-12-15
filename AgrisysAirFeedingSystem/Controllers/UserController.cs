@@ -74,6 +74,7 @@ public class UserController : Controller
             roleOptions = roleOptions,
             CurrentUser = currentUser,
             Users = users,
+            CurrentUserRole = userRole,
             hasUpdatePermission = hasAssignPermission,
         });
     }
